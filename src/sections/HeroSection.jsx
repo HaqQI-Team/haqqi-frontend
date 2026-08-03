@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const easeOut = [0.22, 1, 0.36, 1];
 const trustIcons = [faScaleBalanced, faBrain, faLock];
 
-function HeroSection() {
+function HeroSection({ onProtectedAction }) {
   const { i18n, t } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
 
@@ -315,8 +315,9 @@ const imageInitial = shouldReduceMotion
               }
             `}
           >
-            <a
-              href="#signup"
+            <button
+              type="button"
+              onClick={() => onProtectedAction("/complaints/new")}
               className="
                 group
                 inline-flex
@@ -357,7 +358,7 @@ const imageInitial = shouldReduceMotion
                   ${arrowHoverClass}
                 `}
               />
-            </a>
+            </button>
 
             <a
               href="#how-it-works"
