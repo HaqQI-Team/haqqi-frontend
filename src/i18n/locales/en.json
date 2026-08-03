@@ -107,6 +107,7 @@
     "description": "Turn your consumer complaint into a clear, professional, and legally grounded document using official Egyptian regulations and AI-powered guidance.",
     "actions": {
       "start": "Start a Complaint",
+      "assistant": "Try AI Assistant",
       "learn": "See How It Works"
     },
     "trustLabel": "Platform trust points",
@@ -258,6 +259,14 @@
       "assistant": "Try AI Assistant"
     },
     "note": "No credit card required — free for first complaint"
+  },
+  "authRequired": {
+    "title": "Sign in required",
+    "description": "You need to sign in before starting a complaint or using the AI assistant.",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "close": "Close dialog"
   },
   "footer": {
     "description": "The premier AI legal assistant for Egyptian consumers.",

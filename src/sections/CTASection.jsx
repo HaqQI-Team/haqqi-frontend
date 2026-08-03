@@ -25,7 +25,7 @@ const itemVariants = {
   },
 };
 
-function CTASection() {
+function CTASection({ onProtectedAction }) {
   const { t } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
 
@@ -85,19 +85,21 @@ function CTASection() {
           variants={activeItemVariants}
           className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"
         >
-          <a
-            href="#signup"
+          <button
+            type="button"
+            onClick={() => onProtectedAction("/complaints/new")}
             className="inline-flex items-center justify-center rounded-md bg-white px-5 py-3 text-sm font-extrabold text-red-950 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("cta.actions.start")}
-          </a>
+          </button>
 
-          <a
-            href="#assistant"
+          <button
+            type="button"
+            onClick={() => onProtectedAction("/assistant")}
             className="inline-flex items-center justify-center rounded-md border border-white/55 bg-white/10 px-5 py-3 text-sm font-extrabold text-white backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:bg-white/16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("cta.actions.assistant")}
-          </a>
+          </button>
         </motion.div>
 
         <motion.p
