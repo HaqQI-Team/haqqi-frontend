@@ -1,63 +1,122 @@
 import {
   faBrain,
   faBuildingColumns,
+  faChartLine,
   faClipboardCheck,
+  faBell,
+  faFilePdf,
   faFileLines,
-  faGavel,
   faHeadset,
   faLanguage,
   faLock,
+  faMobileScreenButton,
+  faScaleBalanced,
   faShieldHalved,
   faUpload,
   faUserPen,
+  faGavel,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const navLinks = [
-  { href: "#hero", labelKey: "navigation.home" },
+  { href: "#home", labelKey: "navigation.home" },
   { href: "#how-it-works", labelKey: "navigation.howItWorks" },
+  { href: "#features", labelKey: "navigation.features" },
   { href: "#why-haqqi", labelKey: "navigation.whyHaqqi" },
   { href: "#workflow", labelKey: "navigation.workflow" },
+  { href: "#problems", labelKey: "navigation.problems" },
   { href: "#faq", labelKey: "navigation.faq" },
 ];
 
 export const trustItems = [
-  "trustStrip.aiPowered",
-  "trustStrip.legalSources",
-  "trustStrip.secureUpload",
-  "trustStrip.pdfExport",
+  { icon: faLanguage, labelKey: "trustStrip.bilingualSupport" },
+  { icon: faBuildingColumns, labelKey: "trustStrip.legalSources" },
+  { icon: faLock, labelKey: "trustStrip.secureUpload" },
+  { icon: faFilePdf, labelKey: "trustStrip.pdfExport" },
 ];
 
 export const howItWorksSteps = [
-  { icon: faUserPen, titleKey: "howItWorks.steps.describe.title" },
-  { icon: faUpload, titleKey: "howItWorks.steps.upload.title" },
-  { icon: faBrain, titleKey: "howItWorks.steps.extract.title" },
-  { icon: faGavel, titleKey: "howItWorks.steps.review.title" },
-  { icon: faClipboardCheck, titleKey: "howItWorks.steps.track.title" },
+  {
+    icon: faUserPen,
+    titleKey: "howItWorks.steps.describe.title",
+    descriptionKey: "howItWorks.steps.describe.description",
+  },
+  {
+    icon: faUpload,
+    titleKey: "howItWorks.steps.upload.title",
+    descriptionKey: "howItWorks.steps.upload.description",
+  },
+  {
+    icon: faBrain,
+    titleKey: "howItWorks.steps.extract.title",
+    descriptionKey: "howItWorks.steps.extract.description",
+  },
+  {
+    icon: faGavel,
+    titleKey: "howItWorks.steps.review.title",
+    descriptionKey: "howItWorks.steps.review.description",
+  },
+  {
+    icon: faClipboardCheck,
+    titleKey: "howItWorks.steps.track.title",
+    descriptionKey: "howItWorks.steps.track.description",
+  },
 ];
 
 export const features = [
-  { icon: faBrain, titleKey: "features.items.aiAnalysis.title" },
-  { icon: faGavel, titleKey: "features.items.legalGuidance.title" },
-  { icon: faBuildingColumns, titleKey: "features.items.references.title" },
-  { icon: faClipboardCheck, titleKey: "features.items.tracking.title" },
-  { icon: faFileLines, titleKey: "features.items.pdfExport.title" },
-  { icon: faLanguage, titleKey: "features.items.bilingual.title" },
-  { icon: faLock, titleKey: "features.items.secure.title" },
-  { icon: faHeadset, titleKey: "features.items.notifications.title" },
+  {
+    icon: faBrain,
+    titleKey: "features.items.aiAnalysis.title",
+    descriptionKey: "features.items.aiAnalysis.description",
+  },
+  {
+    icon: faScaleBalanced,
+    titleKey: "features.items.legalGuidance.title",
+    descriptionKey: "features.items.legalGuidance.description",
+  },
+  {
+    icon: faBuildingColumns,
+    titleKey: "features.items.references.title",
+    descriptionKey: "features.items.references.description",
+  },
+  {
+    icon: faChartLine,
+    titleKey: "features.items.tracking.title",
+    descriptionKey: "features.items.tracking.description",
+  },
+  {
+    icon: faFilePdf,
+    titleKey: "features.items.pdfExport.title",
+    descriptionKey: "features.items.pdfExport.description",
+  },
+  {
+    icon: faLanguage,
+    titleKey: "features.items.bilingual.title",
+    descriptionKey: "features.items.bilingual.description",
+  },
+  {
+    icon: faShieldHalved,
+    titleKey: "features.items.secure.title",
+    descriptionKey: "features.items.secure.description",
+  },
+  {
+    icon: faBell,
+    titleKey: "features.items.notifications.title",
+    descriptionKey: "features.items.notifications.description",
+  },
 ];
 
 export const workflowSteps = [
-  { icon: faUserPen, titleKey: "workflow.steps.input" },
-  { icon: faBrain, titleKey: "workflow.steps.analysis" },
-  { icon: faFileLines, titleKey: "workflow.steps.sources" },
-  { icon: faClipboardCheck, titleKey: "workflow.steps.complaint" },
-  { icon: faBuildingColumns, titleKey: "workflow.steps.authority" },
+  { icon: faUserPen, titleKey: "workflow.steps.input", isActive: false },
+  { icon: faBrain, titleKey: "workflow.steps.analysis", isActive: true },
+  { icon: faFileLines, titleKey: "workflow.steps.sources", isActive: false },
+  { icon: faClipboardCheck, titleKey: "workflow.steps.complaint", isActive: false },
+  { icon: faBuildingColumns, titleKey: "workflow.steps.authority", isActive: false },
 ];
 
 export const problems = [
-  "problems.items.telecom",
-  "problems.items.banking",
-  "problems.items.consumerService",
+  { icon: faMobileScreenButton, labelKey: "problems.items.telecom" },
+  { icon: faBuildingColumns, labelKey: "problems.items.banking" },
+  { icon: faHeadset, labelKey: "problems.items.consumerService" },
 ];
 
 export const faqs = [
@@ -76,7 +135,19 @@ export const faqs = [
 ];
 
 export const whyHaqqiItems = [
-  { icon: faShieldHalved, titleKey: "whyHaqqi.items.understand.title" },
-  { icon: faGavel, titleKey: "whyHaqqi.items.rights.title" },
-  { icon: faBuildingColumns, titleKey: "whyHaqqi.items.nextStep.title" },
+  {
+    icon: faBrain,
+    titleKey: "whyHaqqi.items.understand.title",
+    descriptionKey: "whyHaqqi.items.understand.description",
+  },
+  {
+    icon: faScaleBalanced,
+    titleKey: "whyHaqqi.items.rights.title",
+    descriptionKey: "whyHaqqi.items.rights.description",
+  },
+  {
+    icon: faClipboardCheck,
+    titleKey: "whyHaqqi.items.nextStep.title",
+    descriptionKey: "whyHaqqi.items.nextStep.description",
+  },
 ];

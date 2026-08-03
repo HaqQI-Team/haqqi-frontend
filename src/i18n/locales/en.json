@@ -6,8 +6,10 @@
     "mainLabel": "Main navigation",
     "home": "Home",
     "howItWorks": "How It Works",
+    "features": "Features",
     "whyHaqqi": "Why HaqQi",
     "workflow": "Workflow",
+    "problems": "Problems",
     "faq": "FAQ",
     "signIn": "Sign In",
     "signUp": "Sign Up",
@@ -26,6 +28,75 @@
     "names": {
       "en": "English",
       "ar": "Arabic"
+    }
+  },
+  "auth": {
+    "social": {
+      "google": "Google",
+      "microsoft": "Microsoft"
+    },
+    "divider": "OR SIGN IN WITH EMAIL",
+    "securityNote": "Your information is encrypted and protected",
+    "actions": {
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "fullName": "John Doe",
+      "email": "name@company.com",
+      "password": "••••••••"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required.",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordRequired": "Password is required.",
+      "passwordMin": "Password must be at least 8 characters.",
+      "passwordMatch": "Passwords must match.",
+      "termsRequired": "You must accept the terms and privacy policy."
+    },
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Enter your details to access your legal dashboard.",
+      "forgotPassword": "Forgot Password?",
+      "rememberMe": "Remember me for 30 days",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "title": "Create your Account",
+      "subtitle": "Start your journey toward legal clarity.",
+      "termsPrefix": "I agree to the",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign In"
+    },
+    "promo": {
+      "title": "Protecting your consumer rights with Intelligence.",
+      "features": {
+        "analysis": {
+          "title": "Instant Legal Analysis",
+          "description": "Real-time breakdown of complex legal clauses."
+        },
+        "drafting": {
+          "title": "Expert Document Drafting",
+          "description": "Generate professional letters and contracts in seconds."
+        },
+        "security": {
+          "title": "Government-Grade Security",
+          "description": "Your data is protected by AES-256 encryption."
+        }
+      }
     }
   },
   "hero": {
@@ -47,73 +118,101 @@
   },
   "trustStrip": {
     "label": "Platform strengths",
-    "aiPowered": "Arabic and English Support",
+    "bilingualSupport": "Arabic & English Support",
     "legalSources": "Official Legal Sources",
     "secureUpload": "Secure Evidence Upload",
     "pdfExport": "Professional PDF Export"
   },
   "howItWorks": {
     "title": "How HaqQi Works",
-    "description": "Simple placeholders for the workflow cards.",
+    "description": "Move from a messy problem to a clear, evidence-backed complaint in a few guided steps.",
     "steps": {
       "describe": {
-        "title": "Describe Problem"
+        "title": "Describe Problem",
+        "description": "Tell HaqQi what happened in your own words, with the key dates and parties involved."
       },
       "upload": {
-        "title": "Upload Evidence"
+        "title": "Upload Evidence",
+        "description": "Add receipts, screenshots, contracts, messages, or any files that support your case."
       },
       "extract": {
-        "title": "AI Extracts the Facts"
+        "title": "AI Extracts the Facts",
+        "description": "The assistant organizes names, timelines, amounts, and important details from your input."
       },
       "review": {
-        "title": "Review Legal Guidance"
+        "title": "Review Legal Guidance",
+        "description": "See relevant guidance based on official sources before deciding your next step."
       },
       "track": {
-        "title": "Generate and Track Complaint"
+        "title": "Generate and Track Complaint",
+        "description": "Export a professional complaint PDF and keep follow-up details in one place."
       }
     }
   },
   "features": {
     "title": "Everything You Need to Build a Stronger Complaint",
+    "description": "Focused tools for understanding your situation, preparing evidence, and producing a complaint you can confidently submit.",
     "items": {
       "aiAnalysis": {
-        "title": "AI Analysis"
+        "title": "AI Analysis",
+        "description": "Summarize your complaint and surface the important facts, dates, and missing details."
       },
       "legalGuidance": {
-        "title": "Legal Guidance"
+        "title": "Legal Guidance",
+        "description": "Get clear next-step guidance shaped around your consumer rights context."
       },
       "references": {
-        "title": "Official References"
+        "title": "Official References",
+        "description": "Connect your complaint to relevant official sources and authority-facing language."
       },
       "tracking": {
-        "title": "Complaint Tracking"
+        "title": "Complaint Tracking",
+        "description": "Keep complaint status, follow-up notes, and submission details easy to revisit."
       },
       "pdfExport": {
-        "title": "PDF Export"
+        "title": "PDF Export",
+        "description": "Generate a polished complaint document that is ready to save, print, or submit."
       },
       "bilingual": {
-        "title": "Bilingual Support"
+        "title": "Bilingual Support",
+        "description": "Work comfortably in Arabic or English while keeping the workflow consistent."
       },
       "secure": {
-        "title": "Secure Documents"
+        "title": "Secure Documents",
+        "description": "Handle evidence and complaint files with a security-minded document flow."
       },
       "notifications": {
-        "title": "Notifications"
+        "title": "Notifications",
+        "description": "Stay aware of follow-ups, reminders, and the next action needed."
       }
     }
   },
   "whyHaqqi": {
     "title": "Why HaqQi?",
+    "description": "HaqQi helps you turn confusion into a clearer view of your complaint, your possible rights, and your next practical step.",
     "items": {
       "understand": {
-        "title": "Understand Your Situation"
+        "title": "Understand Your Situation",
+        "description": "Organize what happened, what evidence you have, and what details still need attention."
       },
       "rights": {
-        "title": "Know Your Rights"
+        "title": "Know Your Rights",
+        "description": "Review guidance connected to consumer protection concepts and official source material."
       },
       "nextStep": {
-        "title": "Take the Right Next Step"
+        "title": "Take the Right Next Step",
+        "description": "Move toward a clearer complaint draft, follow-up plan, or authority-ready document."
       }
+    },
+    "legalCard": {
+      "eyebrow": "Guidance example",
+      "title": "How HaqQi Supports Your Complaint",
+      "sourceLabel": "Official source",
+      "sourceText": "CPA Regulation Vol 4",
+      "explanationLabel": "Simplified explanation",
+      "explanationText": "\"Based on the available details, the issue may relate to refund or replacement rights when a product is defective. HaqQi highlights points to verify before preparing your complaint.\"",
+      "badge": "High Relevance",
+      "note": "This example is informational and does not replace advice from a qualified legal professional."
     }
   },
   "workflow": {
@@ -139,24 +238,62 @@
     "items": {
       "lawyer": {
         "question": "Is HaqQi a replacement for a lawyer?",
-        "answer": "No. HaqQi is a documentation assistant and does not provide legal representation."
+        "answer": "No. HaqQi helps organize complaints, evidence, and guidance. It does not provide legal representation or replace advice from a qualified lawyer."
       },
       "sources": {
         "question": "Where does HaqQi get its legal information?",
-        "answer": "The section will reference official sources when the detailed content is implemented."
+        "answer": "HaqQi is designed to reference official legal and consumer protection sources, then separate source information from simplified explanations."
       },
       "evidence": {
         "question": "What types of files can I upload as evidence?",
-        "answer": "Evidence upload details will be implemented in a later section."
+        "answer": "The project scope supports evidence such as receipts, screenshots, contracts, messages, and other complaint-related documents."
       }
     }
   },
   "cta": {
     "title": "Ready to Build a Stronger Complaint?",
-    "description": "This placeholder is ready for the final call-to-action content."
+    "description": "Describe your problem, upload your evidence, and let HaqQi guide you through the next steps.",
+    "actions": {
+      "start": "Start Your Complaint",
+      "assistant": "Try AI Assistant"
+    },
+    "note": "No credit card required — free for first complaint"
   },
   "footer": {
     "description": "The premier AI legal assistant for Egyptian consumers.",
-    "location": "Cairo, Egypt"
+    "location": "Cairo, Egypt",
+    "columns": {
+      "platform": {
+        "title": "Platform",
+        "links": {
+          "howItWorks": "How It Works",
+          "features": "Features",
+          "workflow": "Workflow"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "links": {
+          "sources": "Official Sources",
+          "disclaimer": "Legal Disclaimer",
+          "privacy": "Privacy"
+        }
+      },
+      "support": {
+        "title": "Support",
+        "links": {
+          "help": "Help Center",
+          "contact": "Contact",
+          "status": "Status"
+        }
+      }
+    },
+    "social": {
+      "facebook": "HaqQi on Facebook",
+      "x": "HaqQi on X",
+      "linkedin": "HaqQi on LinkedIn",
+      "github": "HaqQi on GitHub"
+    },
+    "copyright": "© {{year}} HaqQi. All rights reserved."
   }
 }
