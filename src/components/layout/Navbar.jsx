@@ -15,6 +15,9 @@ const navItems = [
   { id: "how-it-works", labelKey: "navigation.howItWorks" },
   { id: "features", labelKey: "navigation.features" },
   { id: "why-haqqi", labelKey: "navigation.whyHaqqi" },
+  { id: "workflow", labelKey: "navigation.workflow" },
+  { id: "problems", labelKey: "navigation.problems" },
+  { id: "faq", labelKey: "navigation.faq" },
 ];
 
 function NavLink({ item, children, onSelect, isActive = false, isRtl = false }) {
@@ -117,9 +120,9 @@ function Navbar() {
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -12 }}
+      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: "easeOut" }}
       className="sticky top-0 z-50 border-b border-red-950/10 bg-[#fbf7f5]/95 backdrop-blur dark:border-white/10 dark:bg-neutral-950/95"
     >
       <nav
@@ -187,10 +190,10 @@ function Navbar() {
         {isMenuOpen ? (
           <motion.div
             id="mobile-navigation"
-            initial={{ opacity: 0, y: -8 }}
+            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
+            exit={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeOut" }}
             className="border-t border-red-950/10 bg-[#fbf7f5] px-4 py-4 shadow-sm dark:border-white/10 dark:bg-neutral-950 lg:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-3">

@@ -6,8 +6,10 @@ import {
   faBell,
   faFilePdf,
   faFileLines,
+  faHeadset,
   faLanguage,
   faLock,
+  faMobileScreenButton,
   faScaleBalanced,
   faShieldHalved,
   faUpload,
@@ -20,6 +22,9 @@ export const navLinks = [
   { href: "#how-it-works", labelKey: "navigation.howItWorks" },
   { href: "#features", labelKey: "navigation.features" },
   { href: "#why-haqqi", labelKey: "navigation.whyHaqqi" },
+  { href: "#workflow", labelKey: "navigation.workflow" },
+  { href: "#problems", labelKey: "navigation.problems" },
+  { href: "#faq", labelKey: "navigation.faq" },
 ];
 
 export const trustItems = [
@@ -101,17 +106,17 @@ export const features = [
 ];
 
 export const workflowSteps = [
-  { icon: faUserPen, titleKey: "workflow.steps.input" },
-  { icon: faBrain, titleKey: "workflow.steps.analysis" },
-  { icon: faFileLines, titleKey: "workflow.steps.sources" },
-  { icon: faClipboardCheck, titleKey: "workflow.steps.complaint" },
-  { icon: faBuildingColumns, titleKey: "workflow.steps.authority" },
+  { icon: faUserPen, titleKey: "workflow.steps.input", isActive: false },
+  { icon: faBrain, titleKey: "workflow.steps.analysis", isActive: true },
+  { icon: faFileLines, titleKey: "workflow.steps.sources", isActive: false },
+  { icon: faClipboardCheck, titleKey: "workflow.steps.complaint", isActive: false },
+  { icon: faBuildingColumns, titleKey: "workflow.steps.authority", isActive: false },
 ];
 
 export const problems = [
-  "problems.items.telecom",
-  "problems.items.banking",
-  "problems.items.consumerService",
+  { icon: faMobileScreenButton, labelKey: "problems.items.telecom" },
+  { icon: faBuildingColumns, labelKey: "problems.items.banking" },
+  { icon: faHeadset, labelKey: "problems.items.consumerService" },
 ];
 
 export const faqs = [

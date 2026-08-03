@@ -1,10 +1,14 @@
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
+import CTASection from "../sections/CTASection";
 import FeaturesSection from "../sections/FeaturesSection";
 import HeroSection from "../sections/HeroSection";
 import HowItWorksSection from "../sections/HowItWorksSection";
+import FAQSection from "../sections/FAQSection";
+import ProblemsSection from "../sections/ProblemsSection";
 import TrustStrip from "../sections/TrustStrip";
 import WhyHaqqiSection from "../sections/WhyHaqqiSection";
+import WorkflowSection from "../sections/WorkflowSection";
 
 function LandingPage() {
   return (
@@ -16,6 +20,10 @@ function LandingPage() {
         <HowItWorksSection />
         <FeaturesSection />
         <WhyHaqqiSection />
+        <WorkflowSection />
+        <ProblemsSection />
+        <FAQSection />
+        <CTASection />
       </main>
       <Footer />
     </>

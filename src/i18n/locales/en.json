@@ -9,6 +9,7 @@
     "features": "Features",
     "whyHaqqi": "Why HaqQi",
     "workflow": "Workflow",
+    "problems": "Problems",
     "faq": "FAQ",
     "signIn": "Sign In",
     "signUp": "Sign Up",
@@ -168,24 +169,62 @@
     "items": {
       "lawyer": {
         "question": "Is HaqQi a replacement for a lawyer?",
-        "answer": "No. HaqQi is a documentation assistant and does not provide legal representation."
+        "answer": "No. HaqQi helps organize complaints, evidence, and guidance. It does not provide legal representation or replace advice from a qualified lawyer."
       },
       "sources": {
         "question": "Where does HaqQi get its legal information?",
-        "answer": "The section will reference official sources when the detailed content is implemented."
+        "answer": "HaqQi is designed to reference official legal and consumer protection sources, then separate source information from simplified explanations."
       },
       "evidence": {
         "question": "What types of files can I upload as evidence?",
-        "answer": "Evidence upload details will be implemented in a later section."
+        "answer": "The project scope supports evidence such as receipts, screenshots, contracts, messages, and other complaint-related documents."
       }
     }
   },
   "cta": {
     "title": "Ready to Build a Stronger Complaint?",
-    "description": "This placeholder is ready for the final call-to-action content."
+    "description": "Describe your problem, upload your evidence, and let HaqQi guide you through the next steps.",
+    "actions": {
+      "start": "Start Your Complaint",
+      "assistant": "Try AI Assistant"
+    },
+    "note": "No credit card required — free for first complaint"
   },
   "footer": {
     "description": "The premier AI legal assistant for Egyptian consumers.",
-    "location": "Cairo, Egypt"
+    "location": "Cairo, Egypt",
+    "columns": {
+      "platform": {
+        "title": "Platform",
+        "links": {
+          "howItWorks": "How It Works",
+          "features": "Features",
+          "workflow": "Workflow"
+        }
+      },
+      "legal": {
+        "title": "Legal",
+        "links": {
+          "sources": "Official Sources",
+          "disclaimer": "Legal Disclaimer",
+          "privacy": "Privacy"
+        }
+      },
+      "support": {
+        "title": "Support",
+        "links": {
+          "help": "Help Center",
+          "contact": "Contact",
+          "status": "Status"
+        }
+      }
+    },
+    "social": {
+      "facebook": "HaqQi on Facebook",
+      "x": "HaqQi on X",
+      "linkedin": "HaqQi on LinkedIn",
+      "github": "HaqQi on GitHub"
+    },
+    "copyright": "© {{year}} HaqQi. All rights reserved."
   }
 }

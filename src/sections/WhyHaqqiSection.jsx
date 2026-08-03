@@ -125,7 +125,7 @@ function WhyHaqqiSection() {
 
           <div className="my-5 h-px bg-red-900/15 dark:bg-red-300/15" />
 
-          <footer className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm font-bold text-neutral-700 dark:text-neutral-300">
               <span>{t("whyHaqqi.legalCard.sourceLabel")}: </span>
               <span>{t("whyHaqqi.legalCard.sourceText")}</span>
@@ -134,7 +134,7 @@ function WhyHaqqiSection() {
             <span className="inline-flex w-fit items-center rounded-md bg-emerald-700 px-3 py-1.5 text-xs font-extrabold text-white dark:bg-emerald-600">
               {t("whyHaqqi.legalCard.badge")}
             </span>
-          </footer>
+          </div>
 
           <p className="mt-4 text-xs leading-5 text-neutral-500 dark:text-neutral-400">
             {t("whyHaqqi.legalCard.note")}
