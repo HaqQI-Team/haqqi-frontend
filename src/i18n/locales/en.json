@@ -6,6 +6,7 @@
     "mainLabel": "Main navigation",
     "home": "Home",
     "howItWorks": "How It Works",
+    "features": "Features",
     "whyHaqqi": "Why HaqQi",
     "workflow": "Workflow",
     "faq": "FAQ",
@@ -47,73 +48,101 @@
   },
   "trustStrip": {
     "label": "Platform strengths",
-    "aiPowered": "Arabic and English Support",
+    "bilingualSupport": "Arabic & English Support",
     "legalSources": "Official Legal Sources",
     "secureUpload": "Secure Evidence Upload",
     "pdfExport": "Professional PDF Export"
   },
   "howItWorks": {
     "title": "How HaqQi Works",
-    "description": "Simple placeholders for the workflow cards.",
+    "description": "Move from a messy problem to a clear, evidence-backed complaint in a few guided steps.",
     "steps": {
       "describe": {
-        "title": "Describe Problem"
+        "title": "Describe Problem",
+        "description": "Tell HaqQi what happened in your own words, with the key dates and parties involved."
       },
       "upload": {
-        "title": "Upload Evidence"
+        "title": "Upload Evidence",
+        "description": "Add receipts, screenshots, contracts, messages, or any files that support your case."
       },
       "extract": {
-        "title": "AI Extracts the Facts"
+        "title": "AI Extracts the Facts",
+        "description": "The assistant organizes names, timelines, amounts, and important details from your input."
       },
       "review": {
-        "title": "Review Legal Guidance"
+        "title": "Review Legal Guidance",
+        "description": "See relevant guidance based on official sources before deciding your next step."
       },
       "track": {
-        "title": "Generate and Track Complaint"
+        "title": "Generate and Track Complaint",
+        "description": "Export a professional complaint PDF and keep follow-up details in one place."
       }
     }
   },
   "features": {
     "title": "Everything You Need to Build a Stronger Complaint",
+    "description": "Focused tools for understanding your situation, preparing evidence, and producing a complaint you can confidently submit.",
     "items": {
       "aiAnalysis": {
-        "title": "AI Analysis"
+        "title": "AI Analysis",
+        "description": "Summarize your complaint and surface the important facts, dates, and missing details."
       },
       "legalGuidance": {
-        "title": "Legal Guidance"
+        "title": "Legal Guidance",
+        "description": "Get clear next-step guidance shaped around your consumer rights context."
       },
       "references": {
-        "title": "Official References"
+        "title": "Official References",
+        "description": "Connect your complaint to relevant official sources and authority-facing language."
       },
       "tracking": {
-        "title": "Complaint Tracking"
+        "title": "Complaint Tracking",
+        "description": "Keep complaint status, follow-up notes, and submission details easy to revisit."
       },
       "pdfExport": {
-        "title": "PDF Export"
+        "title": "PDF Export",
+        "description": "Generate a polished complaint document that is ready to save, print, or submit."
       },
       "bilingual": {
-        "title": "Bilingual Support"
+        "title": "Bilingual Support",
+        "description": "Work comfortably in Arabic or English while keeping the workflow consistent."
       },
       "secure": {
-        "title": "Secure Documents"
+        "title": "Secure Documents",
+        "description": "Handle evidence and complaint files with a security-minded document flow."
       },
       "notifications": {
-        "title": "Notifications"
+        "title": "Notifications",
+        "description": "Stay aware of follow-ups, reminders, and the next action needed."
       }
     }
   },
   "whyHaqqi": {
     "title": "Why HaqQi?",
+    "description": "HaqQi helps you turn confusion into a clearer view of your complaint, your possible rights, and your next practical step.",
     "items": {
       "understand": {
-        "title": "Understand Your Situation"
+        "title": "Understand Your Situation",
+        "description": "Organize what happened, what evidence you have, and what details still need attention."
       },
       "rights": {
-        "title": "Know Your Rights"
+        "title": "Know Your Rights",
+        "description": "Review guidance connected to consumer protection concepts and official source material."
       },
       "nextStep": {
-        "title": "Take the Right Next Step"
+        "title": "Take the Right Next Step",
+        "description": "Move toward a clearer complaint draft, follow-up plan, or authority-ready document."
       }
+    },
+    "legalCard": {
+      "eyebrow": "Guidance example",
+      "title": "How HaqQi Supports Your Complaint",
+      "sourceLabel": "Official source",
+      "sourceText": "CPA Regulation Vol 4",
+      "explanationLabel": "Simplified explanation",
+      "explanationText": "\"Based on the available details, the issue may relate to refund or replacement rights when a product is defective. HaqQi highlights points to verify before preparing your complaint.\"",
+      "badge": "High Relevance",
+      "note": "This example is informational and does not replace advice from a qualified legal professional."
     }
   },
   "workflow": {

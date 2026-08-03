@@ -13,9 +13,8 @@ import ThemeToggle from "../common/ThemeToggle";
 const navItems = [
   { id: "home", labelKey: "navigation.home" },
   { id: "how-it-works", labelKey: "navigation.howItWorks" },
+  { id: "features", labelKey: "navigation.features" },
   { id: "why-haqqi", labelKey: "navigation.whyHaqqi" },
-  { id: "workflow", labelKey: "navigation.workflow" },
-  { id: "faq", labelKey: "navigation.faq" },
 ];
 
 function NavLink({ item, children, onSelect, isActive = false, isRtl = false }) {
