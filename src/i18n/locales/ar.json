@@ -30,6 +30,75 @@
       "ar": "العربية"
     }
   },
+  "auth": {
+    "social": {
+      "google": "Google",
+      "microsoft": "Microsoft"
+    },
+    "divider": "أو سجّل الدخول بالبريد الإلكتروني",
+    "securityNote": "معلوماتك مشفرة ومحمية",
+    "actions": {
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور"
+    },
+    "fields": {
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "confirmPassword": "تأكيد كلمة المرور"
+    },
+    "placeholders": {
+      "fullName": "أحمد محمد",
+      "email": "name@company.com",
+      "password": "••••••••"
+    },
+    "validation": {
+      "fullNameRequired": "الاسم الكامل مطلوب.",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "أدخل بريدا إلكترونيا صحيحا.",
+      "passwordRequired": "كلمة المرور مطلوبة.",
+      "passwordMin": "يجب ألا تقل كلمة المرور عن 8 أحرف.",
+      "passwordMatch": "يجب أن تتطابق كلمتا المرور.",
+      "termsRequired": "يجب قبول الشروط وسياسة الخصوصية."
+    },
+    "login": {
+      "title": "مرحبا بعودتك",
+      "subtitle": "أدخل بياناتك للوصول إلى لوحة معلوماتك القانونية.",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "rememberMe": "تذكرني لمدة 30 يوما",
+      "submit": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "registerLink": "إنشاء حساب"
+    },
+    "register": {
+      "title": "أنشئ حسابك",
+      "subtitle": "ابدأ رحلتك نحو وضوح قانوني أكبر.",
+      "termsPrefix": "أوافق على",
+      "terms": "شروط الخدمة",
+      "and": "و",
+      "privacy": "سياسة الخصوصية",
+      "submit": "إنشاء حساب",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "signInLink": "تسجيل الدخول"
+    },
+    "promo": {
+      "title": "نحمي حقوقك كمستهلك بذكاء.",
+      "features": {
+        "analysis": {
+          "title": "تحليل قانوني فوري",
+          "description": "تفكيك سريع وواضح للنقاط القانونية المعقدة."
+        },
+        "drafting": {
+          "title": "صياغة مستندات احترافية",
+          "description": "أنشئ خطابات وشكاوى احترافية خلال ثوان."
+        },
+        "security": {
+          "title": "أمان بمستوى عال",
+          "description": "تتم حماية بياناتك بتشفير قوي وممارسات آمنة."
+        }
+      }
+    }
+  },
   "hero": {
     "eyebrow": "منصة حقوق المستهلك المدعومة بالذكاء الاصطناعي",
     "title": "اعرف حقوقك. واستعد صوتك.",

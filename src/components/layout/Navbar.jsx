@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LanguageToggle from "../common/LanguageToggle";
 import ThemeToggle from "../common/ThemeToggle";
+import Link from "../../router/Link";
 
 const navItems = [
   { id: "home", labelKey: "navigation.home" },
@@ -159,18 +160,18 @@ function Navbar() {
             <LanguageToggle compact />
           </div>
           <ThemeToggle />
-          <a
-            href="#signin"
+          <Link
+            to="/login"
             className="hidden rounded-md px-3 py-2 text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 md:inline-flex dark:text-neutral-200 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
           >
             {t("navigation.signIn")}
-          </a>
-          <a
-            href="#signup"
+          </Link>
+          <Link
+            to="/register"
             className="hidden rounded-md bg-red-900 px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 md:inline-flex dark:bg-red-700 dark:hover:bg-red-600 dark:focus-visible:outline-red-300"
           >
             {t("navigation.signUp")}
-          </a>
+          </Link>
           <button
             type="button"
             onClick={() => setIsMenuOpen((current) => !current)}
@@ -212,20 +213,20 @@ function Navbar() {
                 </NavLink>
               ))}
               <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                <a
-                  href="#signin"
+                <Link
+                  to="/login"
                   onClick={closeMenu}
                   className="rounded-md border border-neutral-200 px-4 py-2 text-center text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
                 >
                   {t("navigation.signIn")}
-                </a>
-                <a
-                  href="#signup"
+                </Link>
+                <Link
+                  to="/register"
                   onClick={closeMenu}
                   className="rounded-md bg-red-900 px-4 py-2 text-center text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:bg-red-700 dark:hover:bg-red-600 dark:focus-visible:outline-red-300"
                 >
                   {t("navigation.signUp")}
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

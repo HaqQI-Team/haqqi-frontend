@@ -30,6 +30,75 @@
       "ar": "Arabic"
     }
   },
+  "auth": {
+    "social": {
+      "google": "Google",
+      "microsoft": "Microsoft"
+    },
+    "divider": "OR SIGN IN WITH EMAIL",
+    "securityNote": "Your information is encrypted and protected",
+    "actions": {
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "fullName": "John Doe",
+      "email": "name@company.com",
+      "password": "••••••••"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required.",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordRequired": "Password is required.",
+      "passwordMin": "Password must be at least 8 characters.",
+      "passwordMatch": "Passwords must match.",
+      "termsRequired": "You must accept the terms and privacy policy."
+    },
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Enter your details to access your legal dashboard.",
+      "forgotPassword": "Forgot Password?",
+      "rememberMe": "Remember me for 30 days",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "title": "Create your Account",
+      "subtitle": "Start your journey toward legal clarity.",
+      "termsPrefix": "I agree to the",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign In"
+    },
+    "promo": {
+      "title": "Protecting your consumer rights with Intelligence.",
+      "features": {
+        "analysis": {
+          "title": "Instant Legal Analysis",
+          "description": "Real-time breakdown of complex legal clauses."
+        },
+        "drafting": {
+          "title": "Expert Document Drafting",
+          "description": "Generate professional letters and contracts in seconds."
+        },
+        "security": {
+          "title": "Government-Grade Security",
+          "description": "Your data is protected by AES-256 encryption."
+        }
+      }
+    }
+  },
   "hero": {
     "eyebrow": "AI-Powered Consumer Rights Platform",
     "title": "Know Your Rights. Reclaim Your Voice.",
