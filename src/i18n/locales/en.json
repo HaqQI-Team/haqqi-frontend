@@ -1,0 +1,162 @@
+{
+  "brand": {
+    "name": "HaqQi"
+  },
+  "navigation": {
+    "mainLabel": "Main navigation",
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "whyHaqqi": "Why HaqQi",
+    "workflow": "Workflow",
+    "faq": "FAQ",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu"
+  },
+  "controls": {
+    "languageLabel": "Switch language to {{language}}",
+    "languageButton": "AR",
+    "themeLabel": "Switch theme",
+    "themeToDark": "Switch to dark mode",
+    "themeToLight": "Switch to light mode"
+  },
+  "language": {
+    "name": "English",
+    "names": {
+      "en": "English",
+      "ar": "Arabic"
+    }
+  },
+  "hero": {
+    "eyebrow": "AI-Powered Consumer Rights Platform",
+    "title": "Know Your Rights. Reclaim Your Voice.",
+    "headingLineOne": "Know Your Rights.",
+    "headingLineTwo": "Reclaim Your Voice.",
+    "description": "Turn your consumer complaint into a clear, professional, and legally grounded document using official Egyptian regulations and AI-powered guidance.",
+    "actions": {
+      "start": "Start a Complaint",
+      "learn": "See How It Works"
+    },
+    "trustLabel": "Platform trust points",
+    "trustPoints": [
+      "Legally Grounded",
+      "AI-Powered",
+      "Secure and Confidential"
+    ]
+  },
+  "trustStrip": {
+    "label": "Platform strengths",
+    "aiPowered": "Arabic and English Support",
+    "legalSources": "Official Legal Sources",
+    "secureUpload": "Secure Evidence Upload",
+    "pdfExport": "Professional PDF Export"
+  },
+  "howItWorks": {
+    "title": "How HaqQi Works",
+    "description": "Simple placeholders for the workflow cards.",
+    "steps": {
+      "describe": {
+        "title": "Describe Problem"
+      },
+      "upload": {
+        "title": "Upload Evidence"
+      },
+      "extract": {
+        "title": "AI Extracts the Facts"
+      },
+      "review": {
+        "title": "Review Legal Guidance"
+      },
+      "track": {
+        "title": "Generate and Track Complaint"
+      }
+    }
+  },
+  "features": {
+    "title": "Everything You Need to Build a Stronger Complaint",
+    "items": {
+      "aiAnalysis": {
+        "title": "AI Analysis"
+      },
+      "legalGuidance": {
+        "title": "Legal Guidance"
+      },
+      "references": {
+        "title": "Official References"
+      },
+      "tracking": {
+        "title": "Complaint Tracking"
+      },
+      "pdfExport": {
+        "title": "PDF Export"
+      },
+      "bilingual": {
+        "title": "Bilingual Support"
+      },
+      "secure": {
+        "title": "Secure Documents"
+      },
+      "notifications": {
+        "title": "Notifications"
+      }
+    }
+  },
+  "whyHaqqi": {
+    "title": "Why HaqQi?",
+    "items": {
+      "understand": {
+        "title": "Understand Your Situation"
+      },
+      "rights": {
+        "title": "Know Your Rights"
+      },
+      "nextStep": {
+        "title": "Take the Right Next Step"
+      }
+    }
+  },
+  "workflow": {
+    "title": "Streamlined Workflow",
+    "steps": {
+      "input": "User Input",
+      "analysis": "AI Analysis",
+      "sources": "Legal Sources",
+      "complaint": "Professional Complaint",
+      "authority": "Authority"
+    }
+  },
+  "problems": {
+    "title": "Built for Real Consumer Problems",
+    "items": {
+      "telecom": "Telecom Disputes",
+      "banking": "Banking Complaints",
+      "consumerService": "Consumer Service Issues"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": {
+      "lawyer": {
+        "question": "Is HaqQi a replacement for a lawyer?",
+        "answer": "No. HaqQi is a documentation assistant and does not provide legal representation."
+      },
+      "sources": {
+        "question": "Where does HaqQi get its legal information?",
+        "answer": "The section will reference official sources when the detailed content is implemented."
+      },
+      "evidence": {
+        "question": "What types of files can I upload as evidence?",
+        "answer": "Evidence upload details will be implemented in a later section."
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to Build a Stronger Complaint?",
+    "description": "This placeholder is ready for the final call-to-action content."
+  },
+  "footer": {
+    "description": "The premier AI legal assistant for Egyptian consumers.",
+    "location": "Cairo, Egypt"
+  }
+}
