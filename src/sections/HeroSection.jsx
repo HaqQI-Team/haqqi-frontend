@@ -105,7 +105,11 @@ const imageInitial = shouldReduceMotion
       >
 {/* Light mode image */}
 <img
-  src="/images/hero-section.png"
+  src={
+    isRtl
+      ? "/images/hero-section-ar.png"
+      : "/images/hero-section.png"
+  }
   alt=""
   className={`
     block
@@ -115,13 +119,17 @@ const imageInitial = shouldReduceMotion
     object-[68%_center]
     dark:hidden
     lg:object-center
-    ${isRtl ? "scale-x-[-1]" : ""}
+    
   `}
 />
 
 {/* Dark mode image */}
 <img
-  src="/images/hero-darkSection.png"
+  src={
+    isRtl
+      ? "/images/hero-darkSection-ar.png"
+      : "/images/hero-darkSection.png"
+  }
   alt=""
   className={`
     hidden
@@ -131,7 +139,7 @@ const imageInitial = shouldReduceMotion
     object-[68%_center]
     dark:block
     lg:object-center
-    ${isRtl ? "scale-x-[-1]" : ""}
+    
   `}
 />
 
