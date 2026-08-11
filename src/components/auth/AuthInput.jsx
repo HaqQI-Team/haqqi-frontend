@@ -11,8 +11,11 @@ function AuthInput({
   onChange,
   rightButton,
   autoComplete,
+  registration,
 }) {
   const errorId = error ? `${name}-error` : undefined;
+  const controlledProps = value === undefined ? {} : { value };
+  const changeProps = onChange ? { onChange } : {};
 
   return (
     <div>
@@ -43,9 +46,10 @@ function AuthInput({
           id={name}
           name={name}
           type={type}
-          value={value}
+          {...registration}
+          {...controlledProps}
+          {...changeProps}
           placeholder={placeholder}
-          onChange={onChange}
           autoComplete={autoComplete}
           aria-invalid={error ? "true" : "false"}
           aria-describedby={errorId}

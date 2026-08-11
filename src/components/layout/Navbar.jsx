@@ -3,13 +3,18 @@ import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   faBars,
+  faRightFromBracket,
   faScaleBalanced,
+  faUserCircle,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LanguageToggle from "../common/LanguageToggle";
 import ThemeToggle from "../common/ThemeToggle";
 import Link from "../../router/Link";
+import { useAuth } from "../../hooks/useAuth";
+import { useRouter } from "../../router/useRouter";
+import { getProfileDisplayName } from "../../utils/authResponse";
 
 const navItems = [
   { id: "home", labelKey: "navigation.home" },
@@ -45,10 +50,13 @@ function NavLink({ item, children, onSelect, isActive = false, isRtl = false }) 
 
 function Navbar() {
   const { i18n, t } = useTranslation();
+  const { isAuthenticated, isLoading, logout, user } = useAuth();
+  const { navigate } = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const shouldReduceMotion = useReducedMotion();
   const isRtl = i18n.dir() === "rtl";
+  const displayName = getProfileDisplayName(user) || t("navigation.account");
 
   useEffect(() => {
     const sections = navItems
@@ -119,6 +127,107 @@ function Navbar() {
     });
   }
 
+  function handleLogout() {
+    logout();
+    closeMenu();
+    navigate("/");
+  }
+
+  function renderDesktopAuthActions() {
+    if (isLoading) {
+      return (
+        <div className="hidden h-9 w-36 rounded-md bg-red-900/8 dark:bg-red-300/10 md:inline-flex" />
+      );
+    }
+
+    if (isAuthenticated) {
+      return (
+        <div className="hidden items-center gap-2 md:flex">
+          <span className="inline-flex min-h-9 max-w-48 items-center gap-2 rounded-md border border-red-900/10 bg-white/70 px-3 py-2 text-sm font-semibold text-neutral-700 dark:border-red-300/15 dark:bg-neutral-900/70 dark:text-neutral-200">
+            <FontAwesomeIcon
+              icon={faUserCircle}
+              className="shrink-0 text-red-900 dark:text-red-200"
+            />
+            <span className="truncate">{displayName}</span>
+          </span>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-neutral-200 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
+          >
+            <FontAwesomeIcon icon={faRightFromBracket} />
+            <span>{t("navigation.logout")}</span>
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <Link
+          to="/login"
+          className="hidden rounded-md px-3 py-2 text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 md:inline-flex dark:text-neutral-200 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
+        >
+          {t("navigation.signIn")}
+        </Link>
+        <Link
+          to="/register"
+          className="hidden rounded-md bg-red-900 px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 md:inline-flex dark:bg-red-700 dark:hover:bg-red-600 dark:focus-visible:outline-red-300"
+        >
+          {t("navigation.signUp")}
+        </Link>
+      </>
+    );
+  }
+
+  function renderMobileAuthActions() {
+    if (isLoading) {
+      return (
+        <div className="mt-2 h-10 rounded-md bg-red-900/8 dark:bg-red-300/10" />
+      );
+    }
+
+    if (isAuthenticated) {
+      return (
+        <div className="mt-2 grid gap-2">
+          <span className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-red-900/10 bg-white/70 px-4 py-2 text-center text-sm font-semibold text-neutral-700 dark:border-red-300/15 dark:bg-neutral-900/70 dark:text-neutral-200">
+            <FontAwesomeIcon
+              icon={faUserCircle}
+              className="shrink-0 text-red-900 dark:text-red-200"
+            />
+            <span className="truncate">{displayName}</span>
+          </span>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="rounded-md border border-neutral-200 px-4 py-2 text-center text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
+          >
+            {t("navigation.logout")}
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="mt-2 grid gap-2 sm:grid-cols-2">
+        <Link
+          to="/login"
+          onClick={closeMenu}
+          className="rounded-md border border-neutral-200 px-4 py-2 text-center text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
+        >
+          {t("navigation.signIn")}
+        </Link>
+        <Link
+          to="/register"
+          onClick={closeMenu}
+          className="rounded-md bg-red-900 px-4 py-2 text-center text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:bg-red-700 dark:hover:bg-red-600 dark:focus-visible:outline-red-300"
+        >
+          {t("navigation.signUp")}
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <motion.header
       initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
@@ -160,18 +269,7 @@ function Navbar() {
             <LanguageToggle compact />
           </div>
           <ThemeToggle />
-          <Link
-            to="/login"
-            className="hidden rounded-md px-3 py-2 text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 md:inline-flex dark:text-neutral-200 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
-          >
-            {t("navigation.signIn")}
-          </Link>
-          <Link
-            to="/register"
-            className="hidden rounded-md bg-red-900 px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 md:inline-flex dark:bg-red-700 dark:hover:bg-red-600 dark:focus-visible:outline-red-300"
-          >
-            {t("navigation.signUp")}
-          </Link>
+          {renderDesktopAuthActions()}
           <button
             type="button"
             onClick={() => setIsMenuOpen((current) => !current)}
@@ -212,22 +310,7 @@ function Navbar() {
                   {t(item.labelKey)}
                 </NavLink>
               ))}
-              <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                <Link
-                  to="/login"
-                  onClick={closeMenu}
-                  className="rounded-md border border-neutral-200 px-4 py-2 text-center text-sm font-semibold text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-200 dark:focus-visible:outline-red-300"
-                >
-                  {t("navigation.signIn")}
-                </Link>
-                <Link
-                  to="/register"
-                  onClick={closeMenu}
-                  className="rounded-md bg-red-900 px-4 py-2 text-center text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:bg-red-700 dark:hover:bg-red-600 dark:focus-visible:outline-red-300"
-                >
-                  {t("navigation.signUp")}
-                </Link>
-              </div>
+              {renderMobileAuthActions()}
             </div>
           </motion.div>
         ) : null}

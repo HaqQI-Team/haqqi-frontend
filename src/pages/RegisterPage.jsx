@@ -1,83 +1,97 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
+  faAt,
   faEnvelope,
   faEye,
   faEyeSlash,
   faLock,
+  faPhone,
   faShieldHalved,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import AuthInput from "../components/auth/AuthInput";
-import SocialAuthButtons from "../components/auth/SocialAuthButtons";
 import Link from "../router/Link";
+import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "../router/useRouter";
+import {
+  getApiErrorMessage,
+  getApiErrorStatus,
+  isNetworkError,
+} from "../utils/apiError";
+import { getLanguagePreference } from "../utils/languagePreference";
+import { createRegisterSchema } from "../validation/authSchemas";
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function getRegisterErrorMessage(error, t) {
+  const status = getApiErrorStatus(error);
+  const message = getApiErrorMessage(error, "");
+  const normalizedMessage = message.toLowerCase();
+
+  if (isNetworkError(error)) {
+    return t("auth.errors.network");
+  }
+
+  if (status === 409 && normalizedMessage.includes("already registered")) {
+    return t("auth.errors.accountExists");
+  }
+
+  if (message) {
+    return message;
+  }
+
+  return t(`auth.errors.status.${status}`, {
+    defaultValue: t("auth.errors.registerFailed"),
+  });
+}
 
 function RegisterPage() {
   const { i18n, t } = useTranslation();
+  const { register: registerUser } = useAuth();
+  const { navigate } = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    acceptedTerms: false,
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(createRegisterSchema(t)),
+    defaultValues: {
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phoneNumber: "",
+      acceptedTerms: false,
+    },
   });
 
-  function handleChange(event) {
-    const { checked, name, type, value } = event.target;
+  async function onSubmit(formData) {
+    clearErrors("root");
 
-    setFormData((currentData) => ({
-      ...currentData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  }
+    const { acceptedTerms, confirmPassword, ...registrationData } = formData;
 
-  function validateForm() {
-    const nextErrors = {};
+    void acceptedTerms;
+    void confirmPassword;
 
-    if (!formData.fullName.trim()) {
-      nextErrors.fullName = t("auth.validation.fullNameRequired");
+    try {
+      await registerUser({
+        ...registrationData,
+        pref_Language: getLanguagePreference(i18n.resolvedLanguage || i18n.language),
+      });
+      navigate("/login?registered=1");
+    } catch (error) {
+      setError("root", {
+        message: getRegisterErrorMessage(error, t),
+      });
     }
-
-    if (!formData.email.trim()) {
-      nextErrors.email = t("auth.validation.emailRequired");
-    } else if (!emailPattern.test(formData.email)) {
-      nextErrors.email = t("auth.validation.emailInvalid");
-    }
-
-    if (formData.password.length < 8) {
-      nextErrors.password = t("auth.validation.passwordMin");
-    }
-
-    if (!formData.confirmPassword || formData.confirmPassword !== formData.password) {
-      nextErrors.confirmPassword = t("auth.validation.passwordMatch");
-    }
-
-    if (!formData.acceptedTerms) {
-      nextErrors.acceptedTerms = t("auth.validation.termsRequired");
-    }
-
-    return nextErrors;
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const nextErrors = validateForm();
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
-
-    // TODO: replace with API request later
-    console.log(formData);
   }
 
   function renderPasswordButton(isVisible, toggleVisibility) {
@@ -98,7 +112,7 @@ function RegisterPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="text-start">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="text-start">
         <div className="mb-5 lg:mb-4">
           <h1 className="text-3xl font-extrabold leading-tight text-neutral-950 dark:text-white sm:text-4xl lg:text-[2rem]">
             {t("auth.register.title")}
@@ -108,50 +122,59 @@ function RegisterPage() {
           </p>
         </div>
 
-        <SocialAuthButtons />
-
-        <div className="my-5 flex items-center gap-4 lg:my-4">
-          <span className="h-px flex-1 bg-red-900/14 dark:bg-red-300/12" />
-          <span className="text-xs font-extrabold uppercase text-neutral-400">
-            {t("auth.divider")}
-          </span>
-          <span className="h-px flex-1 bg-red-900/14 dark:bg-red-300/12" />
-        </div>
-
         <div className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
           <AuthInput
-            label={t("auth.fields.fullName")}
-            name="fullName"
+            label={t("auth.fields.name")}
+            name="name"
             type="text"
-            value={formData.fullName}
-            placeholder={t("auth.placeholders.fullName")}
+            placeholder={t("auth.placeholders.name")}
             icon={faUser}
-            error={errors.fullName}
-            onChange={handleChange}
+            error={errors.name?.message}
+            registration={register("name")}
             autoComplete="name"
+          />
+
+          <AuthInput
+            label={t("auth.fields.username")}
+            name="username"
+            type="text"
+            placeholder={t("auth.placeholders.username")}
+            icon={faAt}
+            error={errors.username?.message}
+            registration={register("username")}
+            autoComplete="username"
           />
 
           <AuthInput
             label={t("auth.fields.email")}
             name="email"
             type="email"
-            value={formData.email}
             placeholder={t("auth.placeholders.email")}
             icon={faEnvelope}
-            error={errors.email}
-            onChange={handleChange}
+            error={errors.email?.message}
+            registration={register("email")}
             autoComplete="email"
+          />
+
+          <AuthInput
+            label={t("auth.fields.phoneNumber")}
+            name="phoneNumber"
+            type="tel"
+            placeholder={t("auth.placeholders.phoneNumber")}
+            icon={faPhone}
+            error={errors.phoneNumber?.message}
+            registration={register("phoneNumber")}
+            autoComplete="tel"
           />
 
           <AuthInput
             label={t("auth.fields.password")}
             name="password"
             type={showPassword ? "text" : "password"}
-            value={formData.password}
             placeholder={t("auth.placeholders.password")}
             icon={faLock}
-            error={errors.password}
-            onChange={handleChange}
+            error={errors.password?.message}
+            registration={register("password")}
             autoComplete="new-password"
             rightButton={renderPasswordButton(showPassword, () =>
               setShowPassword((current) => !current),
@@ -162,11 +185,10 @@ function RegisterPage() {
             label={t("auth.fields.confirmPassword")}
             name="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
-            value={formData.confirmPassword}
             placeholder={t("auth.placeholders.password")}
             icon={faLock}
-            error={errors.confirmPassword}
-            onChange={handleChange}
+            error={errors.confirmPassword?.message}
+            registration={register("confirmPassword")}
             autoComplete="new-password"
             rightButton={renderPasswordButton(showConfirmPassword, () =>
               setShowConfirmPassword((current) => !current),
@@ -177,9 +199,7 @@ function RegisterPage() {
             <label className="flex cursor-pointer items-start gap-2.5 text-start text-sm leading-5 text-neutral-600 dark:text-neutral-300">
               <input
                 type="checkbox"
-                name="acceptedTerms"
-                checked={formData.acceptedTerms}
-                onChange={handleChange}
+                {...register("acceptedTerms")}
                 aria-invalid={errors.acceptedTerms ? "true" : "false"}
                 aria-describedby={errors.acceptedTerms ? "acceptedTerms-error" : undefined}
                 className="mt-0.5 h-4 w-4 rounded border-red-900/20 text-red-900 focus:ring-red-900 dark:border-red-300/20 dark:bg-neutral-950"
@@ -203,17 +223,26 @@ function RegisterPage() {
             </label>
             {errors.acceptedTerms ? (
               <p id="acceptedTerms-error" className="mt-2 text-start text-xs font-semibold text-red-700 dark:text-red-300">
-                {errors.acceptedTerms}
+                {errors.acceptedTerms.message}
               </p>
             ) : null}
           </div>
         </div>
 
+        {errors.root?.message ? (
+          <p className="mt-4 rounded-md border border-red-700/20 bg-red-50 px-4 py-3 text-start text-sm font-semibold text-red-700 dark:border-red-300/20 dark:bg-red-950/25 dark:text-red-300">
+            {errors.root.message}
+          </p>
+        ) : null}
+
         <button
           type="submit"
-          className="mt-5 inline-flex h-12 w-full items-center justify-center gap-3 rounded-[10px] bg-red-900 px-5 text-sm font-extrabold text-white shadow-[0_10px_18px_rgba(127,29,29,0.20)] transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:bg-red-700 dark:hover:bg-red-600 sm:text-base"
+          disabled={isSubmitting}
+          className="mt-5 inline-flex h-12 w-full items-center justify-center gap-3 rounded-[10px] bg-red-900 px-5 text-sm font-extrabold text-white shadow-[0_10px_18px_rgba(127,29,29,0.20)] transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-red-700 dark:hover:bg-red-600 sm:text-base"
         >
-          <span>{t("auth.register.submit")}</span>
+          <span>
+            {isSubmitting ? t("auth.register.loading") : t("auth.register.submit")}
+          </span>
           <FontAwesomeIcon
             icon={faArrowRight}
             className={i18n.dir() === "rtl" ? "rotate-180" : ""}

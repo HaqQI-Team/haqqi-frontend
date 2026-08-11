@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import RouterProvider from "./router/RouterProvider";
 import { useRouter } from "./router/useRouter";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function AppRoutes() {
   const { location } = useRouter();
@@ -28,9 +29,11 @@ function App() {
   useTheme();
 
   return (
-    <RouterProvider>
-      <AppRoutes />
-    </RouterProvider>
+    <AuthProvider>
+      <RouterProvider>
+        <AppRoutes />
+      </RouterProvider>
+    </AuthProvider>
   );
 }
 

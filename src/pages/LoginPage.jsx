@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
@@ -9,58 +11,70 @@ import {
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
 import AuthInput from "../components/auth/AuthInput";
-import SocialAuthButtons from "../components/auth/SocialAuthButtons";
 import Link from "../router/Link";
+import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "../router/useRouter";
+import {
+  getApiErrorMessage,
+  getApiErrorStatus,
+  isNetworkError,
+} from "../utils/apiError";
+import { createLoginSchema } from "../validation/authSchemas";
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function getLoginErrorMessage(error, t) {
+  const status = getApiErrorStatus(error);
+  const message = getApiErrorMessage(error, "");
+  const normalizedMessage = message.toLowerCase();
+
+  if (isNetworkError(error)) {
+    return t("auth.errors.network");
+  }
+
+  if (status === 400 && normalizedMessage.includes("email or password")) {
+    return t("auth.errors.invalidCredentials");
+  }
+
+  if (message) {
+    return message;
+  }
+
+  return t(`auth.errors.status.${status}`, {
+    defaultValue: t("auth.errors.loginFailed"),
+  });
+}
 
 function LoginPage() {
   const { t } = useTranslation();
+  const { login } = useAuth();
+  const { location, navigate } = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
+  const registrationSucceeded =
+    new URLSearchParams(location.search).get("registered") === "1";
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(createLoginSchema(t)),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  function handleChange(event) {
-    const { checked, name, type, value } = event.target;
+  async function onSubmit(formData) {
+    clearErrors("root");
 
-    setFormData((currentData) => ({
-      ...currentData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  }
-
-  function validateForm() {
-    const nextErrors = {};
-
-    if (!formData.email.trim()) {
-      nextErrors.email = t("auth.validation.emailRequired");
-    } else if (!emailPattern.test(formData.email)) {
-      nextErrors.email = t("auth.validation.emailInvalid");
+    try {
+      await login(formData);
+      navigate("/");
+    } catch (error) {
+      setError("root", {
+        message: getLoginErrorMessage(error, t),
+      });
     }
-
-    if (!formData.password) {
-      nextErrors.password = t("auth.validation.passwordRequired");
-    }
-
-    return nextErrors;
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const nextErrors = validateForm();
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
-
-    // TODO: replace with API request later
-    console.log(formData);
   }
 
   const passwordToggleLabel = showPassword
@@ -68,7 +82,7 @@ function LoginPage() {
     : t("auth.actions.showPassword");
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="text-start">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="text-start">
         <div className="mb-5 lg:mb-4">
           <h1 className="text-3xl font-extrabold leading-tight text-neutral-950 dark:text-white sm:text-4xl lg:text-[2rem]">
             {t("auth.login.title")}
@@ -78,85 +92,58 @@ function LoginPage() {
           </p>
         </div>
 
-        <SocialAuthButtons />
-
-        <div className="my-5 flex items-center gap-4 lg:my-4">
-          <span className="h-px flex-1 bg-red-900/14 dark:bg-red-300/12" />
-          <span className="text-xs font-extrabold uppercase text-neutral-400">
-            {t("auth.divider")}
-          </span>
-          <span className="h-px flex-1 bg-red-900/14 dark:bg-red-300/12" />
-        </div>
-
         <div className="space-y-3">
+          {registrationSucceeded ? (
+            <p className="rounded-md border border-emerald-700/20 bg-emerald-50 px-4 py-3 text-start text-sm font-semibold text-emerald-800 dark:border-emerald-300/20 dark:bg-emerald-950/25 dark:text-emerald-300">
+              {t("auth.login.registerSuccess")}
+            </p>
+          ) : null}
+
           <AuthInput
             label={t("auth.fields.email")}
             name="email"
             type="email"
-            value={formData.email}
             placeholder={t("auth.placeholders.email")}
             icon={faEnvelope}
-            error={errors.email}
-            onChange={handleChange}
+            error={errors.email?.message}
+            registration={register("email")}
             autoComplete="email"
           />
 
-          <div>
-            <div className="mb-1.5 flex items-center justify-between gap-4">
-              <label
-                htmlFor="password"
-                className="text-sm font-semibold text-neutral-900 dark:text-neutral-100"
+          <AuthInput
+            label={t("auth.fields.password")}
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder={t("auth.placeholders.password")}
+            icon={faLock}
+            error={errors.password?.message}
+            registration={register("password")}
+            autoComplete="current-password"
+            rightButton={
+              <button
+                type="button"
+                aria-label={passwordToggleLabel}
+                onClick={() => setShowPassword((current) => !current)}
+                className="rounded-md p-1 text-neutral-500 transition hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-neutral-300 dark:hover:text-red-200"
               >
-                {t("auth.fields.password")}
-              </label>
-              <a
-                href="#forgot-password"
-                className="text-sm font-bold text-red-900 hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-red-200 dark:hover:text-red-100"
-              >
-                {t("auth.login.forgotPassword")}
-              </a>
-            </div>
-
-            <AuthInput
-              label=""
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={formData.password}
-              placeholder={t("auth.placeholders.password")}
-              icon={faLock}
-              error={errors.password}
-              onChange={handleChange}
-              autoComplete="current-password"
-              rightButton={
-                <button
-                  type="button"
-                  aria-label={passwordToggleLabel}
-                  onClick={() => setShowPassword((current) => !current)}
-                  className="rounded-md p-1 text-neutral-500 transition hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-neutral-300 dark:hover:text-red-200"
-                >
-                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                </button>
-              }
-            />
-          </div>
-
-          <label className="flex cursor-pointer items-center gap-2.5 text-start text-sm text-neutral-600 dark:text-neutral-300">
-            <input
-              type="checkbox"
-              name="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-              className="h-4 w-4 rounded border-red-900/20 text-red-900 focus:ring-red-900 dark:border-red-300/20 dark:bg-neutral-950"
-            />
-            <span>{t("auth.login.rememberMe")}</span>
-          </label>
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
+            }
+          />
         </div>
+
+        {errors.root?.message ? (
+          <p className="mt-4 rounded-md border border-red-700/20 bg-red-50 px-4 py-3 text-start text-sm font-semibold text-red-700 dark:border-red-300/20 dark:bg-red-950/25 dark:text-red-300">
+            {errors.root.message}
+          </p>
+        ) : null}
 
         <button
           type="submit"
-          className="mt-5 inline-flex h-12 w-full items-center justify-center rounded-[10px] bg-red-900 px-5 text-sm font-extrabold text-white shadow-[0_10px_18px_rgba(127,29,29,0.20)] transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:bg-red-700 dark:hover:bg-red-600 sm:text-base"
+          disabled={isSubmitting}
+          className="mt-5 inline-flex h-12 w-full items-center justify-center rounded-[10px] bg-red-900 px-5 text-sm font-extrabold text-white shadow-[0_10px_18px_rgba(127,29,29,0.20)] transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-red-700 dark:hover:bg-red-600 sm:text-base"
         >
-          {t("auth.login.submit")}
+          {isSubmitting ? t("auth.login.loading") : t("auth.login.submit")}
         </button>
 
         <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-300">
