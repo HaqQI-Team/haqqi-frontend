@@ -13,6 +13,8 @@
     "faq": "FAQ",
     "signIn": "Sign In",
     "signUp": "Sign Up",
+    "account": "Account",
+    "logout": "Logout",
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu"
   },
@@ -31,11 +33,6 @@
     }
   },
   "auth": {
-    "social": {
-      "google": "Google",
-      "microsoft": "Microsoft"
-    },
-    "divider": "OR SIGN IN WITH EMAIL",
     "securityNote": "Your information is encrypted and protected",
     "actions": {
       "showPassword": "Show password",
@@ -43,30 +40,60 @@
     },
     "fields": {
       "fullName": "Full Name",
+      "name": "Name",
+      "username": "Username",
       "email": "Email Address",
       "password": "Password",
-      "confirmPassword": "Confirm Password"
+      "confirmPassword": "Confirm Password",
+      "phoneNumber": "Phone Number"
     },
     "placeholders": {
       "fullName": "John Doe",
+      "name": "Ahmed Gaber",
+      "username": "ahmedgaber",
       "email": "name@company.com",
+      "phoneNumber": "01012345678",
       "password": "••••••••"
     },
     "validation": {
       "fullNameRequired": "Full name is required.",
+      "nameRequired": "Name is required.",
+      "usernameRequired": "Username is required.",
+      "usernameInvalid": "Username can contain letters and numbers only.",
       "emailRequired": "Email address is required.",
       "emailInvalid": "Enter a valid email address.",
       "passwordRequired": "Password is required.",
-      "passwordMin": "Password must be at least 8 characters.",
+      "passwordMin": "Password must be at least 6 characters.",
+      "passwordUppercase": "Password must include at least one uppercase letter.",
+      "passwordLowercase": "Password must include at least one lowercase letter.",
+      "passwordDigit": "Password must include at least one digit.",
+      "passwordSpecial": "Password must include at least one special character.",
+      "confirmPasswordRequired": "Confirm your password.",
       "passwordMatch": "Passwords must match.",
+      "phoneRequired": "Phone number is required.",
+      "phoneLength": "Phone number must be exactly 11 characters.",
       "termsRequired": "You must accept the terms and privacy policy."
+    },
+    "errors": {
+      "loginFailed": "Unable to sign in. Please check your details and try again.",
+      "registerFailed": "Unable to create your account. Please check your details and try again.",
+      "invalidCredentials": "Incorrect email or password.",
+      "accountExists": "An account with this information already exists.",
+      "network": "Unable to connect to the server. Please check your connection and try again.",
+      "status": {
+        "400": "Please check the information you entered.",
+        "401": "Your session is not authorized. Please sign in again.",
+        "403": "You do not have permission to perform this action.",
+        "409": "An account with this information already exists.",
+        "500": "The server encountered an error. Please try again later."
+      }
     },
     "login": {
       "title": "Welcome Back",
       "subtitle": "Enter your details to access your legal dashboard.",
-      "forgotPassword": "Forgot Password?",
-      "rememberMe": "Remember me for 30 days",
       "submit": "Sign In",
+      "loading": "Signing in...",
+      "registerSuccess": "Account created successfully. Please sign in.",
       "noAccount": "Don't have an account?",
       "registerLink": "Register"
     },
@@ -78,6 +105,7 @@
       "and": "and",
       "privacy": "Privacy Policy",
       "submit": "Create Account",
+      "loading": "Creating account...",
       "hasAccount": "Already have an account?",
       "signInLink": "Sign In"
     },

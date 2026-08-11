@@ -12,11 +12,11 @@ import TrustStrip from "../sections/TrustStrip";
 import WhyHaqqiSection from "../sections/WhyHaqqiSection";
 import WorkflowSection from "../sections/WorkflowSection";
 import { useRouter } from "../router/useRouter";
-
-const isAuthenticated = false;
+import { useAuth } from "../hooks/useAuth";
 
 function LandingPage() {
   const { navigate } = useRouter();
+  const { isAuthenticated } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const closeAuthModal = useCallback(() => {
