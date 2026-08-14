@@ -55,3 +55,14 @@ export function createRegisterSchema(t) {
       message: t("auth.validation.passwordMatch"),
     });
 }
+
+export function createVerifyEmailSchema(t) {
+  return z.object({
+    email: z
+      .string()
+      .trim()
+      .min(1, t("auth.validation.emailRequired"))
+      .regex(emailPattern, t("auth.validation.emailInvalid")),
+    otp: z.string().trim().min(1, t("auth.validation.otpRequired")),
+  });
+}

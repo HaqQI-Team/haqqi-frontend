@@ -23,6 +23,7 @@ import {
   getApiErrorStatus,
   isNetworkError,
 } from "../utils/apiError";
+import { storePendingVerificationEmail } from "../utils/emailVerification";
 import { getLanguagePreference } from "../utils/languagePreference";
 import { createRegisterSchema } from "../validation/authSchemas";
 
@@ -86,7 +87,8 @@ function RegisterPage() {
         ...registrationData,
         pref_Language: getLanguagePreference(i18n.resolvedLanguage || i18n.language),
       });
-      navigate("/login?registered=1");
+      storePendingVerificationEmail(registrationData.email);
+      navigate("/verify-email");
     } catch (error) {
       setError("root", {
         message: getRegisterErrorMessage(error, t),

@@ -45,7 +45,8 @@
       "confirmPassword": "تأكيد كلمة المرور",
       "name": "الاسم",
       "username": "اسم المستخدم",
-      "phoneNumber": "رقم الهاتف"
+      "phoneNumber": "رقم الهاتف",
+      "otp": "رمز التحقق"
     },
     "placeholders": {
       "fullName": "أحمد محمد",
@@ -53,7 +54,8 @@
       "password": "••••••••",
       "name": "أحمد جابر",
       "username": "ahmedgaber",
-      "phoneNumber": "01012345678"
+      "phoneNumber": "01012345678",
+      "otp": "أدخل الرمز"
     },
     "validation": {
       "fullNameRequired": "الاسم الكامل مطلوب.",
@@ -72,7 +74,8 @@
       "passwordSpecial": "كلمة المرور يجب أن تحتوي على رمز خاص واحد على الأقل.",
       "confirmPasswordRequired": "أكّد كلمة المرور.",
       "phoneRequired": "رقم الهاتف مطلوب.",
-      "phoneLength": "رقم الهاتف يجب أن يكون 11 خانة بالضبط."
+      "phoneLength": "رقم الهاتف يجب أن يكون 11 خانة بالضبط.",
+      "otpRequired": "رمز التحقق مطلوب."
     },
     "login": {
       "title": "مرحبا بعودتك",
@@ -81,7 +84,8 @@
       "noAccount": "ليس لديك حساب؟",
       "registerLink": "إنشاء حساب",
       "loading": "جار تسجيل الدخول...",
-      "registerSuccess": "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول."
+      "registerSuccess": "تم إنشاء الحساب بنجاح. يرجى تسجيل الدخول.",
+      "verifySuccess": "تم تأكيد البريد الإلكتروني بنجاح. يرجى تسجيل الدخول."
     },
     "register": {
       "title": "أنشئ حسابك",
@@ -124,7 +128,19 @@
         "403": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
         "409": "يوجد حساب مسجل بهذه البيانات بالفعل.",
         "500": "حدث خطأ في الخادم. يرجى المحاولة لاحقا."
-      }
+      },
+      "invalidOtp": "رمز التحقق غير صحيح. تحقق منه وحاول مرة أخرى.",
+      "verificationUserNotFound": "لم نتمكن من العثور على حساب لطلب التحقق هذا.",
+      "verificationFailed": "تعذر تأكيد بريدك الإلكتروني. حاول مرة أخرى."
+    },
+    "verify": {
+      "title": "تأكيد بريدك الإلكتروني",
+      "subtitle": "أدخل رمز التحقق المرسل إلى بريدك الإلكتروني.",
+      "sentTo": "أرسلنا رمز التحقق إلى:",
+      "submit": "تأكيد البريد",
+      "loading": "جار التحقق...",
+      "haveAccount": "تم التحقق بالفعل؟",
+      "signInLink": "تسجيل الدخول"
     }
   },
   "hero": {
@@ -332,5 +348,143 @@
       "github": "حقي على GitHub"
     },
     "copyright": "© {{year}} حقي. جميع الحقوق محفوظة."
+  },
+  "app": {
+    "common": {
+      "loading": "جار التحميل...",
+      "comingSoon": "قريبا",
+      "cancel": "إلغاء",
+      "retry": "إعادة المحاولة"
+    },
+    "nav": {
+      "label": "تنقل التطبيق",
+      "home": "الرئيسية",
+      "newComplaint": "شكوى جديدة",
+      "myComplaints": "شكاواي",
+      "myPlan": "خطتي",
+      "upgradePlan": "ترقية الخطة"
+    },
+    "sidebar": {
+      "planLabel": "خطة {{plan}}"
+    },
+    "status": {
+      "unknown": "الحالة قيد التحديد",
+      "needs_info": "بيانات إضافية مطلوبة",
+      "needsinfo": "بيانات إضافية مطلوبة",
+      "draft": "مسودة",
+      "submitted": "تم الإرسال",
+      "in_progress": "قيد المعالجة",
+      "completed": "مكتملة",
+      "closed": "مغلقة"
+    },
+    "errors": {
+      "complaintsLoad": "تعذر تحميل الشكاوى.",
+      "planLoad": "تعذر تحميل خطتك.",
+      "workspaceLoad": "تعذر تحميل هذه الشكوى.",
+      "createComplaint": "تعذر بدء شكوى جديدة. حاول مرة أخرى.",
+      "complaintIdMissing": "تم إنشاء الشكوى لكن لم يتم إرجاع رقمها.",
+      "messageSend": "تعذر إرسال رسالتك. حاول مرة أخرى.",
+      "evidenceUpload": "تعذر إرفاق هذا الدليل. حاول مرة أخرى.",
+      "evidenceDelete": "تعذر إزالة هذا الدليل. حاول مرة أخرى.",
+      "evidenceUrlMissing": "لم يتم إرجاع رابط الملف المرفوع.",
+      "activeComplaintLimitTitle": "لقد وصلت إلى الحد الأقصى للشكاوى النشطة.",
+      "activeComplaintLimitDescription": "يمكنك متابعة شكواك الحالية قبل بدء شكوى جديدة.",
+      "aiUnavailableTitle": "خدمة HaqQi الذكية غير متاحة مؤقتا.",
+      "aiUnavailableDescription": "شكواك محفوظة. حاول إرسال الرسالة مرة أخرى بعد قليل.",
+      "complaintDelete": "تعذر حذف هذه الشكوى. حاول مرة أخرى."
+    },
+    "complaints": {
+      "eyebrow": "مساحة شكاواك",
+      "title": "شكاواي",
+      "description": "راجع شكاوى المستهلك الخاصة بك وأكمل الخطوة التالية عندما تكون مستعدا.",
+      "untitled": "شكوى بدون عنوان",
+      "updated": "آخر تحديث {{date}}",
+      "continue": "متابعة",
+      "continueComplaint": "متابعة الشكوى",
+      "continueWhere": "تابع من حيث توقفت",
+      "emptyTitle": "لا توجد لديك شكاوى بعد.",
+      "emptyDescription": "ابدأ شكواك الأولى وسيساعدك حقي في تنظيم المعلومات المطلوبة والأدلة الداعمة.",
+      "viewMyComplaints": "عرض شكاواي",
+      "delete": "حذف",
+      "deleting": "جار الحذف...",
+      "confirmDeleteTitle": "حذف الشكوى؟",
+      "confirmDeleteDescription": "سيتم حذف هذه الشكوى وبيانات مساحة العمل المرتبطة بها نهائيا."
+    },
+    "newComplaint": {
+      "eyebrow": "ابدأ بوضوح",
+      "title": "بدء شكوى جديدة",
+      "description": "أخبرنا بما حدث. سيساعدك حقي على تنظيم الشكوى وفهم المعلومات الناقصة وتجهيز الخطوة التالية.",
+      "guideItems": [
+        "تنظيم تفاصيل الشكوى",
+        "فهم الجهة المسؤولة",
+        "إرفاق الأدلة الداعمة"
+      ],
+      "start": "بدء الشكوى",
+      "starting": "جار البدء..."
+    },
+    "plan": {
+      "eyebrow": "خطتي",
+      "description": "خطة حقي الحالية والحدود المتاحة لسير الشكوى.",
+      "unknownPlan": "الخطة الحالية",
+      "aiMessages": "رسائل الذكاء الاصطناعي",
+      "messagesPerDay": "{{count}} يوميا",
+      "activeComplaints": "الشكاوى النشطة",
+      "upToComplaints": "حتى {{count}}",
+      "evidence": "الأدلة",
+      "upToEvidence": "حتى {{count}} ملفات",
+      "pdfUpload": "رفع PDF",
+      "pdfExport": "تصدير PDF",
+      "priorityProcessing": "معالجة ذات أولوية",
+      "available": "متاح",
+      "notIncluded": "غير متاح",
+      "upgradeDescription": "خيارات الخطط الإضافية غير متاحة بعد. سيتم تفعيل الترقية عندما يدعمها backend.",
+      "price": "السعر",
+      "notAvailable": "غير متاح"
+    },
+    "workspace": {
+      "back": "شكاواي",
+      "conversation": "المحادثة",
+      "you": "أنت",
+      "noMessages": "ابدأ بوصف ما حدث. سيطلب حقي التفاصيل اللازمة لتشكيل شكواك.",
+      "messagePlaceholder": "اكتب ما حدث أو أجب حقي هنا...",
+      "send": "إرسال",
+      "sending": "جار الإرسال...",
+      "details": "تفاصيل الشكوى",
+      "status": "الحالة",
+      "domain": "المجال",
+      "authority": "الجهة",
+      "draft": "المسودة",
+      "notDetermined": "لم يتم التحديد بعد",
+      "noDraft": "لم يتم إنشاء المسودة بعد",
+      "missingInfo": "معلومات لا تزال مطلوبة",
+      "citations": "المراجع"
+    },
+    "evidence": {
+      "title": "الأدلة الداعمة",
+      "attachDescription": "أرفق إيصالات أو لقطات شاشة أو عقودا أو رسائل تدعم هذه الشكوى.",
+      "attach": "إرفاق دليل",
+      "uploading": "جار الرفع...",
+      "uploaded": "تم الرفع {{date}}",
+      "attached": "مرفق",
+      "view": "عرض المستند",
+      "delete": "حذف",
+      "deleting": "جار الحذف...",
+      "empty": "لم يتم إرفاق أدلة بعد.",
+      "limitUsed": "تم استخدام {{used}} من {{total}} ملفات أدلة",
+      "limitReached": "تم الوصول إلى حد الأدلة. خطتك الحالية تسمح حتى {{total}} ملفات لكل شكوى.",
+      "pdfNotIncluded": "خطتك الحالية لا تشمل رفع ملفات PDF.",
+      "confirmTitle": "إزالة الدليل؟",
+      "confirmDescription": "سيتم إزالة هذا الملف من الشكوى.",
+      "fallbackName": "ملف دليل",
+      "documentName": "مستند دليل",
+      "supportingDocument": "مستند داعم",
+      "pdfDocument": "مستند PDF",
+      "genericDocument": "مستند",
+      "viewExtractedText": "عرض النص المستخرج",
+      "hideExtractedText": "إخفاء النص المستخرج",
+      "processed": "تمت المعالجة",
+      "processing": "قيد المعالجة",
+      "attachedActivity": "تم إرفاق الدليل"
+    }
   }
 }

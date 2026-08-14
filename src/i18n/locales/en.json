@@ -45,7 +45,8 @@
       "email": "Email Address",
       "password": "Password",
       "confirmPassword": "Confirm Password",
-      "phoneNumber": "Phone Number"
+      "phoneNumber": "Phone Number",
+      "otp": "Verification Code"
     },
     "placeholders": {
       "fullName": "John Doe",
@@ -53,7 +54,8 @@
       "username": "ahmedgaber",
       "email": "name@company.com",
       "phoneNumber": "01012345678",
-      "password": "••••••••"
+      "password": "••••••••",
+      "otp": "Enter the code"
     },
     "validation": {
       "fullNameRequired": "Full name is required.",
@@ -72,7 +74,8 @@
       "passwordMatch": "Passwords must match.",
       "phoneRequired": "Phone number is required.",
       "phoneLength": "Phone number must be exactly 11 characters.",
-      "termsRequired": "You must accept the terms and privacy policy."
+      "termsRequired": "You must accept the terms and privacy policy.",
+      "otpRequired": "Verification code is required."
     },
     "errors": {
       "loginFailed": "Unable to sign in. Please check your details and try again.",
@@ -86,7 +89,10 @@
         "403": "You do not have permission to perform this action.",
         "409": "An account with this information already exists.",
         "500": "The server encountered an error. Please try again later."
-      }
+      },
+      "invalidOtp": "The verification code is invalid. Please check it and try again.",
+      "verificationUserNotFound": "We could not find an account for this verification request.",
+      "verificationFailed": "Unable to verify your email. Please try again."
     },
     "login": {
       "title": "Welcome Back",
@@ -95,7 +101,8 @@
       "loading": "Signing in...",
       "registerSuccess": "Account created successfully. Please sign in.",
       "noAccount": "Don't have an account?",
-      "registerLink": "Register"
+      "registerLink": "Register",
+      "verifySuccess": "Email verified successfully. Please sign in."
     },
     "register": {
       "title": "Create your Account",
@@ -125,6 +132,15 @@
           "description": "Your data is protected by AES-256 encryption."
         }
       }
+    },
+    "verify": {
+      "title": "Verify your Email",
+      "subtitle": "Enter the verification code sent to your email address.",
+      "sentTo": "We sent a verification code to:",
+      "submit": "Verify Email",
+      "loading": "Verifying...",
+      "haveAccount": "Already verified?",
+      "signInLink": "Sign In"
     }
   },
   "hero": {
@@ -332,5 +348,143 @@
       "github": "HaqQi on GitHub"
     },
     "copyright": "© {{year}} HaqQi. All rights reserved."
+  },
+  "app": {
+    "common": {
+      "loading": "Loading...",
+      "comingSoon": "Coming soon",
+      "cancel": "Cancel",
+      "retry": "Retry"
+    },
+    "nav": {
+      "label": "Application navigation",
+      "home": "Home",
+      "newComplaint": "New Complaint",
+      "myComplaints": "My Complaints",
+      "myPlan": "My Plan",
+      "upgradePlan": "Upgrade Plan"
+    },
+    "sidebar": {
+      "planLabel": "{{plan}} Plan"
+    },
+    "status": {
+      "unknown": "Status pending",
+      "needs_info": "More information needed",
+      "needsinfo": "More information needed",
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "in_progress": "In progress",
+      "completed": "Completed",
+      "closed": "Closed"
+    },
+    "errors": {
+      "complaintsLoad": "Unable to load your complaints.",
+      "planLoad": "Unable to load your plan.",
+      "workspaceLoad": "Unable to load this complaint.",
+      "createComplaint": "Unable to start a new complaint. Please try again.",
+      "complaintIdMissing": "The complaint was created, but its ID was not returned.",
+      "messageSend": "Unable to send your message. Please try again.",
+      "evidenceUpload": "Unable to attach this evidence. Please try again.",
+      "evidenceDelete": "Unable to remove this evidence. Please try again.",
+      "evidenceUrlMissing": "The uploaded file URL was not returned.",
+      "activeComplaintLimitTitle": "You have reached your active complaint limit.",
+      "activeComplaintLimitDescription": "Continue your existing complaint before starting another one.",
+      "aiUnavailableTitle": "HaqQi AI is temporarily unavailable.",
+      "aiUnavailableDescription": "Your complaint is safe. Please try sending your message again in a moment.",
+      "complaintDelete": "Unable to delete this complaint. Please try again."
+    },
+    "complaints": {
+      "eyebrow": "Your complaint workspace",
+      "title": "My Complaints",
+      "description": "Review your consumer complaints and continue the next useful step when you are ready.",
+      "untitled": "Untitled complaint",
+      "updated": "Updated {{date}}",
+      "continue": "Continue",
+      "continueComplaint": "Continue Complaint",
+      "continueWhere": "Continue where you left off",
+      "emptyTitle": "You do not have any complaints yet.",
+      "emptyDescription": "Start your first complaint and HaqQi will guide you through the required information and supporting evidence.",
+      "viewMyComplaints": "View My Complaints",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "confirmDeleteTitle": "Delete complaint?",
+      "confirmDeleteDescription": "This complaint and its related workspace data will be permanently removed."
+    },
+    "newComplaint": {
+      "eyebrow": "Start clearly",
+      "title": "Start a New Complaint",
+      "description": "Tell us what happened. HaqQi will help you organize your complaint, understand what is missing, and prepare the next step.",
+      "guideItems": [
+        "Organize your complaint details",
+        "Understand the responsible authority",
+        "Attach supporting evidence"
+      ],
+      "start": "Start Complaint",
+      "starting": "Starting..."
+    },
+    "plan": {
+      "eyebrow": "My Plan",
+      "description": "Your current HaqQi plan and the limits available for your complaint workflow.",
+      "unknownPlan": "Current Plan",
+      "aiMessages": "AI Messages",
+      "messagesPerDay": "{{count}} per day",
+      "activeComplaints": "Active Complaints",
+      "upToComplaints": "Up to {{count}}",
+      "evidence": "Evidence",
+      "upToEvidence": "Up to {{count}} files",
+      "pdfUpload": "PDF Upload",
+      "pdfExport": "PDF Export",
+      "priorityProcessing": "Priority Processing",
+      "available": "Available",
+      "notIncluded": "Not included",
+      "upgradeDescription": "More plan options are not available yet. Upgrade will be enabled when the backend supports it.",
+      "price": "Price",
+      "notAvailable": "Not available"
+    },
+    "workspace": {
+      "back": "My Complaints",
+      "conversation": "Conversation",
+      "you": "You",
+      "noMessages": "Start by describing what happened. HaqQi will ask for the details needed to shape your complaint.",
+      "messagePlaceholder": "Describe what happened or answer HaqQi here...",
+      "send": "Send",
+      "sending": "Sending...",
+      "details": "Complaint Details",
+      "status": "Status",
+      "domain": "Domain",
+      "authority": "Authority",
+      "draft": "Draft",
+      "notDetermined": "Not determined yet",
+      "noDraft": "Draft not generated yet",
+      "missingInfo": "Information still needed",
+      "citations": "Citations"
+    },
+    "evidence": {
+      "title": "Supporting Evidence",
+      "attachDescription": "Attach receipts, screenshots, contracts, or messages that support this complaint.",
+      "attach": "Attach Evidence",
+      "uploading": "Uploading...",
+      "uploaded": "Uploaded {{date}}",
+      "attached": "Attached",
+      "view": "View Document",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "empty": "No evidence attached yet.",
+      "limitUsed": "{{used}} of {{total}} evidence files used",
+      "limitReached": "Evidence limit reached. Your current plan allows up to {{total}} evidence files per complaint.",
+      "pdfNotIncluded": "Your current plan does not include PDF upload.",
+      "confirmTitle": "Remove evidence?",
+      "confirmDescription": "This file will be removed from your complaint.",
+      "fallbackName": "Evidence file",
+      "documentName": "Evidence document",
+      "supportingDocument": "Supporting document",
+      "pdfDocument": "PDF document",
+      "genericDocument": "Document",
+      "viewExtractedText": "View extracted text",
+      "hideExtractedText": "Hide extracted text",
+      "processed": "Processed",
+      "processing": "Processing",
+      "attachedActivity": "Evidence attached"
+    }
   }
 }

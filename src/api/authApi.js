@@ -4,18 +4,28 @@ export function registerUser(data) {
   return apiRequest("/api/User/register", {
     method: "POST",
     body: data,
+    skipAuth: true,
   });
 }
 
 export function loginUser(credentials) {
-  return apiRequest("/api/User/login", {
+  return apiRequest("/api/auth/login", {
     method: "POST",
     body: credentials,
+    skipAuth: true,
   });
 }
 
 export function getProfile(token) {
-  return apiRequest("/api/User/profile", {
+  return apiRequest("/api/auth/profile", {
     token,
+  });
+}
+
+export function verifyEmail(data) {
+  return apiRequest("/api/User/verify-email", {
+    method: "POST",
+    body: data,
+    skipAuth: true,
   });
 }

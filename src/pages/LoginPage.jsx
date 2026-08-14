@@ -50,6 +50,8 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const registrationSucceeded =
     new URLSearchParams(location.search).get("registered") === "1";
+  const emailVerified =
+    new URLSearchParams(location.search).get("verified") === "1";
   const {
     register,
     handleSubmit,
@@ -93,9 +95,11 @@ function LoginPage() {
         </div>
 
         <div className="space-y-3">
-          {registrationSucceeded ? (
+          {registrationSucceeded || emailVerified ? (
             <p className="rounded-md border border-emerald-700/20 bg-emerald-50 px-4 py-3 text-start text-sm font-semibold text-emerald-800 dark:border-emerald-300/20 dark:bg-emerald-950/25 dark:text-emerald-300">
-              {t("auth.login.registerSuccess")}
+              {emailVerified
+                ? t("auth.login.verifySuccess")
+                : t("auth.login.registerSuccess")}
             </p>
           ) : null}
 
