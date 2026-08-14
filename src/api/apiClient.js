@@ -1,6 +1,22 @@
 import { getApiErrorMessage } from "../utils/apiError";
+import {
+  clearStoredAuthTokens,
+  getStoredAuthTokens,
+  storeAuthTokens,
+} from "../utils/authTokens";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+
+const REFRESH_EXCLUDED_PATHS = new Set([
+  "/api/auth/login",
+  "/api/auth/refresh",
+  "/api/User/register",
+  "/api/User/verify-email",
+]);
+
+let authHandlers = {};
+let refreshPromise = null;
 
 export class ApiError extends Error {
   constructor(message, { status, details, isNetworkError = false } = {}) {
@@ -12,6 +28,10 @@ export class ApiError extends Error {
   }
 }
 
+export function setApiAuthHandlers(handlers) {
+  authHandlers = handlers ?? {};
+}
+
 async function parseResponse(response) {
   const contentType = response.headers.get("content-type") ?? "";
 
@@ -20,48 +40,169 @@ async function parseResponse(response) {
   }
 
   if (contentType.includes("application/json")) {
-    return response.json();
+    try {
+      return await response.json();
+    } catch {
+      return null;
+    }
   }
 
   return response.text();
 }
 
-export async function apiRequest(path, { method = "GET", body, token } = {}) {
-  const headers = {};
+function createApiError(status, details) {
+  return new ApiError(getApiErrorMessage({ status, details }, ""), {
+    status,
+    details,
+  });
+}
 
-  if (body !== undefined) {
+function shouldAttemptRefresh(path, { skipAuth, retryOnUnauthorized }) {
+  return (
+    retryOnUnauthorized !== false &&
+    !skipAuth &&
+    !REFRESH_EXCLUDED_PATHS.has(path)
+  );
+}
+
+function getRequestToken(explicitToken, skipAuth) {
+  if (skipAuth) {
+    return null;
+  }
+
+  const storedAccessToken = getStoredAuthTokens().accessToken;
+
+  return storedAccessToken || explicitToken || null;
+}
+
+async function sendRequest(path, { method, body, skipAuth }, activeToken) {
+  const headers = {};
+  const isFormData = body instanceof FormData;
+
+  if (body !== undefined && !isFormData) {
     headers["Content-Type"] = "application/json";
   }
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
+  if (activeToken && !skipAuth) {
+    headers.Authorization = `Bearer ${activeToken}`;
   }
 
-  let response;
-
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(`${API_BASE_URL}${path}`, {
       method,
       headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined || isFormData ? body : JSON.stringify(body),
     });
+    const data = await parseResponse(response);
+
+    return { response, data };
   } catch {
     throw new ApiError("Network error", { isNetworkError: true });
   }
+}
 
-  const data = await parseResponse(response);
+async function refreshAuthTokens() {
+  const { accessToken, refreshToken } = getStoredAuthTokens();
 
-  if (!response.ok) {
-    const apiError = new ApiError(
-      getApiErrorMessage({ status: response.status, details: data }, ""),
-      {
-        status: response.status,
-        details: data,
-      },
-    );
-
-    throw apiError;
+  if (!accessToken || !refreshToken) {
+    throw new ApiError("Missing refresh token", { status: 401 });
   }
 
-  return data;
+  const { response, data } = await sendRequest(
+    "/api/auth/refresh",
+    {
+      method: "POST",
+      body: {
+        accessToken,
+        refreshToken,
+      },
+      skipAuth: true,
+    },
+    null,
+  );
+
+  if (!response.ok) {
+    throw createApiError(response.status, data);
+  }
+
+  const nextTokens = storeAuthTokens({
+    accessToken: data?.accessToken,
+    refreshToken: data?.refreshToken,
+  });
+
+  if (!nextTokens) {
+    throw new ApiError("Refresh succeeded, but tokens were not returned.", {
+      status: 401,
+      details: data,
+    });
+  }
+
+  authHandlers.onTokensUpdated?.(nextTokens);
+
+  return nextTokens.accessToken;
+}
+
+async function getRefreshedAccessToken() {
+  if (!refreshPromise) {
+    refreshPromise = refreshAuthTokens().finally(() => {
+      refreshPromise = null;
+    });
+  }
+
+  return refreshPromise;
+}
+
+function clearAuthAfterRefreshFailure() {
+  clearStoredAuthTokens();
+  authHandlers.onAuthCleared?.();
+}
+
+export async function apiRequest(
+  path,
+  {
+    method = "GET",
+    body,
+    token,
+    skipAuth = false,
+    retryOnUnauthorized = true,
+  } = {},
+) {
+  const requestOptions = {
+    method,
+    body,
+    skipAuth,
+  };
+  const activeToken = getRequestToken(token, skipAuth);
+  const { response, data } = await sendRequest(path, requestOptions, activeToken);
+
+  if (response.ok) {
+    return data;
+  }
+
+  const error = createApiError(response.status, data);
+
+  if (
+    response.status !== 401 ||
+    !shouldAttemptRefresh(path, { skipAuth, retryOnUnauthorized })
+  ) {
+    throw error;
+  }
+
+  try {
+    const refreshedAccessToken = await getRefreshedAccessToken();
+    const retryResult = await sendRequest(
+      path,
+      requestOptions,
+      refreshedAccessToken,
+    );
+
+    if (!retryResult.response.ok) {
+      throw createApiError(retryResult.response.status, retryResult.data);
+    }
+
+    return retryResult.data;
+  } catch (refreshError) {
+    clearAuthAfterRefreshFailure();
+    throw refreshError;
+  }
 }

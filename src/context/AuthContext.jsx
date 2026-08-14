@@ -1,71 +1,121 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { setApiAuthHandlers } from "../api/apiClient";
 import { getProfile, loginUser, registerUser } from "../api/authApi";
+import { getMySubscription } from "../api/subscriptionApi";
 import { AuthContext } from "./AuthContext.js";
-import { extractToken } from "../utils/authResponse";
+import {
+  clearStoredAuthTokens,
+  getStoredAuthTokens,
+  storeAuthTokens,
+} from "../utils/authTokens";
 
-const TOKEN_KEY = "haqqi_access_token";
+function getLoginTokens(response) {
+  if (!response || typeof response !== "object") {
+    return null;
+  }
 
-function getStoredToken() {
-  return localStorage.getItem(TOKEN_KEY);
-}
+  const { userId, accessToken, refreshToken } = response;
 
-function storeToken(token) {
-  localStorage.setItem(TOKEN_KEY, token);
-}
+  if (
+    typeof accessToken !== "string" ||
+    !accessToken.trim() ||
+    typeof refreshToken !== "string" ||
+    !refreshToken.trim()
+  ) {
+    return null;
+  }
 
-function clearStoredToken() {
-  localStorage.removeItem(TOKEN_KEY);
+  return {
+    userId: typeof userId === "string" ? userId : null,
+    accessToken,
+    refreshToken,
+  };
 }
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
+  const [subscription, setSubscription] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const clearAuth = useCallback(() => {
-    clearStoredToken();
-    setToken(null);
+  const resetAuthState = useCallback(() => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setUserId(null);
     setUser(null);
+    setSubscription(null);
   }, []);
 
-  const loadProfile = useCallback(
-    async (activeToken) => {
-      try {
-        const profile = await getProfile(activeToken);
-        setToken(activeToken);
-        setUser(profile);
-        return profile;
-      } catch (error) {
+  const clearAuth = useCallback(() => {
+    clearStoredAuthTokens();
+    resetAuthState();
+  }, [resetAuthState]);
+
+  const refreshSubscription = useCallback(async () => {
+    const activeToken = getStoredAuthTokens().accessToken || accessToken;
+
+    if (!activeToken) {
+      setSubscription(null);
+      return null;
+    }
+
+    const subscriptionData = await getMySubscription(activeToken);
+    setSubscription(subscriptionData);
+
+    return subscriptionData;
+  }, [accessToken]);
+
+  useEffect(() => {
+    setApiAuthHandlers({
+      onTokensUpdated(nextTokens) {
+        setAccessToken(nextTokens.accessToken);
+        setRefreshToken(nextTokens.refreshToken);
+      },
+      onAuthCleared: resetAuthState,
+    });
+
+    return () => setApiAuthHandlers({});
+  }, [resetAuthState]);
+
+  const loadAuthenticatedState = useCallback(async (activeToken) => {
+    const [profile, subscriptionData] = await Promise.all([
+      getProfile(activeToken),
+      getMySubscription(activeToken).catch((error) => {
         if (error.status === 401 || error.status === 403) {
-          clearAuth();
+          throw error;
         }
 
-        throw error;
-      }
-    },
-    [clearAuth],
-  );
+        return null;
+      }),
+    ]);
+    const storedTokens = getStoredAuthTokens();
+
+    setAccessToken(storedTokens.accessToken || activeToken);
+    setRefreshToken(storedTokens.refreshToken);
+    setUser(profile);
+    setSubscription(subscriptionData);
+
+    return profile;
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
-    const storedToken = getStoredToken();
+    const storedTokens = getStoredAuthTokens();
 
     async function restoreSession() {
-      if (!storedToken) {
+      if (!storedTokens.accessToken || !storedTokens.refreshToken) {
+        clearStoredAuthTokens();
         setIsLoading(false);
         return;
       }
 
       try {
-        const profile = await getProfile(storedToken);
-
+        await loadAuthenticatedState(storedTokens.accessToken);
+      } catch {
         if (isMounted) {
-          setToken(storedToken);
-          setUser(profile);
-        }
-      } catch (error) {
-        if (isMounted && (error.status === 401 || error.status === 403)) {
-          clearAuth();
+          resetAuthState();
         }
       } finally {
         if (isMounted) {
@@ -79,26 +129,28 @@ export function AuthProvider({ children }) {
     return () => {
       isMounted = false;
     };
-  }, [clearAuth]);
+  }, [loadAuthenticatedState, resetAuthState]);
 
   const login = useCallback(
     async (credentials) => {
       const response = await loginUser(credentials);
-      const nextToken = extractToken(response);
+      const nextTokens = getLoginTokens(response);
 
-      if (!nextToken) {
-        throw new Error("Login succeeded, but no JWT token was found in the response.");
+      if (!nextTokens) {
+        throw new Error("Login succeeded, but auth tokens were not returned.");
       }
 
-      storeToken(nextToken);
+      storeAuthTokens(nextTokens);
+      setUserId(nextTokens.userId);
+
       try {
-        return await loadProfile(nextToken);
+        return await loadAuthenticatedState(nextTokens.accessToken);
       } catch (error) {
         clearAuth();
         throw error;
       }
     },
-    [clearAuth, loadProfile],
+    [clearAuth, loadAuthenticatedState],
   );
 
   const register = useCallback((data) => registerUser(data), []);
@@ -110,14 +162,30 @@ export function AuthProvider({ children }) {
   const value = useMemo(
     () => ({
       user,
-      token,
-      isAuthenticated: Boolean(token && user),
+      userId,
+      subscription,
+      token: accessToken,
+      accessToken,
+      refreshToken,
+      isAuthenticated: Boolean(accessToken && refreshToken && user),
       isLoading,
       login,
       register,
       logout,
+      refreshSubscription,
     }),
-    [isLoading, login, logout, register, token, user],
+    [
+      accessToken,
+      isLoading,
+      login,
+      logout,
+      refreshSubscription,
+      refreshToken,
+      register,
+      subscription,
+      user,
+      userId,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
