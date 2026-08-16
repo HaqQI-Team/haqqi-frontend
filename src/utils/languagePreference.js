@@ -1,6 +1,6 @@
 export const LANGUAGE_PREFERENCE = {
-  en: 0,
-  ar: 1,
+  ar: 0,
+  en: 1,
 };
 
 export function getLanguagePreference(language) {

@@ -8,3 +8,14 @@ export async function getMySubscription(token) {
 
   return unwrapApiData(data, ["subscription", "mySubscription"]);
 }
+
+export async function getSubscriptionPlans() {
+  return apiRequest("/api/subscription/plans");
+}
+
+export async function createSubscriptionCheckout(planId) {
+  return apiRequest("/api/subscription/checkout", {
+    method: "POST",
+    body: planId,
+  });
+}

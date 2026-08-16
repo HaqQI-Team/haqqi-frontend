@@ -5,6 +5,7 @@ import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import EmptyState from "../components/app/EmptyState";
 import PlanFeature from "../components/app/PlanFeature";
 import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "../router/useRouter";
 import { getApiErrorMessage } from "../utils/apiError";
 
 function booleanLabel(value, t) {
@@ -22,6 +23,7 @@ function valueOrUnavailable(value, t) {
 function MyPlanPage() {
   const { t } = useTranslation();
   const { refreshSubscription, subscription } = useAuth();
+  const { navigate } = useRouter();
   const [currentSubscription, setCurrentSubscription] = useState(subscription);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -135,10 +137,10 @@ function MyPlanPage() {
           </div>
           <button
             type="button"
-            disabled
-            className="rounded-md bg-red-900 px-4 py-2 text-sm font-extrabold text-white opacity-60 dark:bg-red-700"
+            onClick={() => navigate("/plans")}
+            className="rounded-md bg-red-900 px-4 py-2 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:bg-red-700 dark:hover:bg-red-600"
           >
-            {t("app.common.comingSoon")}
+            {t("app.plan.viewPlans")}
           </button>
         </div>
       </section>

@@ -24,6 +24,7 @@ import {
   isNetworkError,
 } from "../utils/apiError";
 import { storePendingVerificationEmail } from "../utils/emailVerification";
+import { applyApiFieldErrors } from "../utils/formErrors";
 import { getLanguagePreference } from "../utils/languagePreference";
 import { createRegisterSchema } from "../validation/authSchemas";
 
@@ -90,9 +91,19 @@ function RegisterPage() {
       storePendingVerificationEmail(registrationData.email);
       navigate("/verify-email");
     } catch (error) {
-      setError("root", {
-        message: getRegisterErrorMessage(error, t),
-      });
+      const hasFieldErrors = applyApiFieldErrors(error, setError, [
+        "name",
+        "username",
+        "email",
+        "password",
+        "phoneNumber",
+      ]);
+
+      if (!hasFieldErrors) {
+        setError("root", {
+          message: getRegisterErrorMessage(error, t),
+        });
+      }
     }
   }
 

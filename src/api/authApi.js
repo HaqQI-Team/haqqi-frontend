@@ -29,3 +29,11 @@ export function verifyEmail(data) {
     skipAuth: true,
   });
 }
+
+export function resendOtp(data) {
+  return apiRequest("/api/User/resend-otp", {
+    method: "POST",
+    body: data,
+    skipAuth: true,
+  });
+}

@@ -25,6 +25,7 @@ const navItems = [
   { path: "/complaints/new", labelKey: "app.nav.newComplaint", icon: faFileCirclePlus },
   { path: "/complaints", labelKey: "app.nav.myComplaints", icon: faClipboardList },
   { path: "/plan", labelKey: "app.nav.myPlan", icon: faLayerGroup },
+  { path: "/plans", labelKey: "app.nav.upgradePlan", icon: faCrown },
 ];
 
 function getPlanLabel(subscription, t) {
@@ -53,25 +54,6 @@ function AppNavButton({ item, isActive, onNavigate }) {
       <FontAwesomeIcon icon={item.icon} className="w-4 shrink-0" />
       <span>{t(item.labelKey)}</span>
     </button>
-  );
-}
-
-function UpgradeDisabledItem() {
-  const { t } = useTranslation();
-
-  return (
-    <div
-      aria-disabled="true"
-      className="flex w-full min-w-0 cursor-not-allowed items-center justify-between gap-3 rounded-md px-3 py-2.5 text-sm font-bold text-neutral-400 ring-1 ring-red-900/5 dark:text-neutral-500 dark:ring-red-300/10"
-    >
-      <span className="inline-flex min-w-0 items-center gap-3">
-        <FontAwesomeIcon icon={faCrown} className="w-4 shrink-0" />
-        <span className="truncate">{t("app.nav.upgradePlan")}</span>
-      </span>
-      <span className="shrink-0 rounded-full bg-red-900/[0.08] px-2 py-0.5 text-[0.68rem] font-extrabold uppercase text-red-900 dark:bg-red-300/10 dark:text-red-200">
-        {t("app.common.comingSoon")}
-      </span>
-    </div>
   );
 }
 
@@ -108,7 +90,6 @@ function SidebarContent({ subscription, onNavigate, onLogout }) {
             onNavigate={onNavigate}
           />
         ))}
-        <UpgradeDisabledItem />
       </nav>
 
       <div className="mt-auto border-t border-red-900/10 pt-5 dark:border-red-300/10">
