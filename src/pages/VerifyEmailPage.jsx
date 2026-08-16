@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +9,7 @@ import {
   faKey,
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
-import { verifyEmail } from "../api/authApi";
+import { resendOtp, verifyEmail } from "../api/authApi";
 import AuthInput from "../components/auth/AuthInput";
 import Link from "../router/Link";
 import { useRouter } from "../router/useRouter";
@@ -21,6 +22,7 @@ import {
   clearPendingVerificationEmail,
   getPendingVerificationEmail,
 } from "../utils/emailVerification";
+import { applyApiFieldErrors } from "../utils/formErrors";
 import { createVerifyEmailSchema } from "../validation/authSchemas";
 
 function getVerifyEmailErrorMessage(error, t) {
@@ -52,10 +54,14 @@ function VerifyEmailPage() {
   const { i18n, t } = useTranslation();
   const { navigate } = useRouter();
   const pendingEmail = getPendingVerificationEmail();
+  const [isResending, setIsResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendStatus, setResendStatus] = useState("");
   const {
     register,
     handleSubmit,
     clearErrors,
+    getValues,
     setError,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -66,8 +72,21 @@ function VerifyEmailPage() {
     },
   });
 
+  useEffect(() => {
+    if (resendCooldown <= 0) {
+      return undefined;
+    }
+
+    const timerId = window.setInterval(() => {
+      setResendCooldown((current) => Math.max(current - 1, 0));
+    }, 1000);
+
+    return () => window.clearInterval(timerId);
+  }, [resendCooldown]);
+
   async function onSubmit(formData) {
     clearErrors("root");
+    setResendStatus("");
 
     try {
       await verifyEmail({
@@ -77,9 +96,49 @@ function VerifyEmailPage() {
       clearPendingVerificationEmail();
       navigate("/login?verified=1");
     } catch (error) {
-      setError("root", {
-        message: getVerifyEmailErrorMessage(error, t),
+      const hasFieldErrors = applyApiFieldErrors(error, setError, [
+        "email",
+        "otp",
+      ]);
+
+      if (!hasFieldErrors) {
+        setError("root", {
+          message: getVerifyEmailErrorMessage(error, t),
+        });
+      }
+    }
+  }
+
+  async function handleResendOtp() {
+    clearErrors("root");
+    setResendStatus("");
+
+    const email = getValues("email")?.trim();
+
+    if (!email) {
+      setError("email", {
+        type: "manual",
+        message: t("auth.validation.emailRequired"),
       });
+      return;
+    }
+
+    setIsResending(true);
+
+    try {
+      await resendOtp({ email });
+      setResendStatus(t("auth.verify.resendSuccess"));
+      setResendCooldown(30);
+    } catch (error) {
+      const hasFieldErrors = applyApiFieldErrors(error, setError, ["email"]);
+
+      if (!hasFieldErrors) {
+        setError("root", {
+          message: getVerifyEmailErrorMessage(error, t),
+        });
+      }
+    } finally {
+      setIsResending(false);
     }
   }
 
@@ -155,6 +214,27 @@ function VerifyEmailPage() {
           className={i18n.dir() === "rtl" ? "rotate-180" : ""}
         />
       </button>
+
+      <div className="mt-4 text-center text-sm text-neutral-600 dark:text-neutral-300">
+        <span>{t("auth.verify.resendPrompt")}</span>{" "}
+        <button
+          type="button"
+          onClick={handleResendOtp}
+          disabled={isResending || resendCooldown > 0}
+          className="font-bold text-red-900 transition hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 disabled:cursor-not-allowed disabled:text-neutral-400 dark:text-red-200 dark:hover:text-red-100 dark:disabled:text-neutral-500"
+        >
+          {isResending
+            ? t("auth.verify.resending")
+            : resendCooldown > 0
+              ? t("auth.verify.resendCooldown", { seconds: resendCooldown })
+              : t("auth.verify.resend")}
+        </button>
+        {resendStatus ? (
+          <p className="mt-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+            {resendStatus}
+          </p>
+        ) : null}
+      </div>
 
       <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-300">
         {t("auth.verify.haveAccount")}{" "}

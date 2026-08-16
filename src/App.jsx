@@ -11,6 +11,9 @@ import ComplaintWorkspacePage from "./pages/ComplaintWorkspacePage";
 import MyComplaintsPage from "./pages/MyComplaintsPage";
 import MyPlanPage from "./pages/MyPlanPage";
 import NewComplaintPage from "./pages/NewComplaintPage";
+import PaymentCancelPage from "./pages/PaymentCancelPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import PlansPage from "./pages/PlansPage";
 import RouterProvider from "./router/RouterProvider";
 import { useRouter } from "./router/useRouter";
 import { AuthProvider } from "./context/AuthContext.jsx";
@@ -95,6 +98,30 @@ function AppRoutes() {
     return (
       <ProtectedAppRoute>
         <MyPlanPage />
+      </ProtectedAppRoute>
+    );
+  }
+
+  if (location.pathname === "/plans") {
+    return (
+      <ProtectedAppRoute>
+        <PlansPage />
+      </ProtectedAppRoute>
+    );
+  }
+
+  if (location.pathname === "/payment/success") {
+    return (
+      <ProtectedAppRoute>
+        <PaymentSuccessPage />
+      </ProtectedAppRoute>
+    );
+  }
+
+  if (location.pathname === "/payment/cancel") {
+    return (
+      <ProtectedAppRoute>
+        <PaymentCancelPage />
       </ProtectedAppRoute>
     );
   }

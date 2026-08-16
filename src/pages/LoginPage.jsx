@@ -19,6 +19,7 @@ import {
   getApiErrorStatus,
   isNetworkError,
 } from "../utils/apiError";
+import { applyApiFieldErrors } from "../utils/formErrors";
 import { createLoginSchema } from "../validation/authSchemas";
 
 function getLoginErrorMessage(error, t) {
@@ -73,9 +74,16 @@ function LoginPage() {
       await login(formData);
       navigate("/");
     } catch (error) {
-      setError("root", {
-        message: getLoginErrorMessage(error, t),
-      });
+      const hasFieldErrors = applyApiFieldErrors(error, setError, [
+        "email",
+        "password",
+      ]);
+
+      if (!hasFieldErrors) {
+        setError("root", {
+          message: getLoginErrorMessage(error, t),
+        });
+      }
     }
   }
 

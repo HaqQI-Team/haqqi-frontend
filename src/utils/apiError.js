@@ -53,6 +53,41 @@ function collectValidationMessages(errors) {
     .map((value) => value.trim());
 }
 
+function normalizeFieldErrors(errors) {
+  if (!errors || typeof errors !== "object") {
+    return {};
+  }
+
+  return Object.entries(errors).reduce((fieldErrors, [field, value]) => {
+    const messages = (Array.isArray(value) ? value : [value])
+      .filter((item) => typeof item === "string" && item.trim())
+      .map((item) => item.trim());
+
+    if (messages.length > 0) {
+      fieldErrors[field] = messages;
+    }
+
+    return fieldErrors;
+  }, {});
+}
+
+export function getApiFieldErrors(error) {
+  const data = getApiErrorData(error);
+  const parsedMessage = getParsedMessage(error);
+  const sources = [data, parsedMessage].filter(
+    (value) => value && typeof value === "object",
+  );
+
+  return sources.reduce((fieldErrors, source) => {
+    const normalizedErrors = normalizeFieldErrors(source.errors);
+
+    return {
+      ...fieldErrors,
+      ...normalizedErrors,
+    };
+  }, {});
+}
+
 export function getApiErrorMessage(error, fallback) {
   const data = getApiErrorData(error);
   const status = getApiErrorStatus(error);

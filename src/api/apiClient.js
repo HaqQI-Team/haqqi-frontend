@@ -13,6 +13,7 @@ const REFRESH_EXCLUDED_PATHS = new Set([
   "/api/auth/refresh",
   "/api/User/register",
   "/api/User/verify-email",
+  "/api/User/resend-otp",
 ]);
 
 let authHandlers = {};
