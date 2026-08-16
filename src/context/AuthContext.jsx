@@ -8,6 +8,7 @@ import {
   getStoredAuthTokens,
   storeAuthTokens,
 } from "../utils/authTokens";
+import { getUserRoleFromToken, isAdminRole } from "../utils/jwtClaims";
 
 function getLoginTokens(response) {
   if (!response || typeof response !== "object") {
@@ -38,6 +39,7 @@ export function AuthProvider({ children }) {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [subscription, setSubscription] = useState(null);
+  const [role, setRole] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const resetAuthState = useCallback(() => {
@@ -46,6 +48,7 @@ export function AuthProvider({ children }) {
     setUserId(null);
     setUser(null);
     setSubscription(null);
+    setRole("");
   }, []);
 
   const clearAuth = useCallback(() => {
@@ -72,6 +75,7 @@ export function AuthProvider({ children }) {
       onTokensUpdated(nextTokens) {
         setAccessToken(nextTokens.accessToken);
         setRefreshToken(nextTokens.refreshToken);
+        setRole(getUserRoleFromToken(nextTokens.accessToken));
       },
       onAuthCleared: resetAuthState,
     });
@@ -80,15 +84,19 @@ export function AuthProvider({ children }) {
   }, [resetAuthState]);
 
   const loadAuthenticatedState = useCallback(async (activeToken) => {
+    const nextRole = getUserRoleFromToken(activeToken);
+    const nextIsAdmin = isAdminRole(nextRole);
     const [profile, subscriptionData] = await Promise.all([
       getProfile(activeToken),
-      getMySubscription(activeToken).catch((error) => {
-        if (error.status === 401 || error.status === 403) {
-          throw error;
-        }
+      nextIsAdmin
+        ? Promise.resolve(null)
+        : getMySubscription(activeToken).catch((error) => {
+            if (error.status === 401 || error.status === 403) {
+              throw error;
+            }
 
-        return null;
-      }),
+            return null;
+          }),
     ]);
     const storedTokens = getStoredAuthTokens();
 
@@ -96,8 +104,13 @@ export function AuthProvider({ children }) {
     setRefreshToken(storedTokens.refreshToken);
     setUser(profile);
     setSubscription(subscriptionData);
+    setRole(nextRole);
 
-    return profile;
+    return {
+      profile,
+      role: nextRole,
+      isAdmin: nextIsAdmin,
+    };
   }, []);
 
   useEffect(() => {
@@ -142,6 +155,7 @@ export function AuthProvider({ children }) {
 
       storeAuthTokens(nextTokens);
       setUserId(nextTokens.userId);
+      setRole(getUserRoleFromToken(nextTokens.accessToken));
 
       try {
         return await loadAuthenticatedState(nextTokens.accessToken);
@@ -167,6 +181,8 @@ export function AuthProvider({ children }) {
       token: accessToken,
       accessToken,
       refreshToken,
+      role,
+      isAdmin: isAdminRole(role),
       isAuthenticated: Boolean(accessToken && refreshToken && user),
       isLoading,
       login,
@@ -182,6 +198,7 @@ export function AuthProvider({ children }) {
       refreshSubscription,
       refreshToken,
       register,
+      role,
       subscription,
       user,
       userId,

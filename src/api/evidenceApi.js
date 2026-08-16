@@ -30,3 +30,7 @@ export function deleteEvidence(evidenceId) {
     method: "DELETE",
   });
 }
+
+export function exportEvidencePdf(evidenceId) {
+  return apiRequest(`/api/Evidence/export-Evidence/${evidenceId}`);
+}

@@ -319,6 +319,17 @@
     "signUp": "Sign Up",
     "close": "Close dialog"
   },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "We couldn't find the page you're looking for. HaqQi can guide you back to a trusted place to continue.",
+    "goHome": "Go Home",
+    "myComplaints": "My Complaints",
+    "goAdmin": "Go to Admin",
+    "signIn": "Sign In",
+    "pathLabel": "Missing path: {{path}}",
+    "illustrationAlt": "Legal document and search illustration"
+  },
   "footer": {
     "description": "The premier AI legal assistant for Egyptian consumers.",
     "location": "Cairo, Egypt",
@@ -355,6 +366,54 @@
       "github": "HaqQi on GitHub"
     },
     "copyright": "© {{year}} HaqQi. All rights reserved."
+  },
+  "admin": {
+    "brand": "HaqQi Admin",
+    "navLabel": "Admin navigation",
+    "identity": "Admin identity",
+    "signOut": "Sign Out",
+    "knowledgeBase": "Knowledge Base",
+    "legalKnowledgeBase": "Legal Knowledge Base",
+    "knowledgeDescription": "Upload approved legal PDF documents to the HaqQi knowledge base used by the AI when analyzing consumer complaints.",
+    "unknownFile": "Legal document",
+    "auth": {
+      "eyebrow": "Admin access",
+      "title": "Manage HaqQi legal knowledge",
+      "description": "Sign in with the seeded Admin account to upload approved legal PDFs into the RAG knowledge base.",
+      "loginTitle": "Admin Login",
+      "loginDescription": "Use your Admin credentials. Admin registration is not available.",
+      "signIn": "Sign in to Admin",
+      "signingIn": "Signing in...",
+      "permissionDenied": "You do not have permission to access the admin area.",
+      "accessDeniedTitle": "Admin access denied"
+    },
+    "upload": {
+      "selectPdf": "Select PDF files",
+      "dropHint": "Drag and drop PDFs here, or browse files from your device.",
+      "browse": "Browse files",
+      "selectedDocuments": "{{count}} selected document",
+      "selectedDocuments_plural": "{{count}} selected documents",
+      "clearSelection": "Clear selection",
+      "remove": "Remove",
+      "submit": "Upload to Knowledge Base",
+      "processing": "Processing documents..."
+    },
+    "results": {
+      "successful": "Successful",
+      "withIssues": "Completed with issues",
+      "pagesProcessed": "Pages processed",
+      "chunksCreated": "Chunks created",
+      "recordsInserted": "Records inserted",
+      "unknownIssue": "An issue was reported for this file."
+    },
+    "errors": {
+      "pdfOnly": "{{count}} non-PDF file was rejected.",
+      "pdfOnly_plural": "{{count}} non-PDF files were rejected.",
+      "processSelected": "Unable to process the selected documents.",
+      "permission": "You do not have permission to perform this Admin action.",
+      "processServer": "Unable to process these documents right now.",
+      "aiUnavailable": "The AI knowledge service is temporarily unavailable. Please try again."
+    }
   },
   "app": {
     "common": {
