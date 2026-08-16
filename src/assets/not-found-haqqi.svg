@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" role="img" aria-labelledby="title desc">
+  <title id="title">Missing HaqQi page illustration</title>
+  <desc id="desc">A legal document, search path, and verified shield for a not found page.</desc>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    .paper { fill: #fffaf7; }
+    .soft { fill: #fff1e8; }
+    .line { stroke: #7f1d1d; }
+    .muted { stroke: #a8a29e; }
+    .accent { fill: #7f1d1d; }
+    .accent-soft { fill: #fee2e2; }
+    .ink { fill: #1c1917; }
+    @media (prefers-color-scheme: dark) {
+      .paper { fill: #171717; }
+      .soft { fill: #262626; }
+      .line { stroke: #fecaca; }
+      .muted { stroke: #737373; }
+      .accent { fill: #b91c1c; }
+      .accent-soft { fill: #451a1a; }
+      .ink { fill: #fafafa; }
+    }
+  </style>
+  <rect width="520" height="360" rx="28" class="soft"/>
+  <path d="M92 260 C150 210 164 148 224 160 C282 172 293 240 362 212 C404 195 424 158 448 124" fill="none" class="muted" stroke-width="10" stroke-linecap="round" stroke-dasharray="8 18"/>
+  <g transform="translate(120 54)">
+    <path d="M44 0h172l58 58v206c0 18-14 32-32 32H44c-18 0-32-14-32-32V32C12 14 26 0 44 0Z" class="paper"/>
+    <path d="M216 0v46c0 16 12 28 28 28h30" fill="none" class="line" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M74 98h130M74 130h154M74 162h112" fill="none" class="muted" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="222" cy="205" r="44" fill="none" class="line" stroke-width="12"/>
+    <path d="m252 236 40 40" fill="none" class="line" stroke-width="14" stroke-linecap="round"/>
+    <path d="M91 218c28-24 51-24 79 0" fill="none" class="accent" stroke="#7f1d1d" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(337 61)">
+    <path d="M54 0 102 20v38c0 43-28 75-48 84C34 133 6 101 6 58V20L54 0Z" class="accent-soft"/>
+    <path d="M54 0 102 20v38c0 43-28 75-48 84C34 133 6 101 6 58V20L54 0Z" fill="none" class="line" stroke-width="8" stroke-linejoin="round"/>
+    <path d="m34 66 14 14 30-36" fill="none" class="line" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(54 64)">
+    <circle cx="42" cy="42" r="34" class="paper"/>
+    <path d="M28 32c4-13 24-17 32-4 10 17-18 23-18 38" fill="none" class="line" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="42" cy="80" r="5" class="accent"/>
+  </g>
+  <text x="260" y="326" text-anchor="middle" class="ink" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="800">404</text>
+</svg>
