@@ -6,6 +6,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminPage from "./pages/AdminPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminComplaintsPage from "./pages/AdminComplaintsPage";
+import AdminDocumentsPage from "./pages/AdminDocumentsPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -216,6 +217,14 @@ function AppRoutes() {
     return (
       <ProtectedAdminRoute>
         <AdminComplaintsPage />
+      </ProtectedAdminRoute>
+    );
+  }
+
+  if (location.pathname === "/admin/documents") {
+    return (
+      <ProtectedAdminRoute>
+        <AdminDocumentsPage />
       </ProtectedAdminRoute>
     );
   }

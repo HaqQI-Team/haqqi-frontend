@@ -372,7 +372,22 @@
     "navLabel": "Admin navigation",
     "nav": {
       "dashboard": "Dashboard",
-      "complaints": "Complaints"
+      "complaints": "Complaints",
+      "documents": "Legal Documents"
+    },
+    "documents": {
+      "eyebrow": "All Legal Documents",
+      "title": "Legal Documents",
+      "emptyTitle": "No legal documents found.",
+      "viewSource": "View Source",
+      "noSource": "No source link",
+      "columns": {
+        "name": "Document Name",
+        "status": "Status",
+        "publicationDate": "Publication Date",
+        "source": "Source",
+        "uploaded": "Uploaded"
+      }
     },
     "complaints": {
       "eyebrow": "All Complaints",
@@ -448,7 +463,8 @@
       "processServer": "Unable to process these documents right now.",
       "aiUnavailable": "The AI knowledge service is temporarily unavailable. Please try again.",
       "statsLoad": "Unable to load dashboard statistics.",
-      "complaintsLoad": "Unable to load complaints."
+      "complaintsLoad": "Unable to load complaints.",
+      "documentsLoad": "Unable to load legal documents."
     }
   },
   "app": {

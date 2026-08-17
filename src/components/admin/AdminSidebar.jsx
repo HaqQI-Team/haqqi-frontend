@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
   faClipboardList,
+  faFileLines,
   faFilePdf,
   faScaleBalanced,
   faUserShield,
@@ -14,6 +15,7 @@ const adminNavItems = [
   { path: "/admin/dashboard", labelKey: "admin.nav.dashboard", icon: faChartLine },
   { path: "/admin/complaints", labelKey: "admin.nav.complaints", icon: faClipboardList },
   { path: "/admin", labelKey: "admin.knowledgeBase", icon: faFilePdf },
+  { path: "/admin/documents", labelKey: "admin.nav.documents", icon: faFileLines },
 ];
 
 

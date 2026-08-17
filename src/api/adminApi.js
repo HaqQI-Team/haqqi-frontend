@@ -24,4 +24,12 @@ export function getAllComplaints({ pageNumber, pageSize }) {
   });
 }
 
+export function getAllLegalDocuments({ pageNumber, pageSize }) {
+  return apiRequest("/api/Admin/all-legal-documents", {
+    method: "POST",
+    body: { pageNumber, pageSize },
+  });
+}
+
+
 
