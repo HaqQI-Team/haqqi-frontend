@@ -143,7 +143,10 @@ function Navbar() {
     if (isAuthenticated) {
       return (
         <div className="hidden items-center gap-2 md:flex">
-          <span className="inline-flex min-h-9 max-w-48 items-center gap-2 rounded-md border border-red-900/10 bg-white/70 px-3 py-2 text-sm font-semibold text-neutral-700 dark:border-red-300/15 dark:bg-neutral-900/70 dark:text-neutral-200">
+          <span
+            title={displayName}
+            className="inline-flex min-h-9 max-w-36 items-center gap-2 rounded-md border border-red-900/10 bg-white/70 px-3 py-2 text-sm font-semibold text-neutral-700 dark:border-red-300/15 dark:bg-neutral-900/70 dark:text-neutral-200"
+          >
             <FontAwesomeIcon
               icon={faUserCircle}
               className="shrink-0 text-red-900 dark:text-red-200"
@@ -190,7 +193,10 @@ function Navbar() {
     if (isAuthenticated) {
       return (
         <div className="mt-2 grid gap-2">
-          <span className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-red-900/10 bg-white/70 px-4 py-2 text-center text-sm font-semibold text-neutral-700 dark:border-red-300/15 dark:bg-neutral-900/70 dark:text-neutral-200">
+          <span
+            title={displayName}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md border border-red-900/10 bg-white/70 px-4 py-2 text-center text-sm font-semibold text-neutral-700 dark:border-red-300/15 dark:bg-neutral-900/70 dark:text-neutral-200"
+          >
             <FontAwesomeIcon
               icon={faUserCircle}
               className="shrink-0 text-red-900 dark:text-red-200"
@@ -250,7 +256,7 @@ function Navbar() {
           <span>{t("brand.name")}</span>
         </a>
 
-        <div className="hidden items-center gap-7 lg:flex">
+        <div className="hidden items-center gap-7 xl:flex">
           {navItems.map((item) => (
             <NavLink
               key={item.id}
@@ -273,7 +279,7 @@ function Navbar() {
           <button
             type="button"
             onClick={() => setIsMenuOpen((current) => !current)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-neutral-200 text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-300 dark:focus-visible:outline-red-300 lg:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-neutral-200 text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-300 dark:focus-visible:outline-red-300 xl:hidden"
             aria-label={
               isMenuOpen ? t("navigation.closeMenu") : t("navigation.openMenu")
             }
@@ -293,7 +299,7 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeOut" }}
-            className="border-t border-red-950/10 bg-[#fbf7f5] px-4 py-4 shadow-sm dark:border-white/10 dark:bg-neutral-950 lg:hidden"
+            className="border-t border-red-950/10 bg-[#fbf7f5] px-4 py-4 shadow-sm dark:border-white/10 dark:bg-neutral-950 xl:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-3">
               <div className="flex items-center gap-2 sm:hidden">

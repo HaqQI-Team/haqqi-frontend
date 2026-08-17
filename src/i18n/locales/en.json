@@ -158,7 +158,6 @@
     "description": "Turn your consumer complaint into a clear, professional, and legally grounded document using official Egyptian regulations and AI-powered guidance.",
     "actions": {
       "start": "Start a Complaint",
-      "assistant": "Try AI Assistant",
       "learn": "See How It Works"
     },
     "trustLabel": "Platform trust points",
@@ -306,8 +305,7 @@
     "title": "Ready to Build a Stronger Complaint?",
     "description": "Describe your problem, upload your evidence, and let HaqQi guide you through the next steps.",
     "actions": {
-      "start": "Start Your Complaint",
-      "assistant": "Try AI Assistant"
+      "start": "Start Your Complaint"
     },
     "note": "No credit card required — free for first complaint"
   },
@@ -494,15 +492,23 @@
       "in_progress": "In progress",
       "completed": "Completed",
       "closed": "Closed",
-      "processing": "Processing",
       "ready": "Ready",
-      "failed": "Failed",
-      "pending": "Pending"
+      "pending": "Pending",
+      "processing": "Processing",
+      "failed": "Failed"
     },
     "errors": {
       "complaintsLoad": "Unable to load your complaints.",
       "planLoad": "Unable to load your plan.",
       "workspaceLoad": "Unable to load this complaint.",
+      "complaintNotFound": "Complaint not found.",
+      "complaintNotFoundDescription": "This complaint may have been removed or is no longer available.",
+      "messagesLoad": "Unable to load complaint messages.",
+      "evidenceLoad": "Unable to load complaint evidence.",
+      "draftLoad": "Unable to load the complaint draft.",
+      "draftExport": "Unable to export your complaint right now.",
+      "draftExportForbidden": "You do not have permission to export this complaint.",
+      "draftPdfUrlMissing": "The exported PDF URL was not returned.",
       "createComplaint": "Unable to start a new complaint. Please try again.",
       "complaintIdMissing": "The complaint was created, but its ID was not returned.",
       "messageSend": "Unable to send your message. Please try again.",
@@ -618,6 +624,28 @@
       "missingInfo": "Information still needed",
       "citations": "Citations"
     },
+    "draft": {
+      "title": "Complaint Draft",
+      "empty": "Your complaint draft will appear here once HaqQi has enough information.",
+      "final": "Final",
+      "notFinal": "Draft",
+      "updated": "Updated {{date}}",
+      "exportPdf": "Export Complaint PDF",
+      "preparingPdf": "Preparing PDF...",
+      "viewPdf": "View exported PDF",
+      "viewPlans": "View Plans",
+      "exportNotIncluded": "PDF export is not included in your current plan.",
+      "exportNoDraft": "A complaint draft is required before exporting.",
+      "exportNeedsInfo": "Complete the missing information before exporting your complaint.",
+      "exportProcessing": "Your complaint is still being prepared.",
+      "exportFailed": "The complaint draft could not be finalized.",
+      "exportNotReady": "The complaint must be Ready before export.",
+      "statusHint": "Current status: {{status}}"
+    },
+    "citations": {
+      "legalSource": "Legal source",
+      "empty": "No legal citations are available yet."
+    },
     "evidence": {
       "title": "Supporting Evidence",
       "attachDescription": "Attach receipts, screenshots, contracts, or messages that support this complaint.",
@@ -643,7 +671,9 @@
       "hideExtractedText": "Hide extracted text",
       "processed": "Processed",
       "processing": "Processing",
-      "attachedActivity": "Evidence attached"
+      "attachedActivity": "Evidence attached",
+      "uploadMessage": "Evidence document uploaded",
+      "viewInSupportingEvidence": "View in Supporting Evidence"
     }
   }
 }

@@ -83,7 +83,7 @@ function CTASection({ onProtectedAction }) {
 
         <motion.div
           variants={activeItemVariants}
-          className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"
+          className="mt-8 flex justify-center"
         >
           <button
             type="button"
@@ -91,14 +91,6 @@ function CTASection({ onProtectedAction }) {
             className="inline-flex items-center justify-center rounded-md bg-white px-5 py-3 text-sm font-extrabold text-red-950 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {t("cta.actions.start")}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onProtectedAction("/assistant")}
-            className="inline-flex items-center justify-center rounded-md border border-white/55 bg-white/10 px-5 py-3 text-sm font-extrabold text-white backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:bg-white/16 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          >
-            {t("cta.actions.assistant")}
           </button>
         </motion.div>
 
