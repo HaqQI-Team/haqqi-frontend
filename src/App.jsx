@@ -5,6 +5,7 @@ import AuthLayout from "./components/auth/AuthLayout";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminPage from "./pages/AdminPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminComplaintsPage from "./pages/AdminComplaintsPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -207,6 +208,14 @@ function AppRoutes() {
     return (
       <ProtectedAdminRoute>
         <AdminDashboardPage />
+      </ProtectedAdminRoute>
+    );
+  }
+
+  if (location.pathname === "/admin/complaints") {
+    return (
+      <ProtectedAdminRoute>
+        <AdminComplaintsPage />
       </ProtectedAdminRoute>
     );
   }

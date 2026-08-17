@@ -371,7 +371,26 @@
     "brand": "إدارة حقي",
     "navLabel": "تنقل الإدارة",
     "nav": {
-      "dashboard": "لوحة المعلومات"
+      "dashboard": "لوحة المعلومات",
+      "complaints": "الشكاوى"
+    },
+    "complaints": {
+      "eyebrow": "كل الشكاوى",
+      "title": "الشكاوى",
+      "emptyTitle": "لا توجد شكاوى.",
+      "columns": {
+        "title": "العنوان",
+        "status": "الحالة",
+        "domain": "المجال",
+        "authority": "الجهة",
+        "updated": "آخر تحديث",
+        "citations": "المراجع"
+      }
+    },
+    "pagination": {
+      "pageOf": "صفحة {{current}} من {{total}}",
+      "previous": "السابق",
+      "next": "التالي"
     },
     "dashboard": {
       "eyebrow": "نظرة عامة",
@@ -428,7 +447,8 @@
       "permission": "ليس لديك صلاحية لتنفيذ إجراء الإدارة هذا.",
       "processServer": "تعذرت معالجة هذه المستندات حاليا.",
       "aiUnavailable": "خدمة معرفة الذكاء الاصطناعي غير متاحة مؤقتا. حاول مرة أخرى.",
-      "statsLoad": "تعذر تحميل إحصائيات اللوحة."
+      "statsLoad": "تعذر تحميل إحصائيات اللوحة.",
+      "complaintsLoad": "تعذر تحميل الشكاوى."
     }
   },
   "app": {
@@ -457,7 +477,11 @@
       "submitted": "تم الإرسال",
       "in_progress": "قيد المعالجة",
       "completed": "مكتملة",
-      "closed": "مغلقة"
+      "closed": "مغلقة",
+      "processing": "قيد المعالجة",
+      "ready": "جاهزة",
+      "failed": "فشلت",
+      "pending": "قيد الانتظار"
     },
     "errors": {
       "complaintsLoad": "تعذر تحميل الشكاوى.",

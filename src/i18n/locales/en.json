@@ -371,7 +371,26 @@
     "brand": "HaqQi Admin",
     "navLabel": "Admin navigation",
     "nav": {
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "complaints": "Complaints"
+    },
+    "complaints": {
+      "eyebrow": "All Complaints",
+      "title": "Complaints",
+      "emptyTitle": "No complaints found.",
+      "columns": {
+        "title": "Title",
+        "status": "Status",
+        "domain": "Domain",
+        "authority": "Authority",
+        "updated": "Updated",
+        "citations": "Citations"
+      }
+    },
+    "pagination": {
+      "pageOf": "Page {{current}} of {{total}}",
+      "previous": "Previous",
+      "next": "Next"
     },
     "dashboard": {
       "eyebrow": "Overview",
@@ -428,7 +447,8 @@
       "permission": "You do not have permission to perform this Admin action.",
       "processServer": "Unable to process these documents right now.",
       "aiUnavailable": "The AI knowledge service is temporarily unavailable. Please try again.",
-      "statsLoad": "Unable to load dashboard statistics."
+      "statsLoad": "Unable to load dashboard statistics.",
+      "complaintsLoad": "Unable to load complaints."
     }
   },
   "app": {
@@ -457,7 +477,11 @@
       "submitted": "Submitted",
       "in_progress": "In progress",
       "completed": "Completed",
-      "closed": "Closed"
+      "closed": "Closed",
+      "processing": "Processing",
+      "ready": "Ready",
+      "failed": "Failed",
+      "pending": "Pending"
     },
     "errors": {
       "complaintsLoad": "Unable to load your complaints.",

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
+  faClipboardList,
   faFilePdf,
   faScaleBalanced,
   faUserShield,
@@ -11,8 +12,10 @@ import { useRouter } from "../../router/useRouter";
 
 const adminNavItems = [
   { path: "/admin/dashboard", labelKey: "admin.nav.dashboard", icon: faChartLine },
+  { path: "/admin/complaints", labelKey: "admin.nav.complaints", icon: faClipboardList },
   { path: "/admin", labelKey: "admin.knowledgeBase", icon: faFilePdf },
 ];
+
 
 function AdminSidebar({ displayName, email, onLogout }) {
   const { t } = useTranslation();

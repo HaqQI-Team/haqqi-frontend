@@ -17,3 +17,11 @@ export function getComplaintsStats() {
   return apiRequest("/api/Admin/complaints-stats", { method: "GET" });
 }
 
+export function getAllComplaints({ pageNumber, pageSize }) {
+  return apiRequest("/api/Admin/all-complaints", {
+    method: "POST",
+    body: { pageNumber, pageSize },
+  });
+}
+
+
