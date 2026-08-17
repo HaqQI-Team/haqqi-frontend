@@ -370,6 +370,55 @@
   "admin": {
     "brand": "إدارة حقي",
     "navLabel": "تنقل الإدارة",
+    "nav": {
+      "dashboard": "لوحة المعلومات",
+      "complaints": "الشكاوى",
+      "documents": "المستندات القانونية"
+    },
+    "documents": {
+      "eyebrow": "كل المستندات القانونية",
+      "title": "المستندات القانونية",
+      "emptyTitle": "لا توجد مستندات قانونية.",
+      "viewSource": "عرض المصدر",
+      "noSource": "لا يوجد رابط مصدر",
+      "columns": {
+        "name": "اسم المستند",
+        "status": "الحالة",
+        "publicationDate": "تاريخ النشر",
+        "source": "المصدر",
+        "uploaded": "تاريخ الرفع"
+      }
+    },
+    "complaints": {
+      "eyebrow": "كل الشكاوى",
+      "title": "الشكاوى",
+      "emptyTitle": "لا توجد شكاوى.",
+      "columns": {
+        "title": "العنوان",
+        "status": "الحالة",
+        "domain": "المجال",
+        "authority": "الجهة",
+        "updated": "آخر تحديث",
+        "citations": "المراجع"
+      }
+    },
+    "pagination": {
+      "pageOf": "صفحة {{current}} من {{total}}",
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "dashboard": {
+      "eyebrow": "نظرة عامة",
+      "title": "نظرة عامة على اللوحة",
+      "stats": {
+        "total": "إجمالي الشكاوى",
+        "pending": "قيد الانتظار",
+        "ready": "جاهزة",
+        "cited": "مرجعية",
+        "exported": "تم التصدير",
+        "failed": "فشلت"
+      }
+    },
     "identity": "هوية المدير",
     "signOut": "تسجيل الخروج",
     "knowledgeBase": "قاعدة المعرفة",
@@ -412,7 +461,10 @@
       "processSelected": "تعذرت معالجة المستندات المحددة.",
       "permission": "ليس لديك صلاحية لتنفيذ إجراء الإدارة هذا.",
       "processServer": "تعذرت معالجة هذه المستندات حاليا.",
-      "aiUnavailable": "خدمة معرفة الذكاء الاصطناعي غير متاحة مؤقتا. حاول مرة أخرى."
+      "aiUnavailable": "خدمة معرفة الذكاء الاصطناعي غير متاحة مؤقتا. حاول مرة أخرى.",
+      "statsLoad": "تعذر تحميل إحصائيات اللوحة.",
+      "complaintsLoad": "تعذر تحميل الشكاوى.",
+      "documentsLoad": "تعذر تحميل المستندات القانونية."
     }
   },
   "app": {
@@ -441,7 +493,11 @@
       "submitted": "تم الإرسال",
       "in_progress": "قيد المعالجة",
       "completed": "مكتملة",
-      "closed": "مغلقة"
+      "closed": "مغلقة",
+      "processing": "قيد المعالجة",
+      "ready": "جاهزة",
+      "failed": "فشلت",
+      "pending": "قيد الانتظار"
     },
     "errors": {
       "complaintsLoad": "تعذر تحميل الشكاوى.",

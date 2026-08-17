@@ -370,6 +370,55 @@
   "admin": {
     "brand": "HaqQi Admin",
     "navLabel": "Admin navigation",
+    "nav": {
+      "dashboard": "Dashboard",
+      "complaints": "Complaints",
+      "documents": "Legal Documents"
+    },
+    "documents": {
+      "eyebrow": "All Legal Documents",
+      "title": "Legal Documents",
+      "emptyTitle": "No legal documents found.",
+      "viewSource": "View Source",
+      "noSource": "No source link",
+      "columns": {
+        "name": "Document Name",
+        "status": "Status",
+        "publicationDate": "Publication Date",
+        "source": "Source",
+        "uploaded": "Uploaded"
+      }
+    },
+    "complaints": {
+      "eyebrow": "All Complaints",
+      "title": "Complaints",
+      "emptyTitle": "No complaints found.",
+      "columns": {
+        "title": "Title",
+        "status": "Status",
+        "domain": "Domain",
+        "authority": "Authority",
+        "updated": "Updated",
+        "citations": "Citations"
+      }
+    },
+    "pagination": {
+      "pageOf": "Page {{current}} of {{total}}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "dashboard": {
+      "eyebrow": "Overview",
+      "title": "Dashboard Overview",
+      "stats": {
+        "total": "Total Complaints",
+        "pending": "Pending",
+        "ready": "Ready",
+        "cited": "Cited",
+        "exported": "Exported",
+        "failed": "Failed"
+      }
+    },
     "identity": "Admin identity",
     "signOut": "Sign Out",
     "knowledgeBase": "Knowledge Base",
@@ -412,7 +461,10 @@
       "processSelected": "Unable to process the selected documents.",
       "permission": "You do not have permission to perform this Admin action.",
       "processServer": "Unable to process these documents right now.",
-      "aiUnavailable": "The AI knowledge service is temporarily unavailable. Please try again."
+      "aiUnavailable": "The AI knowledge service is temporarily unavailable. Please try again.",
+      "statsLoad": "Unable to load dashboard statistics.",
+      "complaintsLoad": "Unable to load complaints.",
+      "documentsLoad": "Unable to load legal documents."
     }
   },
   "app": {
@@ -441,7 +493,11 @@
       "submitted": "Submitted",
       "in_progress": "In progress",
       "completed": "Completed",
-      "closed": "Closed"
+      "closed": "Closed",
+      "processing": "Processing",
+      "ready": "Ready",
+      "failed": "Failed",
+      "pending": "Pending"
     },
     "errors": {
       "complaintsLoad": "Unable to load your complaints.",
