@@ -12,3 +12,24 @@ export function ingestRag(files) {
     body: formData,
   });
 }
+
+export function getComplaintsStats() {
+  return apiRequest("/api/Admin/complaints-stats", { method: "GET" });
+}
+
+export function getAllComplaints({ pageNumber, pageSize }) {
+  return apiRequest("/api/Admin/all-complaints", {
+    method: "POST",
+    body: { pageNumber, pageSize },
+  });
+}
+
+export function getAllLegalDocuments({ pageNumber, pageSize }) {
+  return apiRequest("/api/Admin/all-legal-documents", {
+    method: "POST",
+    body: { pageNumber, pageSize },
+  });
+}
+
+
+
