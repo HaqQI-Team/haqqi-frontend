@@ -18,8 +18,54 @@ export function getUpdatedAt(complaint) {
   return complaint?.updatedAt || complaint?.createdAt || "";
 }
 
+export function getDraftObject(source) {
+  const draft = source?.complainDraft ?? source?.draft ?? source;
+
+  if (draft && typeof draft === "object") {
+    return draft;
+  }
+
+  if (typeof draft === "string" && draft.trim()) {
+    return {
+      draftContent: draft,
+    };
+  }
+
+  if (typeof source?.draftContent === "string" && source.draftContent.trim()) {
+    return source;
+  }
+
+  return null;
+}
+
+export function getDraftContent(source) {
+  const draft = getDraftObject(source);
+  const content = draft?.draftContent ?? draft?.content ?? "";
+
+  return typeof content === "string" ? content : "";
+}
+
 export function getDraft(complaint) {
-  return complaint?.draft ?? complaint?.draftContent ?? "";
+  return getDraftContent(complaint);
+}
+
+export function getDraftPdfUrl(source) {
+  const draft = getDraftObject(source);
+  const url = draft?.pdfUrl ?? draft?.pdfURL ?? "";
+
+  return typeof url === "string" ? url : "";
+}
+
+export function getDraftUpdatedAt(source) {
+  const draft = getDraftObject(source);
+
+  return draft?.updatedAt ?? draft?.createdAt ?? "";
+}
+
+export function isDraftFinal(source) {
+  const draft = getDraftObject(source);
+
+  return draft?.isFinal === true;
 }
 
 export function getCitations(complaint) {
