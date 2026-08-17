@@ -12,3 +12,8 @@ export function ingestRag(files) {
     body: formData,
   });
 }
+
+export function getComplaintsStats() {
+  return apiRequest("/api/Admin/complaints-stats", { method: "GET" });
+}
+

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import AuthLayout from "./components/auth/AuthLayout";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminPage from "./pages/AdminPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -199,6 +200,14 @@ function AppRoutes() {
       <ProtectedAppRoute>
         <PaymentCancelPage />
       </ProtectedAppRoute>
+    );
+  }
+
+  if (location.pathname === "/admin/dashboard") {
+    return (
+      <ProtectedAdminRoute>
+        <AdminDashboardPage />
+      </ProtectedAdminRoute>
     );
   }
 

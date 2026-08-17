@@ -62,7 +62,7 @@ function AdminLoginPage() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated && isAdmin) {
-      navigate("/admin");
+      navigate("/admin/dashboard");
     }
   }, [isAdmin, isAuthenticated, isLoading, navigate]);
 
@@ -73,7 +73,7 @@ function AdminLoginPage() {
       const authResult = await login(formData);
 
       if (authResult?.isAdmin) {
-        navigate("/admin");
+        navigate("/admin/dashboard");
         return;
       }
 
@@ -188,7 +188,9 @@ function AdminLoginPage() {
                         onClick={() => setShowPassword((current) => !current)}
                         className="rounded-md p-1 text-neutral-500 transition hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-neutral-300 dark:hover:text-red-200"
                       >
-                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        <FontAwesomeIcon
+                          icon={showPassword ? faEyeSlash : faEye}
+                        />
                       </button>
                     }
                   />
@@ -213,7 +215,10 @@ function AdminLoginPage() {
             )}
 
             <div className="mt-5 border-t border-red-900/10 pt-4 text-center text-xs font-bold text-neutral-400 dark:border-red-300/10">
-              <FontAwesomeIcon icon={faShieldHalved} className="me-2 text-red-900 dark:text-red-200" />
+              <FontAwesomeIcon
+                icon={faShieldHalved}
+                className="me-2 text-red-900 dark:text-red-200"
+              />
               <span>{t("auth.securityNote")}</span>
             </div>
           </form>
