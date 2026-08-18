@@ -15,27 +15,20 @@ function getLoginTokens(response) {
     return null;
   }
 
-  const { userId, accessToken, refreshToken } = response;
+  const { userId, accessToken } = response;
 
-  if (
-    typeof accessToken !== "string" ||
-    !accessToken.trim() ||
-    typeof refreshToken !== "string" ||
-    !refreshToken.trim()
-  ) {
+  if (typeof accessToken !== "string" || !accessToken.trim()) {
     return null;
   }
 
   return {
     userId: typeof userId === "string" ? userId : null,
     accessToken,
-    refreshToken,
   };
 }
 
 export function AuthProvider({ children }) {
   const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [subscription, setSubscription] = useState(null);
@@ -44,7 +37,6 @@ export function AuthProvider({ children }) {
 
   const resetAuthState = useCallback(() => {
     setAccessToken(null);
-    setRefreshToken(null);
     setUserId(null);
     setUser(null);
     setSubscription(null);
@@ -74,7 +66,6 @@ export function AuthProvider({ children }) {
     setApiAuthHandlers({
       onTokensUpdated(nextTokens) {
         setAccessToken(nextTokens.accessToken);
-        setRefreshToken(nextTokens.refreshToken);
         setRole(getUserRoleFromToken(nextTokens.accessToken));
       },
       onAuthCleared: resetAuthState,
@@ -101,7 +92,6 @@ export function AuthProvider({ children }) {
     const storedTokens = getStoredAuthTokens();
 
     setAccessToken(storedTokens.accessToken || activeToken);
-    setRefreshToken(storedTokens.refreshToken);
     setUser(profile);
     setSubscription(subscriptionData);
     setRole(nextRole);
@@ -118,7 +108,7 @@ export function AuthProvider({ children }) {
     const storedTokens = getStoredAuthTokens();
 
     async function restoreSession() {
-      if (!storedTokens.accessToken || !storedTokens.refreshToken) {
+      if (!storedTokens.accessToken) {
         clearStoredAuthTokens();
         setIsLoading(false);
         return;
@@ -167,6 +157,26 @@ export function AuthProvider({ children }) {
     [clearAuth, loadAuthenticatedState],
   );
 
+  const completeGoogleLogin = useCallback(
+    async (accessToken) => {
+      const nextTokens = storeAuthTokens({ accessToken });
+
+      if (!nextTokens) {
+        throw new Error("Google login succeeded, but token was invalid.");
+      }
+
+      setRole(getUserRoleFromToken(nextTokens.accessToken));
+
+      try {
+        return await loadAuthenticatedState(nextTokens.accessToken);
+      } catch (error) {
+        clearAuth();
+        throw error;
+      }
+    },
+    [clearAuth, loadAuthenticatedState],
+  );
+
   const register = useCallback((data) => registerUser(data), []);
 
   const logout = useCallback(() => {
@@ -180,23 +190,23 @@ export function AuthProvider({ children }) {
       subscription,
       token: accessToken,
       accessToken,
-      refreshToken,
       role,
       isAdmin: isAdminRole(role),
-      isAuthenticated: Boolean(accessToken && refreshToken && user),
+      isAuthenticated: Boolean(accessToken && user),
       isLoading,
       login,
       register,
       logout,
+      completeGoogleLogin,
       refreshSubscription,
     }),
     [
       accessToken,
+      completeGoogleLogin,
       isLoading,
       login,
       logout,
       refreshSubscription,
-      refreshToken,
       register,
       role,
       subscription,

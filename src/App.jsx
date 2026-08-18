@@ -20,6 +20,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PaymentCancelPage from "./pages/PaymentCancelPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import PlansPage from "./pages/PlansPage";
+import GoogleCallbackPage from "./pages/GoogleCallbackPage";
 import RouterProvider from "./router/RouterProvider";
 import { useRouter } from "./router/useRouter";
 import { AuthProvider } from "./context/AuthContext.jsx";
@@ -128,6 +129,10 @@ function AppRoutes() {
   const isRegister = location.pathname === "/register";
   const isVerifyEmail = location.pathname === "/verify-email";
   const complaintId = getComplaintRouteId(location.pathname);
+
+  if (location.pathname === "/auth/callback") {
+    return <GoogleCallbackPage />;
+  }
 
   if (location.pathname === "/") {
     return <LandingPage />;
