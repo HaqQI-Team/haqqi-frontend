@@ -92,6 +92,7 @@ async function sendRequest(path, { method, body, skipAuth }, activeToken) {
     const response = await fetch(`${API_BASE_URL}${path}`, {
       method,
       headers,
+      credentials: "include",
       body: body === undefined || isFormData ? body : JSON.stringify(body),
     });
     const data = await parseResponse(response);
@@ -103,20 +104,17 @@ async function sendRequest(path, { method, body, skipAuth }, activeToken) {
 }
 
 async function refreshAuthTokens() {
-  const { accessToken, refreshToken } = getStoredAuthTokens();
+  const { accessToken } = getStoredAuthTokens();
 
-  if (!accessToken || !refreshToken) {
-    throw new ApiError("Missing refresh token", { status: 401 });
+  if (!accessToken) {
+    throw new ApiError("Missing access token", { status: 401 });
   }
 
   const { response, data } = await sendRequest(
     "/api/auth/refresh",
     {
       method: "POST",
-      body: {
-        accessToken,
-        refreshToken,
-      },
+      body: { accessToken },
       skipAuth: true,
     },
     null,
@@ -128,11 +126,10 @@ async function refreshAuthTokens() {
 
   const nextTokens = storeAuthTokens({
     accessToken: data?.accessToken,
-    refreshToken: data?.refreshToken,
   });
 
   if (!nextTokens) {
-    throw new ApiError("Refresh succeeded, but tokens were not returned.", {
+    throw new ApiError("Refresh succeeded, but token was not returned.", {
       status: 401,
       details: data,
     });

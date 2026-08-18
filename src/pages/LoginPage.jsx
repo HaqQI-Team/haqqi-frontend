@@ -13,6 +13,8 @@ import {
 import AuthInput from "../components/auth/AuthInput";
 import Link from "../router/Link";
 import { useAuth } from "../hooks/useAuth";
+import { API_BASE_URL } from "../api/apiClient";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useRouter } from "../router/useRouter";
 import {
   getApiErrorMessage,
@@ -157,6 +159,23 @@ function LoginPage() {
         className="mt-5 inline-flex h-12 w-full items-center justify-center rounded-[10px] bg-red-900 px-5 text-sm font-extrabold text-white shadow-[0_10px_18px_rgba(127,29,29,0.20)] transition duration-200 hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-red-700 dark:hover:bg-red-600 sm:text-base"
       >
         {isSubmitting ? t("auth.login.loading") : t("auth.login.submit")}
+      </button>
+
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <hr className="w-full border-neutral-200 dark:border-neutral-800" />
+        <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">{t("auth.login.or", { defaultValue: "Or" })}</span>
+        <hr className="w-full border-neutral-200 dark:border-neutral-800" />
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          window.location.href = `${API_BASE_URL}/api/User/login/google`;
+        }}
+        className="mt-4 inline-flex h-12 w-full items-center justify-center gap-3 rounded-[10px] border border-neutral-200 bg-white px-5 text-sm font-bold text-neutral-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800 sm:text-base cursor-pointer"
+      >
+        <FontAwesomeIcon icon={faGoogle} className="text-red-950 dark:text-white" />
+        <span>{t("auth.login.googleSignIn", { defaultValue: "Sign in with Google" })}</span>
       </button>
 
       <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-300">
