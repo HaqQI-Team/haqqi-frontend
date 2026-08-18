@@ -31,7 +31,6 @@ function AdminComplaintsPage() {
   const [currentPage, setCurrentPage] = useState(0); // 0-indexed internally
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -47,7 +46,7 @@ function AdminComplaintsPage() {
 
   function handleLogout() {
     logout();
-    navigate("/admin/login");
+    navigate("/");
   }
 
   useEffect(() => {
@@ -73,7 +72,6 @@ function AdminComplaintsPage() {
           }
 
           setComplaints(data?.complaints || []);
-          setTotalCount(data?.totalCount ?? 0);
           setTotalPages(data?.totalPages ?? 0);
           setError("");
         }

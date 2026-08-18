@@ -36,7 +36,7 @@ function AdminDashboardPage() {
 
   function handleLogout() {
     logout();
-    navigate("/admin/login");
+    navigate("/");
   }
 
   useEffect(() => {

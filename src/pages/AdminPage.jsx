@@ -181,7 +181,7 @@ function AdminPage() {
 
   function handleLogout() {
     logout();
-    navigate("/admin/login");
+    navigate("/");
   }
 
   function addFiles(fileList) {

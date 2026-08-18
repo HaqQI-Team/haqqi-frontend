@@ -370,6 +370,7 @@
   "admin": {
     "brand": "إدارة حقي",
     "navLabel": "تنقل الإدارة",
+    "backToHome": "العودة للرئيسية",
     "nav": {
       "dashboard": "لوحة المعلومات",
       "complaints": "الشكاوى",

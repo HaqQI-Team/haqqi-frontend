@@ -370,6 +370,7 @@
   "admin": {
     "brand": "HaqQi Admin",
     "navLabel": "Admin navigation",
+    "backToHome": "Back to Home",
     "nav": {
       "dashboard": "Dashboard",
       "complaints": "Complaints",
