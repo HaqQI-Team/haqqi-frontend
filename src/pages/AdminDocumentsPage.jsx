@@ -47,7 +47,7 @@ function AdminDocumentsPage() {
 
   function handleLogout() {
     logout();
-    navigate("/admin/login");
+    navigate("/");
   }
 
   useEffect(() => {

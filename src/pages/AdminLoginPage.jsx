@@ -7,6 +7,7 @@ import {
   faEnvelope,
   faEye,
   faEyeSlash,
+  faHouse,
   faLock,
   faScaleBalanced,
   faShieldHalved,
@@ -152,7 +153,10 @@ function AdminLoginPage() {
                 <p>{t("admin.auth.permissionDenied")}</p>
                 <button
                   type="button"
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
                   className="mt-3 rounded-md bg-red-900 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-red-800 dark:bg-red-700 dark:hover:bg-red-600"
                 >
                   {t("admin.signOut")}
@@ -213,6 +217,17 @@ function AdminLoginPage() {
                 </button>
               </>
             )}
+
+            <div className="mt-6 text-center">
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="inline-flex items-center justify-center gap-2 text-sm font-bold text-neutral-600 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-neutral-300 dark:hover:text-red-200 transition duration-200"
+              >
+                <FontAwesomeIcon icon={faHouse} />
+                <span>{t("admin.backToHome")}</span>
+              </button>
+            </div>
 
             <div className="mt-5 border-t border-red-900/10 pt-4 text-center text-xs font-bold text-neutral-400 dark:border-red-300/10">
               <FontAwesomeIcon
