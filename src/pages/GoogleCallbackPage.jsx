@@ -35,7 +35,7 @@ export default function GoogleCallbackPage() {
 
       try {
         await completeGoogleLogin(accessToken);
-        navigate("/");
+        navigate("/complaints");
       } catch {
         navigate("/login?error=google_login_failed");
       }

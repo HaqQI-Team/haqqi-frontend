@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, useReducedMotion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
@@ -142,6 +143,41 @@ function MessageBubble({ item }) {
             {time}
           </p>
         ) : null}
+      </div>
+    </article>
+  );
+}
+
+function AiWaitingBubble() {
+  const { t } = useTranslation();
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <article className="flex min-w-0 justify-start">
+      <div className="flex min-w-0 max-w-[92%] items-center gap-3 rounded-md border border-red-900/10 bg-white px-4 py-3 text-start shadow-sm dark:border-red-300/10 dark:bg-neutral-900 sm:max-w-[78%]">
+        <motion.span
+          animate={
+            shouldReduceMotion
+              ? { scale: 1, rotate: 0 }
+              : { scale: [1, 1.12, 1], rotate: [0, -4, 4, 0] }
+          }
+          transition={{
+            duration: 2.2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-red-900/[0.08] text-red-900 dark:bg-red-300/10 dark:text-red-200"
+        >
+          <FontAwesomeIcon icon={faScaleBalanced} />
+        </motion.span>
+        <div className="min-w-0">
+          <p className="text-xs font-extrabold text-red-900 dark:text-red-200">
+            {t("brand.name")}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-neutral-600 dark:text-neutral-300">
+            {t("app.workspace.aiAnalyzing")}
+          </p>
+        </div>
       </div>
     </article>
   );
@@ -433,6 +469,7 @@ function ComplaintWorkspacePage({ complaintId }) {
   const { refreshSubscription, subscription: authSubscription } = useAuth();
   const { navigate } = useRouter();
   const fileInputRef = useRef(null);
+  const messagesEndRef = useRef(null);
   const [complaint, setComplaint] = useState(null);
   const [messages, setMessages] = useState([]);
   const [evidence, setEvidence] = useState([]);
@@ -458,6 +495,10 @@ function ComplaintWorkspacePage({ complaintId }) {
     () => buildEvidenceDisplayTimeline(messages, evidence),
     [messages, evidence],
   );
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [displayTimeline, isSending]);
 
   const refreshMessagesAndEvidence = useCallback(async () => {
     const [messageResult, evidenceResult] = await Promise.allSettled([
@@ -867,14 +908,14 @@ function ComplaintWorkspacePage({ complaintId }) {
       </header>
 
       <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(280px,340px)]">
-        <section className="flex min-h-[560px] min-w-0 flex-col rounded-md border border-red-900/10 bg-[#fffaf7] shadow-sm dark:border-red-300/10 dark:bg-neutral-900">
-          <div className="border-b border-red-900/10 px-5 py-4 dark:border-red-300/10">
+        <section className="flex h-[78dvh] min-h-[460px] max-h-[820px] min-w-0 flex-col rounded-md border border-red-900/10 bg-[#fffaf7] shadow-sm dark:border-red-300/10 dark:bg-neutral-900 lg:h-[calc(100dvh-14rem)] lg:min-h-[460px] lg:max-h-none">
+          <div className="shrink-0 border-b border-red-900/10 px-4 py-3.5 sm:px-5 sm:py-4 dark:border-red-300/10">
             <h2 className="text-lg font-extrabold text-neutral-950 dark:text-white">
               {t("app.workspace.conversation")}
             </h2>
           </div>
 
-          <div className="min-w-0 flex-1 space-y-4 overflow-y-auto px-5 py-5">
+          <div className="min-w-0 flex-1 space-y-4 overflow-y-auto px-4 py-4 sm:px-5 sm:py-5">
             {messagesError ? (
               <InlineAlert
                 title={t("app.errors.messagesLoad")}
@@ -899,11 +940,13 @@ function ComplaintWorkspacePage({ complaintId }) {
                 </p>
               </div>
             )}
+            {isSending ? <AiWaitingBubble /> : null}
+            <div ref={messagesEndRef} />
           </div>
 
           <form
             onSubmit={handleSend}
-            className="border-t border-red-900/10 p-4 dark:border-red-300/10"
+            className="shrink-0 border-t border-red-900/10 p-3 sm:p-4 dark:border-red-300/10"
           >
             {actionError ? <div className="mb-3">{renderActionError()}</div> : null}
             <div className="flex min-w-0 flex-col gap-3 md:flex-row">
@@ -935,14 +978,14 @@ function ComplaintWorkspacePage({ complaintId }) {
                 disabled={isSending || !prompt.trim()}
                 className="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-red-900 px-5 py-3 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-red-700 dark:hover:bg-red-600"
               >
-                <span>{isSending ? t("app.workspace.sending") : t("app.workspace.send")}</span>
+                <span>{t("app.workspace.send")}</span>
                 <FontAwesomeIcon icon={faPaperPlane} />
               </button>
             </div>
           </form>
         </section>
 
-        <aside className="min-w-0 space-y-4">
+        <aside className="min-w-0 space-y-4 xl:sticky xl:top-8 xl:max-h-[calc(100dvh-4rem)] xl:overflow-y-auto ltr:xl:pr-1 rtl:xl:pl-1">
           <section className="rounded-md border border-red-900/10 bg-white p-5 text-start shadow-sm dark:border-red-300/10 dark:bg-neutral-900">
             <h2 className="text-lg font-extrabold text-neutral-950 dark:text-white">
               {t("app.workspace.details")}

@@ -33,6 +33,7 @@
     }
   },
   "auth": {
+    "backToHome": "Back to Home",
     "securityNote": "Your information is encrypted and protected",
     "actions": {
       "showPassword": "Show password",
@@ -571,7 +572,9 @@
       "delete": "Delete",
       "deleting": "Deleting...",
       "confirmDeleteTitle": "Delete complaint?",
-      "confirmDeleteDescription": "This complaint and its related workspace data will be permanently removed."
+      "confirmDeleteDescription": "This complaint and its related workspace data will be permanently removed.",
+      "planLimit": "Plan allows up to {{count}} active complaints",
+      "totalCount": "{{count}} complaints currently listed"
     },
     "newComplaint": {
       "eyebrow": "Start clearly",
@@ -645,6 +648,7 @@
       "messagePlaceholder": "Describe what happened or answer HaqQi here...",
       "send": "Send",
       "sending": "Sending...",
+      "aiAnalyzing": "HaqQi is analyzing your complaint...",
       "details": "Complaint Details",
       "status": "Status",
       "domain": "Domain",

@@ -33,6 +33,7 @@
     }
   },
   "auth": {
+    "backToHome": "الرئيسية",
     "securityNote": "معلوماتك مشفرة ومحمية",
     "actions": {
       "showPassword": "إظهار كلمة المرور",
@@ -571,7 +572,9 @@
       "delete": "حذف",
       "deleting": "جار الحذف...",
       "confirmDeleteTitle": "حذف الشكوى؟",
-      "confirmDeleteDescription": "سيتم حذف هذه الشكوى وبيانات مساحة العمل المرتبطة بها نهائيا."
+      "confirmDeleteDescription": "سيتم حذف هذه الشكوى وبيانات مساحة العمل المرتبطة بها نهائيا.",
+      "planLimit": "تسمح خطتك بحتى {{count}} شكاوى نشطة",
+      "totalCount": "{{count}} شكاوى مسجلة حالياً"
     },
     "newComplaint": {
       "eyebrow": "ابدأ بوضوح",
@@ -645,6 +648,7 @@
       "messagePlaceholder": "اكتب ما حدث أو أجب حقي هنا...",
       "send": "إرسال",
       "sending": "جار الإرسال...",
+      "aiAnalyzing": "حقي يحلل شكواك الآن...",
       "details": "تفاصيل الشكوى",
       "status": "الحالة",
       "domain": "المجال",

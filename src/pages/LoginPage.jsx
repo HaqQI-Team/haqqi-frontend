@@ -76,7 +76,7 @@ function LoginPage() {
     try {
       const authResult = await login(formData);
 
-      navigate(authResult?.isAdmin ? "/admin/dashboard" : "/");
+      navigate(authResult?.isAdmin ? "/admin/dashboard" : "/complaints");
     } catch (error) {
       const hasFieldErrors = applyApiFieldErrors(error, setError, [
         "email",

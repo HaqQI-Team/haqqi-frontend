@@ -2,11 +2,13 @@ import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowLeft,
   faBolt,
   faFileLines,
   faScaleBalanced,
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "../../router/Link";
 
 const promoFeatures = [
   {
@@ -42,9 +44,21 @@ function AuthPromoPanel({ animateX = "0%", isRtl = false }) {
       dir={isRtl ? "rtl" : "ltr"}
       className="flex min-h-[360px] min-w-0 flex-col bg-[#2b1719] p-6 text-white sm:p-8 lg:absolute lg:inset-y-0 lg:left-0 lg:z-10 lg:h-screen lg:min-h-0 lg:max-h-screen lg:w-1/2 lg:p-8"
     >
-      <div className="inline-flex items-center gap-3 self-start text-lg font-extrabold">
-        <FontAwesomeIcon icon={faScaleBalanced} />
-        <span>{t("brand.name")}</span>
+      <div className="flex w-full items-center justify-between">
+        <div className="inline-flex items-center gap-3 text-lg font-extrabold">
+          <FontAwesomeIcon icon={faScaleBalanced} />
+          <span>{t("brand.name")}</span>
+        </div>
+        <Link
+          to="/"
+          className="hidden items-center gap-2 rounded-md px-3 py-1.5 text-sm font-bold text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white lg:inline-flex"
+        >
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className={isRtl ? "rotate-180" : ""}
+          />
+          <span>{t("auth.backToHome")}</span>
+        </Link>
       </div>
 
       <div className="flex flex-1 items-center justify-center py-8 text-center lg:py-5">

@@ -6,6 +6,7 @@ import { getMyComplaints } from "../api/complaintApi";
 import ComplaintCard from "../components/app/ComplaintCard";
 import EmptyState from "../components/app/EmptyState";
 import StatusBadge from "../components/app/StatusBadge";
+import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "../router/useRouter";
 import {
   getComplaintStatus,
@@ -30,10 +31,12 @@ function getMostRecentComplaint(complaints) {
 function MyComplaintsPage() {
   const { i18n, t } = useTranslation();
   const { navigate } = useRouter();
+  const { subscription } = useAuth();
   const [complaints, setComplaints] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const isRtl = i18n.dir() === "rtl";
+  const maxActive = subscription?.maxActiveComplaints;
 
   useEffect(() => {
     let isMounted = true;
@@ -117,6 +120,16 @@ function MyComplaintsPage() {
           <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-600 dark:text-neutral-300">
             {t("app.complaints.description")}
           </p>
+          <div className="mt-3 flex flex-wrap items-center gap-3 text-xs font-extrabold text-neutral-600 dark:text-neutral-300">
+            {maxActive ? (
+              <span className="inline-flex rounded-md border border-red-900/10 bg-[#fff8f4] px-2.5 py-1 text-red-900 dark:border-red-300/10 dark:bg-neutral-900 dark:text-red-200">
+                {t("app.complaints.planLimit", { count: maxActive })}
+              </span>
+            ) : null}
+            <span className="inline-flex rounded-md border border-neutral-200 bg-white px-2.5 py-1 text-neutral-700 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
+              {t("app.complaints.totalCount", { count: complaints.length })}
+            </span>
+          </div>
         </div>
         <button
           type="button"

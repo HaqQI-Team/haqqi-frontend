@@ -17,12 +17,7 @@ import { useAuth } from "../hooks/useAuth";
 import { getApiErrorMessage } from "../utils/apiError";
 import { getCheckoutRedirectUrl } from "../utils/checkout";
 import { storeCheckoutPlan } from "../utils/paymentSession";
-
-const PLAN_ORDER = {
-  FREE: 0,
-  PLUS: 1,
-  PRO: 2,
-};
+import { getPlanRank } from "../utils/planRank";
 
 function formatPrice(price, t) {
   if (price === 0) {
@@ -45,10 +40,6 @@ function isCurrentPlan(plan, subscription) {
   );
 }
 
-function getPlanRank(planType) {
-  return PLAN_ORDER[String(planType ?? "").toUpperCase()];
-}
-
 function getPlanAction(plan, subscription) {
   if (isCurrentPlan(plan, subscription)) {
     return "current";
@@ -58,11 +49,11 @@ function getPlanAction(plan, subscription) {
   const targetRank = getPlanRank(plan?.type);
 
   if (
-    currentRank === undefined ||
-    targetRank === undefined ||
+    currentRank === -1 ||
+    targetRank === -1 ||
     targetRank <= currentRank
   ) {
-    return "unavailable";
+    return "lower";
   }
 
   return "upgrade";
@@ -236,21 +227,22 @@ function PlansPage() {
                 />
               </ul>
 
-              <button
-                type="button"
-                disabled={!canUpgrade || isCheckingOut}
-                onClick={() => handleUpgrade(plan)}
-                className={`mt-auto inline-flex h-11 w-full items-center justify-center rounded-md px-4 text-sm font-extrabold transition ${
-                  !canUpgrade
-                    ? "border border-red-900/15 bg-red-900/[0.06] text-red-900 dark:border-red-300/15 dark:bg-red-300/10 dark:text-red-200"
-                    : "bg-red-900 text-white hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-red-700 dark:hover:bg-red-600"
-                }`}
-              >
-                {isActive ? t("app.plans.currentPlan") : null}
-                {!isActive && !canUpgrade ? t("app.plans.notAvailable") : null}
-                {canUpgrade && isCheckingOut ? t("app.plans.redirecting") : null}
-                {canUpgrade && !isCheckingOut ? t("app.plans.upgrade") : null}
-              </button>
+              {isActive ? (
+                <div className="mt-auto inline-flex h-11 w-full items-center justify-center rounded-md border border-red-900/20 bg-red-900/[0.08] px-4 text-sm font-extrabold text-red-900 dark:border-red-300/20 dark:bg-red-300/10 dark:text-red-200">
+                  {t("app.plans.currentPlan")}
+                </div>
+              ) : null}
+
+              {canUpgrade ? (
+                <button
+                  type="button"
+                  disabled={isCheckingOut}
+                  onClick={() => handleUpgrade(plan)}
+                  className="mt-auto inline-flex h-11 w-full items-center justify-center rounded-md bg-red-900 px-4 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-red-700 dark:hover:bg-red-600"
+                >
+                  {isCheckingOut ? t("app.plans.redirecting") : t("app.plans.upgrade")}
+                </button>
+              ) : null}
             </article>
           );
         })}

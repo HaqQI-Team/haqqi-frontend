@@ -19,6 +19,7 @@ import ThemeToggle from "../components/common/ThemeToggle";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "../router/useRouter";
 import { getProfileDisplayName } from "../utils/authResponse";
+import { isHighestPlan } from "../utils/planRank";
 import ConfirmDialog from "../components/app/ConfirmDialog";
 
 const navItems = [
@@ -64,22 +65,33 @@ function SidebarContent({ subscription, onNavigate, onLogout }) {
   const { user } = useAuth();
   const displayName = getProfileDisplayName(user) || t("navigation.account");
   const planLabel = getPlanLabel(subscription, t);
+  const isHighest = isHighestPlan(subscription?.plan);
+  const visibleNavItems = navItems.filter(
+    (item) => !(isHighest && item.path === "/plans"),
+  );
 
   return (
     <div className="flex h-full flex-col">
-      <button
-        type="button"
-        onClick={() => onNavigate("/")}
-        className="inline-flex w-fit items-center gap-3 text-lg font-extrabold text-red-900 transition duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800 dark:text-red-200"
-      >
-        <span className="grid h-9 w-9 place-items-center rounded-md bg-red-900 text-white dark:bg-red-700">
-          <FontAwesomeIcon icon={faScaleBalanced} />
-        </span>
-        <span>{t("brand.name")}</span>
-      </button>
+      <div className="flex items-center justify-between gap-2">
+        <button
+          type="button"
+          onClick={() => onNavigate("/")}
+          className="inline-flex w-fit items-center gap-3 text-lg font-extrabold text-red-900 transition duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800 dark:text-red-200"
+        >
+          <span className="grid h-9 w-9 place-items-center rounded-md bg-red-900 text-white dark:bg-red-700">
+            <FontAwesomeIcon icon={faScaleBalanced} />
+          </span>
+          <span>{t("brand.name")}</span>
+        </button>
+
+        <div className="flex items-center gap-1.5">
+          <LanguageToggle compact />
+          <ThemeToggle />
+        </div>
+      </div>
 
       <nav className="mt-8 space-y-2" aria-label={t("app.nav.label")}>
-        {navItems.map((item) => (
+        {visibleNavItems.map((item) => (
           <AppNavButton
             key={item.path}
             item={item}
