@@ -104,7 +104,9 @@
       "registerSuccess": "Account created successfully. Please sign in.",
       "noAccount": "Don't have an account?",
       "registerLink": "Register",
-      "verifySuccess": "Email verified successfully. Please sign in."
+      "verifySuccess": "Email verified successfully. Please sign in.",
+      "forgotPasswordLink": "Forgot password?",
+      "resetSuccess": "Password reset successful. Please sign in with your new password."
     },
     "register": {
       "title": "Create your Account",
@@ -148,6 +150,30 @@
       "resendCooldown": "Resend again in {{seconds}}s",
       "haveAccount": "Already verified?",
       "signInLink": "Sign In"
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Follow the steps to reset your account password.",
+      "stepIndicator": "Step {{current}} of {{total}}",
+      "backToLogin": "Back to Login",
+      "startOver": "Start Over",
+      "emailStep": {
+        "title": "Enter Your Email",
+        "subtitle": "We will send a verification code to your email to verify your identity.",
+        "submit": "Send Code",
+        "success": "A verification code has been sent to your email."
+      },
+      "otpStep": {
+        "title": "Enter Verification Code",
+        "subtitle": "Please enter the code sent to your email to proceed.",
+        "submit": "Verify Code"
+      },
+      "newPasswordStep": {
+        "title": "Set New Password",
+        "subtitle": "Choose a strong new password for your account.",
+        "submit": "Reset Password",
+        "success": "Password reset successful. Redirecting to login..."
+      }
     }
   },
   "hero": {

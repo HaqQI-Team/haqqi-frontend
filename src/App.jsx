@@ -11,6 +11,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import AppLayout from "./layouts/AppLayout";
 import ComplaintWorkspacePage from "./pages/ComplaintWorkspacePage";
 import MyComplaintsPage from "./pages/MyComplaintsPage";
@@ -128,6 +129,7 @@ function AppRoutes() {
   const isLogin = location.pathname === "/login";
   const isRegister = location.pathname === "/register";
   const isVerifyEmail = location.pathname === "/verify-email";
+  const isForgotPassword = location.pathname === "/forgot-password";
   const complaintId = getComplaintRouteId(location.pathname);
 
   if (location.pathname === "/auth/callback") {
@@ -142,7 +144,7 @@ function AppRoutes() {
     return <AdminLoginPage />;
   }
 
-  if (isLogin || isRegister || isVerifyEmail) {
+  if (isLogin || isRegister || isVerifyEmail || isForgotPassword) {
     const mode = isRegister ? "register" : "login";
 
     return (
@@ -150,6 +152,7 @@ function AppRoutes() {
         {isLogin ? <LoginPage /> : null}
         {isRegister ? <RegisterPage /> : null}
         {isVerifyEmail ? <VerifyEmailPage /> : null}
+        {isForgotPassword ? <ForgotPasswordPage /> : null}
       </AuthLayout>
     );
   }

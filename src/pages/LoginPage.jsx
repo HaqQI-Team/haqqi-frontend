@@ -55,6 +55,8 @@ function LoginPage() {
     new URLSearchParams(location.search).get("registered") === "1";
   const emailVerified =
     new URLSearchParams(location.search).get("verified") === "1";
+  const resetSucceeded =
+    new URLSearchParams(location.search).get("reset") === "1";
   const {
     register,
     handleSubmit,
@@ -106,11 +108,13 @@ function LoginPage() {
       </div>
 
       <div className="space-y-3">
-        {registrationSucceeded || emailVerified ? (
+        {registrationSucceeded || emailVerified || resetSucceeded ? (
           <p className="rounded-md border border-emerald-700/20 bg-emerald-50 px-4 py-3 text-start text-sm font-semibold text-emerald-800 dark:border-emerald-300/20 dark:bg-emerald-950/25 dark:text-emerald-300">
             {emailVerified
               ? t("auth.login.verifySuccess")
-              : t("auth.login.registerSuccess")}
+              : resetSucceeded
+                ? t("auth.login.resetSuccess")
+                : t("auth.login.registerSuccess")}
           </p>
         ) : null}
 
@@ -145,6 +149,14 @@ function LoginPage() {
             </button>
           }
         />
+        <div className="mt-2 text-end">
+          <Link
+            to="/forgot-password"
+            className="text-xs font-bold text-red-900 hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:text-red-200 dark:hover:text-red-100"
+          >
+            {t("auth.login.forgotPasswordLink")}
+          </Link>
+        </div>
       </div>
 
       {errors.root?.message ? (
