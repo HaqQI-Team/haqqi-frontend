@@ -13,8 +13,7 @@ import {
 import AuthInput from "../components/auth/AuthInput";
 import Link from "../router/Link";
 import { useAuth } from "../hooks/useAuth";
-import { API_BASE_URL } from "../api/apiClient";
-import { faGoogle, faMicrosoft } from "@fortawesome/free-brands-svg-icons";
+import OAuthButtons from "../components/auth/OAuthButtons";
 import { useRouter } from "../router/useRouter";
 import {
   getApiErrorMessage,
@@ -173,33 +172,7 @@ function LoginPage() {
         {isSubmitting ? t("auth.login.loading") : t("auth.login.submit")}
       </button>
 
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <hr className="w-full border-neutral-200 dark:border-neutral-800" />
-        <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">{t("auth.login.or", { defaultValue: "Or" })}</span>
-        <hr className="w-full border-neutral-200 dark:border-neutral-800" />
-      </div>
-
-      <button
-        type="button"
-        onClick={() => {
-          window.location.href = `${API_BASE_URL}/api/User/login/google`;
-        }}
-        className="mt-4 inline-flex h-12 w-full items-center justify-center gap-3 rounded-[10px] border border-neutral-200 bg-white px-5 text-sm font-bold text-neutral-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800 sm:text-base cursor-pointer"
-      >
-        <FontAwesomeIcon icon={faGoogle} className="text-red-950 dark:text-white" />
-        <span>{t("auth.login.googleSignIn", { defaultValue: "Sign in with Google" })}</span>
-      </button>
-
-      <button
-        type="button"
-        onClick={() => {
-          window.location.href = `${API_BASE_URL}/api/User/login/microsoft`;
-        }}
-        className="mt-3 inline-flex h-12 w-full items-center justify-center gap-3 rounded-[10px] border border-neutral-200 bg-white px-5 text-sm font-bold text-neutral-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800 sm:text-base cursor-pointer"
-      >
-        <FontAwesomeIcon icon={faMicrosoft} className="text-red-950 dark:text-white" />
-        <span>{t("auth.login.microsoftSignIn", { defaultValue: "Sign in with Microsoft" })}</span>
-      </button>
+      <OAuthButtons />
 
       <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-300">
         {t("auth.login.noAccount")}{" "}
