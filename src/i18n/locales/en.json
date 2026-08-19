@@ -702,5 +702,11 @@
       "uploadMessage": "Evidence document uploaded",
       "viewInSupportingEvidence": "View in Supporting Evidence"
     }
+  },
+  "logoutConfirm": {
+    "title": "Logout",
+    "message": "Are you sure you want to logout?",
+    "confirm": "Logout",
+    "cancel": "Cancel"
   }
 }

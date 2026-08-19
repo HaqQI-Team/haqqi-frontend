@@ -15,6 +15,7 @@ import Link from "../../router/Link";
 import { useAuth } from "../../hooks/useAuth";
 import { useRouter } from "../../router/useRouter";
 import { getProfileDisplayName } from "../../utils/authResponse";
+import ConfirmDialog from "../app/ConfirmDialog";
 
 const navItems = [
   { id: "home", labelKey: "navigation.home" },
@@ -54,6 +55,7 @@ function Navbar() {
   const { navigate } = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const isRtl = i18n.dir() === "rtl";
   const displayName = getProfileDisplayName(user) || t("navigation.account");
@@ -128,7 +130,12 @@ function Navbar() {
   }
 
   function handleLogout() {
+    setIsLogoutConfirmOpen(true);
+  }
+
+  function confirmLogout() {
     logout();
+    setIsLogoutConfirmOpen(false);
     closeMenu();
     navigate("/");
   }
@@ -235,93 +242,105 @@ function Navbar() {
   }
 
   return (
-    <motion.header
-      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: "easeOut" }}
-      className="sticky top-0 z-50 border-b border-red-950/10 bg-[#fbf7f5]/95 backdrop-blur dark:border-white/10 dark:bg-neutral-950/95"
-    >
-      <nav
-        className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8"
-        aria-label={t("navigation.mainLabel")}
+    <>
+      <motion.header
+        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: "easeOut" }}
+        className="sticky top-0 z-50 border-b border-red-950/10 bg-[#fbf7f5]/95 backdrop-blur dark:border-white/10 dark:bg-neutral-950/95"
       >
-        <a
-          href="#home"
-          onClick={(event) => handleNavSelect(event, "home")}
-          className="inline-flex items-center gap-2 text-base font-extrabold text-red-900 transition duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800 dark:text-red-200 dark:focus-visible:outline-red-300"
+        <nav
+          className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8"
+          aria-label={t("navigation.mainLabel")}
         >
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-900 text-sm text-white dark:bg-red-700">
-            <FontAwesomeIcon icon={faScaleBalanced} />
-          </span>
-          <span>{t("brand.name")}</span>
-        </a>
+          <a
+            href="#home"
+            onClick={(event) => handleNavSelect(event, "home")}
+            className="inline-flex items-center gap-2 text-base font-extrabold text-red-900 transition duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800 dark:text-red-200 dark:focus-visible:outline-red-300"
+          >
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-red-900 text-sm text-white dark:bg-red-700">
+              <FontAwesomeIcon icon={faScaleBalanced} />
+            </span>
+            <span>{t("brand.name")}</span>
+          </a>
 
-        <div className="hidden items-center gap-7 xl:flex">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.id}
-              item={item}
-              onSelect={handleNavSelect}
-              isActive={activeSection === item.id}
-              isRtl={isRtl}
-            >
-              {t(item.labelKey)}
-            </NavLink>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex">
-            <LanguageToggle compact />
+          <div className="hidden items-center gap-7 xl:flex">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.id}
+                item={item}
+                onSelect={handleNavSelect}
+                isActive={activeSection === item.id}
+                isRtl={isRtl}
+              >
+                {t(item.labelKey)}
+              </NavLink>
+            ))}
           </div>
-          <ThemeToggle />
-          {renderDesktopAuthActions()}
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen((current) => !current)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-neutral-200 text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-300 dark:focus-visible:outline-red-300 xl:hidden"
-            aria-label={
-              isMenuOpen ? t("navigation.closeMenu") : t("navigation.openMenu")
-            }
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-navigation"
-          >
-            <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} />
-          </button>
-        </div>
-      </nav>
 
-      <AnimatePresence>
-        {isMenuOpen ? (
-          <motion.div
-            id="mobile-navigation"
-            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeOut" }}
-            className="border-t border-red-950/10 bg-[#fbf7f5] px-4 py-4 shadow-sm dark:border-white/10 dark:bg-neutral-950 xl:hidden"
-          >
-            <div className="mx-auto flex max-w-7xl flex-col gap-3">
-              <div className="flex items-center gap-2 sm:hidden">
-                <LanguageToggle />
-              </div>
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.id}
-                  item={item}
-                  onSelect={handleNavSelect}
-                  isActive={activeSection === item.id}
-                  isRtl={isRtl}
-                >
-                  {t(item.labelKey)}
-                </NavLink>
-              ))}
-              {renderMobileAuthActions()}
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex">
+              <LanguageToggle compact />
             </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </motion.header>
+            <ThemeToggle />
+            {renderDesktopAuthActions()}
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((current) => !current)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-neutral-200 text-neutral-700 transition duration-200 hover:-translate-y-0.5 hover:border-red-800 hover:text-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-300 dark:focus-visible:outline-red-300 xl:hidden"
+              aria-label={
+                isMenuOpen ? t("navigation.closeMenu") : t("navigation.openMenu")
+              }
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+            >
+              <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} />
+            </button>
+          </div>
+        </nav>
+
+        <AnimatePresence>
+          {isMenuOpen ? (
+            <motion.div
+              id="mobile-navigation"
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeOut" }}
+              className="border-t border-red-950/10 bg-[#fbf7f5] px-4 py-4 shadow-sm dark:border-white/10 dark:bg-neutral-950 xl:hidden"
+            >
+              <div className="mx-auto flex max-w-7xl flex-col gap-3">
+                <div className="flex items-center gap-2 sm:hidden">
+                  <LanguageToggle />
+                </div>
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.id}
+                    item={item}
+                    onSelect={handleNavSelect}
+                    isActive={activeSection === item.id}
+                    isRtl={isRtl}
+                  >
+                    {t(item.labelKey)}
+                  </NavLink>
+                ))}
+                {renderMobileAuthActions()}
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </motion.header>
+
+      <ConfirmDialog
+        isOpen={isLogoutConfirmOpen}
+        title={t("logoutConfirm.title")}
+        description={t("logoutConfirm.message")}
+        confirmLabel={t("logoutConfirm.confirm")}
+        cancelLabel={t("logoutConfirm.cancel")}
+        onCancel={() => setIsLogoutConfirmOpen(false)}
+        onConfirm={confirmLogout}
+      />
+    </>
   );
 }
 

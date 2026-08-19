@@ -19,6 +19,7 @@ import ThemeToggle from "../components/common/ThemeToggle";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "../router/useRouter";
 import { getProfileDisplayName } from "../utils/authResponse";
+import ConfirmDialog from "../components/app/ConfirmDialog";
 
 const navItems = [
   { path: "/", labelKey: "app.nav.home", icon: faHouse },
@@ -128,6 +129,7 @@ function AppLayout({ children }) {
   const { logout, subscription } = useAuth();
   const { navigate } = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState(false);
   const isRtl = i18n.dir() === "rtl";
 
   const handleNavigate = useCallback(
@@ -139,7 +141,12 @@ function AppLayout({ children }) {
   );
 
   const handleLogout = useCallback(() => {
+    setIsLogoutConfirmOpen(true);
+  }, []);
+
+  const confirmLogout = useCallback(() => {
     logout();
+    setIsLogoutConfirmOpen(false);
     setIsMenuOpen(false);
     navigate("/");
   }, [logout, navigate]);
@@ -231,6 +238,16 @@ function AppLayout({ children }) {
       <main className="min-w-0 px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <div className="mx-auto max-w-6xl min-w-0">{children}</div>
       </main>
+
+      <ConfirmDialog
+        isOpen={isLogoutConfirmOpen}
+        title={t("logoutConfirm.title")}
+        description={t("logoutConfirm.message")}
+        confirmLabel={t("logoutConfirm.confirm")}
+        cancelLabel={t("logoutConfirm.cancel")}
+        onCancel={() => setIsLogoutConfirmOpen(false)}
+        onConfirm={confirmLogout}
+      />
     </div>
   );
 }
