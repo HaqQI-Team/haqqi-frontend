@@ -71,3 +71,39 @@ export function createVerifyEmailSchema(t) {
     otp: z.string().trim().min(1, t("auth.validation.otpRequired")),
   });
 }
+
+export function createForgotPasswordEmailSchema(t) {
+  return z.object({
+    email: z
+      .string()
+      .trim()
+      .min(1, t("auth.validation.emailRequired"))
+      .regex(emailPattern, t("auth.validation.emailInvalid")),
+  });
+}
+
+export function createForgotPasswordOtpSchema(t) {
+  return z.object({
+    otpCode: z.string().trim().min(1, t("auth.validation.otpRequired")),
+  });
+}
+
+export function createForgotPasswordResetSchema(t) {
+  return z
+    .object({
+      newPassword: z
+        .string()
+        .min(1, t("auth.validation.passwordRequired"))
+        .min(8, t("auth.validation.passwordMin"))
+        .regex(uppercasePattern, t("auth.validation.passwordUppercase"))
+        .regex(lowercasePattern, t("auth.validation.passwordLowercase"))
+        .regex(digitPattern, t("auth.validation.passwordDigit"))
+        .regex(specialCharacterPattern, t("auth.validation.passwordSpecial")),
+      confirmPassword: z.string().min(1, t("auth.validation.confirmPasswordRequired")),
+    })
+    .refine((data) => data.confirmPassword === data.newPassword, {
+      path: ["confirmPassword"],
+      message: t("auth.validation.passwordMatch"),
+    });
+}
+

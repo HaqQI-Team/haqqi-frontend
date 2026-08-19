@@ -37,3 +37,28 @@ export function resendOtp(data) {
     skipAuth: true,
   });
 }
+
+export function requestPasswordReset(email) {
+  return apiRequest("/api/User/forgot-password", {
+    method: "POST",
+    body: { email },
+    skipAuth: true,
+  });
+}
+
+export function verifyResetOtp({ email, otpCode }) {
+  return apiRequest("/api/User/verify-otp", {
+    method: "POST",
+    body: { email, otpCode },
+    skipAuth: true,
+  });
+}
+
+export function resetPassword({ email, resetToken, newPassword }) {
+  return apiRequest("/api/User/reset-password", {
+    method: "POST",
+    body: { email, resetToken, newPassword },
+    skipAuth: true,
+  });
+}
+
