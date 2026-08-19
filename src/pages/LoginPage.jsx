@@ -14,7 +14,7 @@ import AuthInput from "../components/auth/AuthInput";
 import Link from "../router/Link";
 import { useAuth } from "../hooks/useAuth";
 import { API_BASE_URL } from "../api/apiClient";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle, faMicrosoft } from "@fortawesome/free-brands-svg-icons";
 import { useRouter } from "../router/useRouter";
 import {
   getApiErrorMessage,
@@ -188,6 +188,17 @@ function LoginPage() {
       >
         <FontAwesomeIcon icon={faGoogle} className="text-red-950 dark:text-white" />
         <span>{t("auth.login.googleSignIn", { defaultValue: "Sign in with Google" })}</span>
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          window.location.href = `${API_BASE_URL}/api/User/login/microsoft`;
+        }}
+        className="mt-3 inline-flex h-12 w-full items-center justify-center gap-3 rounded-[10px] border border-neutral-200 bg-white px-5 text-sm font-bold text-neutral-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-900 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800 sm:text-base cursor-pointer"
+      >
+        <FontAwesomeIcon icon={faMicrosoft} className="text-red-950 dark:text-white" />
+        <span>{t("auth.login.microsoftSignIn", { defaultValue: "Sign in with Microsoft" })}</span>
       </button>
 
       <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-300">

@@ -106,7 +106,9 @@
       "registerLink": "Register",
       "verifySuccess": "Email verified successfully. Please sign in.",
       "forgotPasswordLink": "Forgot password?",
-      "resetSuccess": "Password reset successful. Please sign in with your new password."
+      "resetSuccess": "Password reset successful. Please sign in with your new password.",
+      "googleSignIn": "Sign in with Google",
+      "microsoftSignIn": "Sign in with Microsoft"
     },
     "register": {
       "title": "Create your Account",
