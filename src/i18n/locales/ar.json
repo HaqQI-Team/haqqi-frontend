@@ -702,5 +702,11 @@
       "uploadMessage": "تم رفع مستند داعم",
       "viewInSupportingEvidence": "عرضه في الأدلة الداعمة"
     }
+  },
+  "logoutConfirm": {
+    "title": "تسجيل الخروج",
+    "message": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "confirm": "تسجيل الخروج",
+    "cancel": "إلغاء"
   }
 }
