@@ -15,6 +15,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import AuthInput from "../components/auth/AuthInput";
+import OAuthButtons from "../components/auth/OAuthButtons";
 import Link from "../router/Link";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "../router/useRouter";
@@ -261,6 +262,8 @@ function RegisterPage() {
             className={i18n.dir() === "rtl" ? "rotate-180" : ""}
           />
         </button>
+        
+        <OAuthButtons mode="register" />
 
         <p className="mt-5 text-center text-sm text-neutral-600 dark:text-neutral-300">
           {t("auth.register.hasAccount")}{" "}

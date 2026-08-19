@@ -120,7 +120,9 @@
       "submit": "Create Account",
       "loading": "Creating account...",
       "hasAccount": "Already have an account?",
-      "signInLink": "Sign In"
+      "signInLink": "Sign In",
+      "googleSignUp": "Sign up with Google",
+      "microsoftSignUp": "Sign up with Microsoft"
     },
     "promo": {
       "title": "Protecting your consumer rights with Intelligence.",
