@@ -8,7 +8,7 @@ import {
   getStoredAuthTokens,
   storeAuthTokens,
 } from "../utils/authTokens";
-import { getUserRoleFromToken, isAdminRole } from "../utils/jwtClaims";
+import { decodeJwtPayload, getUserRoleFromToken, isAdminRole } from "../utils/jwtClaims";
 
 function getLoginTokens(response) {
   if (!response || typeof response !== "object") {
@@ -93,6 +93,12 @@ export function AuthProvider({ children }) {
 
     setAccessToken(storedTokens.accessToken || activeToken);
     setUser(profile);
+
+    // Restore userId from profile or token payload
+    const decoded = decodeJwtPayload(activeToken);
+    const userIdFromToken = decoded?.sub || decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+    setUserId(profile?.id || profile?.userId || userIdFromToken || null);
+
     setSubscription(subscriptionData);
     setRole(nextRole);
 

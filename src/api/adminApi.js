@@ -31,5 +31,11 @@ export function getAllLegalDocuments({ pageNumber, pageSize }) {
   });
 }
 
+export function deleteLegalDocument(documentId) {
+  return apiRequest(`/api/Admin/delete-legal-document/${documentId}`, {
+    method: "DELETE",
+  });
+}
+
 
 

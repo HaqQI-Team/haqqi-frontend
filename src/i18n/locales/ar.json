@@ -410,12 +410,25 @@
       "emptyTitle": "لا توجد مستندات قانونية.",
       "viewSource": "عرض المصدر",
       "noSource": "لا يوجد رابط مصدر",
+      "delete": "حذف",
+      "deleteTooltip": "حذف المستند",
+      "deleteConfirm": {
+        "title": "حذف المستند",
+        "message": "هل أنت متأكد من أنك تريد حذف هذا المستند؟ لا يمكن التراجع عن هذا الإجراء.",
+        "confirm": "حذف",
+        "cancel": "إلغاء"
+      },
+      "messages": {
+        "deleteSuccess": "تم حذف المستند بنجاح",
+        "deleteError": "تعذر حذف المستند. يرجى المحاولة مرة أخرى."
+      },
       "columns": {
         "name": "اسم المستند",
         "status": "الحالة",
         "publicationDate": "تاريخ النشر",
         "source": "المصدر",
-        "uploaded": "تاريخ الرفع"
+        "uploaded": "تاريخ الرفع",
+        "actions": "الإجراءات"
       }
     },
     "complaints": {

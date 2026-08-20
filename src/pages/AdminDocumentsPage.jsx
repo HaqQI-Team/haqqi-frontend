@@ -7,8 +7,11 @@ import {
   faXmark,
   faArrowLeft,
   faArrowRight,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { getAllLegalDocuments } from "../api/adminApi";
+import { getAllLegalDocuments, deleteLegalDocument } from "../api/adminApi";
+import ConfirmDialog from "../components/app/ConfirmDialog";
+import Toast from "../components/common/Toast";
 import AdminSidebar from "../components/admin/AdminSidebar";
 import EmptyState from "../components/app/EmptyState";
 import LanguageToggle from "../components/common/LanguageToggle";
@@ -21,7 +24,7 @@ import { formatDate } from "../utils/formatters";
 
 function AdminDocumentsPage() {
   const { i18n, t } = useTranslation();
-  const { logout, user } = useAuth();
+  const { logout, user, userId } = useAuth();
   const { navigate } = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -34,6 +37,12 @@ function AdminDocumentsPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Deletion and feedback states
+  const [deletingDoc, setDeletingDoc] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // PAGINATION INDEX CONVENTION:
   // The backend API might be 0-based or 1-based.
@@ -98,7 +107,29 @@ function AdminDocumentsPage() {
     return () => {
       isMounted = false;
     };
-  }, [currentPage, isZeroBased, pageSize, t]);
+  }, [currentPage, isZeroBased, pageSize, t, refreshKey]);
+
+  async function handleDeleteConfirm() {
+    if (!deletingDoc) return;
+    try {
+      setIsDeleting(true);
+      await deleteLegalDocument(deletingDoc.id);
+      setToast({
+        message: t("admin.documents.messages.deleteSuccess"),
+        type: "success",
+      });
+      setDeletingDoc(null);
+      setRefreshKey((prev) => prev + 1);
+    } catch (err) {
+      setToast({
+        message: getApiErrorMessage(err, t("admin.documents.messages.deleteError")),
+        type: "error",
+      });
+      setDeletingDoc(null);
+    } finally {
+      setIsDeleting(false);
+    }
+  }
 
   return (
     <div
@@ -220,6 +251,9 @@ function AdminDocumentsPage() {
                             <th className="px-6 py-4 text-start text-xs font-bold uppercase text-neutral-400">
                               {t("admin.documents.columns.uploaded")}
                             </th>
+                            <th className="px-6 py-4 text-start text-xs font-bold uppercase text-neutral-400">
+                              {t("admin.documents.columns.actions")}
+                            </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-red-900/10 dark:divide-red-300/10">
@@ -227,6 +261,7 @@ function AdminDocumentsPage() {
                             const name = doc.documentName || "—";
                             const pubDate = formatDate(doc.publicationDate, i18n.language) || "—";
                             const uploadDate = formatDate(doc.createdAt, i18n.language) || "—";
+                            const canDelete = doc.uploadedByAdminId === userId;
 
                             return (
                               <tr
@@ -261,6 +296,19 @@ function AdminDocumentsPage() {
                                 </td>
                                 <td className="px-6 py-4 text-sm font-semibold text-neutral-800 dark:text-neutral-100">
                                   {uploadDate}
+                                </td>
+                                <td className="px-6 py-4">
+                                  {canDelete ? (
+                                    <button
+                                      type="button"
+                                      onClick={() => setDeletingDoc(doc)}
+                                      title={t("admin.documents.deleteTooltip")}
+                                      aria-label={t("admin.documents.deleteTooltip")}
+                                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-neutral-200 text-red-900 transition hover:-translate-y-0.5 hover:border-red-800 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-red-200 dark:hover:border-red-300 dark:hover:bg-red-950/20"
+                                    >
+                                      <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                  ) : null}
                                 </td>
                               </tr>
                             );
@@ -309,16 +357,28 @@ function AdminDocumentsPage() {
                             </div>
                           </div>
 
-                          {doc.sourceUrl ? (
-                            <div className="mt-4">
-                              <a
-                                href={doc.sourceUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block rounded-md border border-neutral-200 px-3 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-red-800 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-200"
-                              >
-                                {t("admin.documents.viewSource")}
-                              </a>
+                          {doc.sourceUrl || doc.uploadedByAdminId === userId ? (
+                            <div className="mt-4 flex flex-wrap items-center gap-3">
+                              {doc.sourceUrl ? (
+                                <a
+                                  href={doc.sourceUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-block rounded-md border border-neutral-200 px-3 py-1.5 text-xs font-bold text-neutral-700 transition hover:-translate-y-0.5 hover:border-red-800 hover:text-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-red-300 dark:hover:text-red-200"
+                                >
+                                  {t("admin.documents.viewSource")}
+                                </a>
+                              ) : null}
+                              {doc.uploadedByAdminId === userId ? (
+                                <button
+                                  type="button"
+                                  onClick={() => setDeletingDoc(doc)}
+                                  className="inline-flex items-center gap-2 rounded-md border border-neutral-200 px-3 py-1.5 text-xs font-bold text-red-900 transition hover:-translate-y-0.5 hover:border-red-800 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800 dark:border-neutral-700 dark:text-red-200 dark:hover:border-red-300 dark:hover:bg-red-950/20"
+                                >
+                                  <FontAwesomeIcon icon={faTrash} />
+                                  <span>{t("admin.documents.delete")}</span>
+                                </button>
+                              ) : null}
                             </div>
                           ) : null}
                         </div>
@@ -367,6 +427,25 @@ function AdminDocumentsPage() {
           )}
         </div>
       </main>
+
+      <ConfirmDialog
+        isOpen={deletingDoc !== null}
+        title={t("admin.documents.deleteConfirm.title")}
+        description={t("admin.documents.deleteConfirm.message")}
+        confirmLabel={t("admin.documents.deleteConfirm.confirm")}
+        cancelLabel={t("admin.documents.deleteConfirm.cancel")}
+        isLoading={isDeleting}
+        onCancel={() => setDeletingDoc(null)}
+        onConfirm={handleDeleteConfirm}
+      />
+
+      {toast ? (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      ) : null}
     </div>
   );
 }
