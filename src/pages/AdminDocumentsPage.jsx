@@ -251,7 +251,7 @@ function AdminDocumentsPage() {
                             <th className="px-6 py-4 text-start text-xs font-bold uppercase text-neutral-400">
                               {t("admin.documents.columns.uploaded")}
                             </th>
-                            <th className="px-6 py-4 text-start text-xs font-bold uppercase text-neutral-400">
+                            <th className="px-6 py-4 text-center text-xs font-bold uppercase text-neutral-400">
                               {t("admin.documents.columns.actions")}
                             </th>
                           </tr>
@@ -297,7 +297,7 @@ function AdminDocumentsPage() {
                                 <td className="px-6 py-4 text-sm font-semibold text-neutral-800 dark:text-neutral-100">
                                   {uploadDate}
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-center">
                                   {canDelete ? (
                                     <button
                                       type="button"
