@@ -72,11 +72,16 @@ function getAdminApiErrorMessage(error, t) {
 }
 
 function unwrapIngestResult(response) {
-  const result = response?.result ?? response;
+  const ragResult = response?.ragResult ?? response?.result?.ragResult;
+  const messageSource = ragResult ?? response?.result ?? response;
+  const skippedFilesSource = response?.result ?? response;
 
   return {
-    message: typeof result?.message === "string" ? result.message : "",
-    results: Array.isArray(result?.results) ? result.results : [],
+    message: typeof messageSource?.message === "string" ? messageSource.message : "",
+    results: Array.isArray(messageSource?.results) ? messageSource.results : [],
+    skippedFiles: Array.isArray(skippedFilesSource?.skippedFiles)
+      ? skippedFilesSource.skippedFiles.filter((name) => typeof name === "string" && name.trim())
+      : [],
   };
 }
 
@@ -457,6 +462,21 @@ function AdminPage() {
                 <p className="rounded-md border border-emerald-700/20 bg-emerald-50 px-4 py-3 text-start text-sm font-semibold text-emerald-800 dark:border-emerald-300/20 dark:bg-emerald-950/25 dark:text-emerald-300">
                   {uploadResult.message}
                 </p>
+              ) : null}
+
+              {uploadResult.skippedFiles && uploadResult.skippedFiles.length > 0 ? (
+                <div className="rounded-md border border-amber-700/20 bg-amber-50 px-4 py-3 text-start text-sm text-amber-900 dark:border-amber-300/20 dark:bg-amber-950/25 dark:text-amber-200">
+                  <p className="font-semibold">
+                    {t("admin.upload.skippedFilesTitle")}
+                  </p>
+                  <ul className="mt-2 list-disc list-inside space-y-1 font-medium">
+                    {uploadResult.skippedFiles.map((filename, index) => (
+                      <li key={`${filename}-${index}`} className="break-words">
+                        {filename}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : null}
 
               {uploadResult.results.map((result, index) => (

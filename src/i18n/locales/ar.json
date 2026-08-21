@@ -488,7 +488,8 @@
       "clearSelection": "مسح الاختيار",
       "remove": "إزالة",
       "submit": "رفع إلى قاعدة المعرفة",
-      "processing": "جار معالجة المستندات..."
+      "processing": "جار معالجة المستندات...",
+      "skippedFilesTitle": "الملفات التالية موجودة بالفعل وتم تخطيها:"
     },
     "results": {
       "successful": "ناجح",
