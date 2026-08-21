@@ -487,7 +487,8 @@
       "clearSelection": "Clear selection",
       "remove": "Remove",
       "submit": "Upload to Knowledge Base",
-      "processing": "Processing documents..."
+      "processing": "Processing documents...",
+      "skippedFilesTitle": "The following files already exist and were skipped:"
     },
     "results": {
       "successful": "Successful",
