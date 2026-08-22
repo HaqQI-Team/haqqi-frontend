@@ -41,6 +41,7 @@ import {
   getDraftPdfUrl,
   getDraftUpdatedAt,
   getEvidenceId,
+  getEvidenceProcessedText,
   getMessageContent,
   getMessageTime,
   getMissingInformation,
@@ -491,42 +492,29 @@ function ComplaintWorkspacePage({ complaintId }) {
   const [error, setError] = useState("");
   const [errorType, setErrorType] = useState("");
   const [actionError, setActionError] = useState(null);
+  const [isProcessingEvidence, setIsProcessingEvidence] = useState(false);
+  const pollTimerRef = useRef(null);
+  const pollCountRef = useRef(0);
+  const isMountedRef = useRef(true);
+
   const displayTimeline = useMemo(
     () => buildEvidenceDisplayTimeline(messages, evidence),
     [messages, evidence],
   );
 
   useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      if (pollTimerRef.current) {
+        clearTimeout(pollTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [displayTimeline, isSending]);
-
-  const refreshMessagesAndEvidence = useCallback(async () => {
-    const [messageResult, evidenceResult] = await Promise.allSettled([
-      getComplaintMessages(complaintId),
-      getComplaintEvidence(complaintId),
-    ]);
-    const nextMessages =
-      messageResult.status === "fulfilled"
-        ? unwrapApiArray(messageResult.value, ["complaintMessages", "messages"])
-        : [];
-    const nextEvidence =
-      evidenceResult.status === "fulfilled"
-        ? unwrapApiArray(evidenceResult.value, ["evidence", "files"])
-        : [];
-
-    setMessagesError(
-      messageResult.status === "rejected"
-        ? getApiErrorMessage(messageResult.reason, t("app.errors.messagesLoad"))
-        : "",
-    );
-    setEvidenceError(
-      evidenceResult.status === "rejected"
-        ? getApiErrorMessage(evidenceResult.reason, t("app.errors.evidenceLoad"))
-        : "",
-    );
-    setEvidence(nextEvidence);
-    setMessages(nextMessages);
-  }, [complaintId, t]);
 
   const loadWorkspace = useCallback(async () => {
     const complaintData = await getComplaint(complaintId);
@@ -536,11 +524,13 @@ function ComplaintWorkspacePage({ complaintId }) {
       ? Promise.resolve(authSubscription)
       : refreshSubscription().catch(() => null);
 
-    setComplaint(nextComplaint);
-    setDraft(draftFromComplaint);
-    setMessagesError("");
-    setEvidenceError("");
-    setDraftError("");
+    if (isMountedRef.current) {
+      setComplaint(nextComplaint);
+      setDraft(draftFromComplaint);
+      setMessagesError("");
+      setEvidenceError("");
+      setDraftError("");
+    }
 
     const [messageResult, evidenceResult, draftResult, subscriptionResult] =
       await Promise.allSettled([
@@ -559,36 +549,108 @@ function ComplaintWorkspacePage({ complaintId }) {
         ? unwrapApiArray(evidenceResult.value, ["evidence", "files"])
         : [];
 
-    if (messageResult.status === "rejected") {
-      setMessagesError(
-        getApiErrorMessage(messageResult.reason, t("app.errors.messagesLoad")),
-      );
+    if (isMountedRef.current) {
+      if (messageResult.status === "rejected") {
+        setMessagesError(
+          getApiErrorMessage(messageResult.reason, t("app.errors.messagesLoad")),
+        );
+      }
+
+      if (evidenceResult.status === "rejected") {
+        setEvidenceError(
+          getApiErrorMessage(evidenceResult.reason, t("app.errors.evidenceLoad")),
+        );
+      }
+
+      if (draftResult.status === "fulfilled") {
+        setDraft(getDraftFromResponse(draftResult.value) ?? draftFromComplaint);
+      } else if (isNotFoundError(draftResult.reason)) {
+        setDraft(draftFromComplaint);
+      } else {
+        setDraft(draftFromComplaint);
+        setDraftError(
+          getApiErrorMessage(draftResult.reason, t("app.errors.draftLoad")),
+        );
+      }
+
+      setMessages(nextMessages);
+      setEvidence(nextEvidence);
+
+      if (subscriptionResult.status === "fulfilled") {
+        setSubscription(subscriptionResult.value);
+      }
     }
 
-    if (evidenceResult.status === "rejected") {
-      setEvidenceError(
-        getApiErrorMessage(evidenceResult.reason, t("app.errors.evidenceLoad")),
-      );
-    }
-
-    if (draftResult.status === "fulfilled") {
-      setDraft(getDraftFromResponse(draftResult.value) ?? draftFromComplaint);
-    } else if (isNotFoundError(draftResult.reason)) {
-      setDraft(draftFromComplaint);
-    } else {
-      setDraft(draftFromComplaint);
-      setDraftError(
-        getApiErrorMessage(draftResult.reason, t("app.errors.draftLoad")),
-      );
-    }
-
-    setMessages(nextMessages);
-    setEvidence(nextEvidence);
-
-    if (subscriptionResult.status === "fulfilled") {
-      setSubscription(subscriptionResult.value);
-    }
+    return {
+      complaint: nextComplaint,
+      evidence: nextEvidence,
+      messages: nextMessages,
+    };
   }, [authSubscription, complaintId, refreshSubscription, t]);
+
+  const stopPolling = useCallback(() => {
+    if (pollTimerRef.current) {
+      clearTimeout(pollTimerRef.current);
+      pollTimerRef.current = null;
+    }
+    pollCountRef.current = 0;
+    if (isMountedRef.current) {
+      setIsProcessingEvidence(false);
+    }
+  }, []);
+
+  const isProcessingActive = useCallback((complaintData, evidenceList) => {
+    const status = getComplaintStatus(complaintData);
+    const readyState = getReadyState(status);
+
+    if (readyState === "processing" || readyState === "pending") {
+      return true;
+    }
+
+    const hasUnprocessedEvidence =
+      Array.isArray(evidenceList) &&
+      evidenceList.some((item) => !getEvidenceProcessedText(item).trim());
+
+    return hasUnprocessedEvidence;
+  }, []);
+
+  const startPollingWorkspace = useCallback(async () => {
+    stopPolling();
+
+    if (!isMountedRef.current) return;
+
+    setIsProcessingEvidence(true);
+
+    async function pollTick() {
+      if (!isMountedRef.current) {
+        stopPolling();
+        return;
+      }
+
+      pollCountRef.current += 1;
+
+      try {
+        const result = await loadWorkspace();
+        if (!isMountedRef.current) return;
+
+        const active = isProcessingActive(result?.complaint, result?.evidence);
+
+        if (!active || pollCountRef.current >= 12) {
+          stopPolling();
+        } else {
+          pollTimerRef.current = setTimeout(pollTick, 2500);
+        }
+      } catch {
+        if (isMountedRef.current && pollCountRef.current >= 12) {
+          stopPolling();
+        } else if (isMountedRef.current) {
+          pollTimerRef.current = setTimeout(pollTick, 2500);
+        }
+      }
+    }
+
+    await pollTick();
+  }, [isProcessingActive, loadWorkspace, stopPolling]);
 
   useEffect(() => {
     let isMounted = true;
@@ -706,7 +768,7 @@ function ComplaintWorkspacePage({ complaintId }) {
         fileUrl,
       });
 
-      await refreshMessagesAndEvidence();
+      await startPollingWorkspace();
     } catch (uploadError) {
       setActionError({
         type: "generic",
@@ -730,7 +792,8 @@ function ComplaintWorkspacePage({ complaintId }) {
 
     try {
       await deleteEvidence(evidenceId);
-      await refreshMessagesAndEvidence();
+      stopPolling();
+      await loadWorkspace();
       setDeletingEvidence(null);
     } catch (deleteError) {
       setActionError({
@@ -1049,6 +1112,12 @@ function ComplaintWorkspacePage({ complaintId }) {
               </p>
             ) : null}
             <div className="mt-4 space-y-3">
+              {isProcessingEvidence ? (
+                <div className="flex items-center gap-3 rounded-md border border-red-900/15 bg-red-900/[0.04] p-3 text-xs font-extrabold text-red-900 dark:border-red-300/15 dark:bg-red-300/10 dark:text-red-200">
+                  <span className="h-2 w-2 shrink-0 animate-ping rounded-full bg-red-900 dark:bg-red-200" />
+                  <span>{t("app.evidence.processingWorkspace")}</span>
+                </div>
+              ) : null}
               {evidenceError ? (
                 <InlineAlert
                   title={t("app.errors.evidenceLoad")}

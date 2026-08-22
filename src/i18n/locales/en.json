@@ -706,6 +706,7 @@
       "hideExtractedText": "Hide extracted text",
       "processed": "Processed",
       "processing": "Processing",
+      "processingWorkspace": "Analyzing your evidence and updating complaint details...",
       "attachedActivity": "Evidence attached",
       "uploadMessage": "Evidence document uploaded",
       "viewInSupportingEvidence": "View in Supporting Evidence"
