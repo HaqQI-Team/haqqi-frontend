@@ -720,6 +720,7 @@
       "hideExtractedText": "إخفاء النص المستخرج",
       "processed": "تمت المعالجة",
       "processing": "قيد المعالجة",
+      "processingWorkspace": "جار معالجة المستندات وتحديث تفاصيل الشكوى...",
       "attachedActivity": "تم إرفاق الدليل",
       "uploadMessage": "تم رفع مستند داعم",
       "viewInSupportingEvidence": "عرضه في الأدلة الداعمة"
